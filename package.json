@@ -1,0 +1,19 @@
+{
+  "name": "ht-elements-catalog",
+  "version": "1.0.0",
+  "main": "ht-elements-catalog.js",
+  "repository": "https://github.com/maksimyurkov/ht-elements-catalog",
+  "author": "maksimyurkov <yurkov.maksim.sergeevich@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@polymer/lit-element": "@next",
+    "@polymer/paper-input": "@next",
+    "@polymer/iron-icon": "@next",
+    "@polymer/paper-checkbox": "@next",
+    "@polymer/iron-iconset-svg": "@next",
+    "@polymer/paper-button": "@next",
+    "@polymer/paper-icon-button": "@next",
+    "@polymer/paper-toggle-button": "@next",
+    "@polymer/paper-spinner": "@next"
+  }
+}

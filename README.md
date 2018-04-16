@@ -1,1 +1,1 @@
-# ht-elements-catalog-item
+# ht-elements-catalog
