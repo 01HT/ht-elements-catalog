@@ -2,7 +2,7 @@
 import { LitElement, html } from "@polymer/lit-element";
 import "@polymer/paper-button";
 class HTElementsCatalogSearch extends LitElement {
-  render({ value }) {
+  render({ parameters }) {
     return html`
       <style>
         :host {
@@ -40,15 +40,16 @@ class HTElementsCatalogSearch extends LitElement {
         #container {
           display: flex;
         }
-        
       </style>
       <div id="container">
-        <input type="text" placeholder="Поиск" on-keydown=${e => {
-          this._checkEnter(e);
-        }}>
+        <input type="text" value$="${
+          parameters.search
+        }" placeholder="Поиск" on-keydown=${e => {
+      this._checkEnter(e);
+    }}>
         <paper-button onclick=${e => {
           this._search();
-        }} value$=${value}>Поиск</paper-button>
+        }}>Поиск</paper-button>
       </div>
 `;
   }
@@ -59,39 +60,52 @@ class HTElementsCatalogSearch extends LitElement {
 
   static get properties() {
     return {
-      value: String
+      parameters: Object
     };
   }
 
   constructor() {
     super();
-    this.value = "";
+    this.parameters = {};
   }
 
   get input() {
     return this.shadowRoot.querySelector("input");
   }
 
-  get data() {
-    return this.input.value.trim();
-  }
+  // get data() {
+  //   if (this.input.value === null) return "";
+  //   return this.input.value.trim();
+  // }
 
-  set data(data) {
-    this.value = data.trim();
-  }
+  // set data(data) {
+  //   this.value = data.trim();
+  // }
+
+  // set parameters(parameters) {
+  //   // this.parameters = parameters;
+  //   // console.log(parameters);
+  //   const search = parameters.search;
+  //   // console.log(search);
+  //   if (search !== undefined) {
+  //     this.value = search.trim();
+  //   } else {
+  //     this.value = "";
+  //   }
+  // }
 
   _checkEnter(e) {
-    if (e.keyCode === 13) {
-      this._search();
-    }
+    if (e.keyCode === 13) this._search();
   }
 
   _search() {
+    let parameters = Object.assign({}, this.parameters);
+    parameters.search = this.input.value.trim();
     this.dispatchEvent(
-      new CustomEvent("changed", {
+      new CustomEvent("parameters-changed", {
         bubbles: true,
-        composes: true,
-        detail: {}
+        composed: true,
+        detail: parameters
       })
     );
   }

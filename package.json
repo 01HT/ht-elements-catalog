@@ -7,6 +7,7 @@
   "license": "MIT",
   "dependencies": {
     "@polymer/lit-element": "@next",
+    "@polymer/iron-collapse": "@next",
     "@polymer/paper-input": "@next",
     "@polymer/iron-icon": "@next",
     "@polymer/paper-checkbox": "@next",
@@ -14,6 +15,8 @@
     "@polymer/paper-button": "@next",
     "@polymer/paper-icon-button": "@next",
     "@polymer/paper-toggle-button": "@next",
-    "@polymer/paper-spinner": "@next"
+    "@polymer/paper-spinner": "@next",
+    "ht-wysiwyg": "https://github.com/maksimyurkov/ht-user-avatar",
+    "ht-image": "https://github.com/maksimyurkov/ht-image"
   }
 }

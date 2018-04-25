@@ -83,7 +83,7 @@ class HTElementsCatalogListItem extends LitElement {
               ? "var(--accent-color);"
               : "inherit;"
           }
-        }
+          }
 
         #sales {
           font-size:12px;
@@ -93,10 +93,10 @@ class HTElementsCatalogListItem extends LitElement {
       <div id="container">
         <article>
           <header>
-            <a href="/item/${data.nameInURL}">
+            <a href="/data/${data.nameInURL}">
               <ht-image placeholder=${data.thumb_w60} image=${
       data.thumb_w960
-    } size="16x9"></ht-image>
+    } size=${"16x9"}></ht-image>
             </a>
           </header>
           <section>
@@ -104,7 +104,7 @@ class HTElementsCatalogListItem extends LitElement {
               data.usersData
             } size="42" verified-size="16"></ht-user-avatar>
             <div id="title">
-              <a id="name" href="/item/${data.nameInURL}">${data.name}</a>
+              <a id="name" href="/data/${data.nameInURL}">${data.name}</a>
               <div id="author">от <a href="/user/${data.usersData.nickname}">${
       data.usersData.displayName
     }</a></div>
@@ -125,19 +125,20 @@ class HTElementsCatalogListItem extends LitElement {
 
   static get properties() {
     return {
-      data: Object,
-      isFree: Boolean
+      data: Object
     };
   }
 
   constructor() {
     super();
-    this.data = {};
-    this.data.usersData = {};
-    this.data.license = [];
+    this.data = {
+      usersData: {},
+      license: []
+    };
   }
 
   getPrice(license) {
+    if (!license) return 0;
     let price = "Free";
     license.forEach(license => {
       if (license.name === "Yunato Single") {
