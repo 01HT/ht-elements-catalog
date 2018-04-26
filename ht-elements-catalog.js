@@ -1,10 +1,9 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
 import "@polymer/paper-spinner/paper-spinner.js";
-import "ht-elements-catalog/ht-elements-catalog-search.js";
-import "ht-elements-catalog/ht-elements-catalog-filter.js";
-import "ht-elements-catalog/ht-elements-catalog-list.js";
-import "ht-elements-catalog/ht-elements-catalog-list.js";
+import "./ht-elements-catalog-search.js";
+import "./ht-elements-catalog-filter.js";
+import "./ht-elements-catalog-list.js";
 import {
   getParametersFromPath,
   getPathFromParameters
@@ -103,7 +102,6 @@ class HTElementsCatalog extends LitElement {
 
   constructor() {
     super();
-    this.path = "";
     this.parameters = {};
     this.firstLoading = true;
     this.loading = false;
@@ -119,7 +117,6 @@ class HTElementsCatalog extends LitElement {
   }
 
   set path(path) {
-    if (path === "") return;
     this._setParameters(path);
   }
 
@@ -136,7 +133,8 @@ class HTElementsCatalog extends LitElement {
   }
 
   async _setParameters(path) {
-    let parameters = await getParametersFromPath(decodeURIComponent(path));
+    let parameters = await getParametersFromPath(path);
+    console.log(parameters);
     this.parameters = parameters;
     this._getItems(parameters);
   }

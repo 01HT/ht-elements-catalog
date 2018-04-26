@@ -21,31 +21,31 @@ export function getPathFromParameters(parameters) {
     path = pathname + search;
     return path;
   } catch (error) {
-    console.log("getParametersFromPath: " + error.message);
+    console.log("getPathFromParameters: " + error.message);
   }
 }
 
-export function getParametersFromPath() {
+export function getParametersFromPath(path) {
   try {
     // let parameters = {
-    //   category: "wordpress/corporate",
+    //   categories: "wordpress/corporate",
     //   tags: ["business", "portfolio"],
     //   search: "go";
     // };
-    const location = window.location;
-    const pathname = location.pathname;
-    const search = decodeURIComponent(location.search);
+    // parse path
+    path = path.replace("/catalog", "");
+    let pathname = path;
+    let search = "";
+    const questionMarkIndex = path.indexOf("?");
+    if (questionMarkIndex !== -1) {
+      pathname = path.slice(0, questionMarkIndex);
+      search = path.slice(questionMarkIndex);
+    }
 
     let parameters = {};
-    // category
-    if (
-      pathname !== "/" &&
-      pathname !== "/catalog" &&
-      pathname !== "/catalog/" &&
-      pathname !== "/catalog/all" &&
-      pathname !== "/catalog/all/"
-    )
-      parameters.category = pathname;
+    // categories
+    if (pathname !== "" && pathname !== "/")
+      parameters.categories = pathname.substring(1);
     // tags
     // search
     const searchParameters = getParametersFromSearch(search);
@@ -68,7 +68,6 @@ function getParametersFromSearch(search) {
       // Remove search part
       search = splittedSearch[0];
     }
-
     // tags
     //
     if (search !== "?") {

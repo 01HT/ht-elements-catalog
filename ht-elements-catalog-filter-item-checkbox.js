@@ -31,9 +31,7 @@ class HTElementsCatalogFilterItemCheckbox extends LitElement {
       </style>
       <div id="container">
       <a href$=${this._getPath(parameters)}>
-          <paper-checkbox on-change=${e => {
-            this.change();
-          }} checked?=${this.getChecked(parameters)}>${
+          <paper-checkbox checked?=${this.getChecked()}>${
       data.name
     }</paper-checkbox>
       </a>
@@ -58,12 +56,12 @@ class HTElementsCatalogFilterItemCheckbox extends LitElement {
     super();
     this.data = {};
     this.type = "";
-    this.parameters = {};
+    // this.parameters = {};
   }
 
-  isChecked() {
-    return this.shadowRoot.querySelector("paper-checkbox").checked;
-  }
+  // isChecked() {
+  //   return this.shadowRoot.querySelector("paper-checkbox").checked;
+  // }
 
   getChecked() {
     if (this.data.name === undefined || !this.parameters.tags) return false;
@@ -72,39 +70,40 @@ class HTElementsCatalogFilterItemCheckbox extends LitElement {
     return false;
   }
 
-  change() {
-    let parameters = JSON.parse(JSON.stringify(this.parameters));
-    let name = this.data.name.toLowerCase();
-    let isChecked = this.getChecked();
-    let param = parameters[this.type];
-    if (isChecked) {
-      if (!param) parameters[this.type] = [name];
-      if (param) param.push(name);
-    }
-    if (!isChecked) {
-      if (param) {
-        if (param.length === 1) {
-          delete parameters[this.type];
-        } else {
-          let index = param.indexOf(name);
-          param.splice(index, 1);
-        }
-      }
-    }
-    // this.dispatchEvent(
-    //   new CustomEvent("parameters-changed", {
-    //     bubbles: true,
-    //     composed: true,
-    //     detail: parameters
-    //   })
-    // );
-  }
+  // change() {
+  //   let parameters = JSON.parse(JSON.stringify(this.parameters));
+  //   let name = this.data.name.toLowerCase();
+  //   let isChecked = this.getChecked();
+  //   let param = parameters[this.type];
+  //   if (isChecked) {
+  //     if (!param) parameters[this.type] = [name];
+  //     if (param) param.push(name);
+  //   }
+  //   if (!isChecked) {
+  //     if (param) {
+  //       if (param.length === 1) {
+  //         delete parameters[this.type];
+  //       } else {
+  //         let index = param.indexOf(name);
+  //         param.splice(index, 1);
+  //       }
+  //     }
+  //   }
+  //   // this.dispatchEvent(
+  //   //   new CustomEvent("parameters-changed", {
+  //   //     bubbles: true,
+  //   //     composed: true,
+  //   //     detail: parameters
+  //   //   })
+  //   // );
+  // }
 
-  _getPath() {
+  _getPath(parameters) {
     // console.log("_getPath");
+    // if (!parameters) return;
     let path = "";
     if (this.data.name === undefined) return;
-    let parameters = JSON.parse(JSON.stringify(this.parameters));
+    parameters = JSON.parse(JSON.stringify(parameters));
     let name = this.data.name.toLowerCase();
     let isChecked = this.getChecked();
     let param = parameters[this.type];
