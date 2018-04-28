@@ -15,6 +15,7 @@ class HTElementsCatalogFilter extends LitElement {
 
         #container {
           display:flex;
+          flex-direction:column;
           flex-wrap: wrap;
           width:100%;
           //box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
@@ -53,7 +54,7 @@ class HTElementsCatalogFilter extends LitElement {
     this.parameters = {};
   }
 
-  get caregory() {
+  get categories() {
     return this.shadowRoot.querySelector(
       "ht-elements-catalog-filter-block-categories"
     );
@@ -65,12 +66,12 @@ class HTElementsCatalogFilter extends LitElement {
     );
   }
 
-  get data() {
-    let data = {};
-    data.categories = this.categories.data;
-    data.tags = this.tags.data;
-    return data;
-  }
+  // get data() {
+  //   let data = {};
+  //   data.categories = this.categories.data;
+  //   data.tags = this.tags.data;
+  //   return data;
+  // }
 
   set data(data) {
     this.categories.data = data.categories;

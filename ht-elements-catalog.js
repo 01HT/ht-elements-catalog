@@ -134,7 +134,7 @@ class HTElementsCatalog extends LitElement {
 
   async _setParameters(path) {
     let parameters = await getParametersFromPath(path);
-    console.log(parameters);
+    // console.log(parameters);
     this.parameters = parameters;
     this._getItems(parameters);
   }
@@ -173,6 +173,7 @@ class HTElementsCatalog extends LitElement {
   async _updateLocation(parameters) {
     let path = await getPathFromParameters(parameters);
     if (this.path === path) return;
+    console.log(path);
     window.history.pushState("page2", "Title", path);
     this.dispatchEvent(
       new CustomEvent("change-location", {

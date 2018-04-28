@@ -1,7 +1,7 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
 import "@polymer/iron-iconset-svg";
-import "@polymer/paper-icon-button/paper-icon-button.js";
+import "@polymer/iron-icon/iron-icon.js";
 import { getPathFromParameters } from "./ht-elements-catalog-path-parser.js";
 class HTElementsCatalogFilterItem extends LitElement {
   render({ data, parameters }) {
@@ -14,20 +14,33 @@ class HTElementsCatalogFilterItem extends LitElement {
         }
 
         a {
-          display:block;
+          display:flex;
+          align-items:center;
           color:inherit;
           text-decoration: none;
+          font-weight:${data.child ? "400" : "600"};
+          padding-left:${data.child ? "8px" : "0"};
+        }
+        
+
+        iron-icon {
+            margin-right:2px;
+            color: var(--secondary-text-color);
         }
 
         #container {
           display:flex;
           align-items: center;
           justify-content: space-between;
-          padding:8px;
+          height:35px;
         }
 
         #number {
           color:var(--secondary-text-color);
+        }
+
+        [hidden] {
+            display:none;
         }
       </style>
        <iron-iconset-svg size="24" name="ht-elements-catalog-filter-item">
@@ -39,7 +52,9 @@ class HTElementsCatalogFilterItem extends LitElement {
       </iron-iconset-svg>
         <div id="container">
             <a href$=${this._getPath(parameters)}>
-                <paper-icon-button icon="ht-elements-catalog-filter-item:chevron-left"></paper-icon-button>
+                <iron-icon icon="ht-elements-catalog-filter-item:chevron-left" hidden?=${
+                  data.child
+                }></iron-icon>
                 <div>${data.name}</div>
             </a>
             <div id="number">${data.number}</div>
@@ -66,62 +81,13 @@ class HTElementsCatalogFilterItem extends LitElement {
     this.parameters = {};
   }
 
-  isChecked() {
-    return this.shadowRoot.querySelector("paper-checkbox").checked;
-  }
-
-  getChecked() {
-    if (this.data.name === undefined || !this.parameters.tags) return false;
-    if (this.parameters.tags.indexOf(this.data.name.toLowerCase()) !== -1)
-      return true;
-    return false;
-  }
-
-  change() {
-    let parameters = JSON.parse(JSON.stringify(this.parameters));
-    let name = this.data.name.toLowerCase();
-    let isChecked = this.getChecked();
-    let param = parameters[this.type];
-    if (isChecked) {
-      if (!param) parameters[this.type] = [name];
-      if (param) param.push(name);
-    }
-    if (!isChecked) {
-      if (param) {
-        if (param.length === 1) {
-          delete parameters[this.type];
-        } else {
-          let index = param.indexOf(name);
-          param.splice(index, 1);
-        }
-      }
-    }
-    // this.dispatchEvent(
-    //   new CustomEvent("parameters-changed", {
-    //     bubbles: true,
-    //     composed: true,
-    //     detail: parameters
-    //   })
-    // );
-  }
-
   _getPath() {
-    // let path = "";
-    // if (this.data.name === undefined) return;
-    // let parameters = JSON.parse(JSON.stringify(this.parameters));
-    // let name = this.data.name.toLowerCase();
-    // let isChecked = this.getChecked();
-    // let param = parameters[this.type];
-    // if (isChecked) {
-    //   let index = param.indexOf(name);
-    //   param.splice(index, 1);
-    // }
-    // if (!isChecked) {
-    //   if (!param) parameters[this.type] = [name];
-    //   if (param) param.push(name);
-    // }
-    // path = getPathFromParameters(parameters);
-    // return path;
+    let path = "";
+    if (this.data.parameter === undefined) return;
+    let parameters = JSON.parse(JSON.stringify(this.parameters));
+    parameters.categories = this.data.parameter;
+    path = getPathFromParameters(parameters);
+    return path;
   }
 }
 customElements.define(

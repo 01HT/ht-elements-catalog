@@ -25,7 +25,7 @@ class HTElementsCatalogFiterBlockCategories extends LitElement {
       ${repeat(
         items,
         item =>
-          html`<ht-elements-catalog-filter-item data=${item} parameters=${parameters} type="tags"></ht-elements-catalog-filter-item>`
+          html`<ht-elements-catalog-filter-item data=${item} parameters=${parameters} type="categories"></ht-elements-catalog-filter-item>`
       )}
       </div>
 `;

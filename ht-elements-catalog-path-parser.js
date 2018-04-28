@@ -2,9 +2,14 @@
 export function getPathFromParameters(parameters) {
   try {
     let path = "";
-    let pathname = "/catalog/all";
+    let pathname = "/catalog";
     //
     let search = "";
+    // categories
+    let categories = parameters.categories;
+    if (categories) {
+      pathname += `/${categories}`;
+    }
     // &tags
     let tags = parameters.tags;
     if (tags && tags.length > 0) {
