@@ -100,7 +100,7 @@ class HTElementsCatalogSearch extends LitElement {
 
   _search() {
     let parameters = Object.assign({}, this.parameters);
-    parameters.search = this.input.value.trim();
+    parameters.search = this.input.value.trim().toLowerCase();
     this.dispatchEvent(
       new CustomEvent("parameters-changed", {
         bubbles: true,

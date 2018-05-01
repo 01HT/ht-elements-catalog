@@ -15,6 +15,7 @@ class HTElementsCatalogFilterItem extends LitElement {
 
         a {
           display:flex;
+          font-size:14px;
           align-items:center;
           color:inherit;
           text-decoration: none;
@@ -78,14 +79,13 @@ class HTElementsCatalogFilterItem extends LitElement {
     super();
     this.data = {};
     this.type = "";
-    this.parameters = {};
   }
 
   _getPath() {
     let path = "";
     if (this.data.parameter === undefined) return;
     let parameters = JSON.parse(JSON.stringify(this.parameters));
-    parameters.categories = this.data.parameter;
+    parameters[this.type] = this.data.parameter;
     path = getPathFromParameters(parameters);
     return path;
   }

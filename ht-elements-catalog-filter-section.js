@@ -30,6 +30,25 @@ class HTElementsCatalogFilterSection extends LitElement {
             padding:16px 0 16px 8px;
             user-select: none;
         }
+
+        #scroll {
+          overflow-y: auto;
+          overflow-x: hidden;
+          max-height: 214px;
+          padding-right: 16px;
+          margin-bottom:16px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background-color: #e6e6e6;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            background-color: #e6e6e6;
+        } 
+        ::-webkit-scrollbar-thumb {
+            background-color: #b3b3b3;
+        }
       </style>
       <iron-iconset-svg size="24" name="ht-elements-catalog-filter-section">
           <svg>
@@ -49,7 +68,9 @@ class HTElementsCatalogFilterSection extends LitElement {
       opened ? "expand-less" : "expand-more"
     }"></iron-icon></div>
         <iron-collapse opened=${opened}>
-            <slot></slot>
+            <div id="scroll">
+              <slot></slot>
+            </div>
         </iron-collapse>
       </div>
 `;

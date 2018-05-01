@@ -4,11 +4,15 @@ import "@polymer/paper-spinner/paper-spinner.js";
 import "./ht-elements-catalog-search.js";
 import "./ht-elements-catalog-filter.js";
 import "./ht-elements-catalog-list.js";
+import "./ht-elements-catalog-actions.js";
 import {
   getParametersFromPath,
   getPathFromParameters
 } from "./ht-elements-catalog-path-parser.js";
-import { callTestHTTPFunction } from "ht-client-helper-functions";
+import {
+  callTestHTTPFunction,
+  callFirebaseHTTPFunction
+} from "ht-client-helper-functions";
 class HTElementsCatalog extends LitElement {
   render({ firstLoading, loading, parameters }) {
     return html`
@@ -37,6 +41,11 @@ class HTElementsCatalog extends LitElement {
           min-width: 300px;
         }
 
+        ht-elements-catalog-actions {
+          margin-top:32px;
+          width:100%;
+        }
+
         ht-elements-catalog-list {
           width:100%;
         }
@@ -56,11 +65,17 @@ class HTElementsCatalog extends LitElement {
 
         #list {
           display:flex;
-          flex-direction: column;
-          align-items:center;
-          justify-content:center;
+          flex-wrap:wrap;
           position:relative;
           width:100%;
+        }
+
+        #spinner-container {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          align-items: center;
+          align-content: center;
         }
 
         @media screen and (max-width:650px) {
@@ -79,8 +94,11 @@ class HTElementsCatalog extends LitElement {
         <section id="main" hidden?=${firstLoading}>
           <ht-elements-catalog-filter parameters=${parameters}></ht-elements-catalog-filter>
           <section id="list">
-            <paper-spinner active?=${loading} hidden?=${!loading}></paper-spinner>
+            <ht-elements-catalog-actions parameters=${parameters}></ht-elements-catalog-actions>
             <ht-elements-catalog-list hidden?=${loading}></ht-elements-catalog-list>
+            <div id="spinner-container" hidden?=${!loading}>
+              <paper-spinner active?=${loading}></paper-spinner>
+            </div>
           </section>
         </section>
       </div>
@@ -148,9 +166,20 @@ class HTElementsCatalog extends LitElement {
       //   path: path
       // });
       console.log(parameters);
-      let data = await callTestHTTPFunction("httpsTest", {
-        parameters: parameters
-      });
+      // let data = await callFirebaseHTTPFunction({
+      //   name: "httpsGetCatalogPageDataIndex",
+      //   options: {
+      //     method: "POST",
+      //     headers: new Headers({
+      //       "Content-Type": "application/json"
+      //     }),
+      //     body: JSON.stringify(parameters)
+      //   }
+      // });
+      let data = await callTestHTTPFunction(
+        "httpsGetCatalogPageDataIndex",
+        parameters
+      );
       console.log(data);
       await this._setData(data);
       if (this.firstLoading) this.firstLoading = false;

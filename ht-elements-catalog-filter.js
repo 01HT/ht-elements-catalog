@@ -3,6 +3,7 @@ import { LitElement, html } from "@polymer/lit-element";
 import "./ht-elements-catalog-filter-section.js";
 import "./ht-elements-catalog-filter-block-categories.js";
 import "./ht-elements-catalog-filter-block-tags.js";
+import "./ht-elements-catalog-filter-block-platform.js";
 class HTElementsCatalogFilter extends LitElement {
   render({ parameters }) {
     return html`
@@ -15,9 +16,10 @@ class HTElementsCatalogFilter extends LitElement {
 
         #container {
           display:flex;
-          flex-direction:column;
+          align-content: flex-start;
           flex-wrap: wrap;
           width:100%;
+          max-width: 300px;
           //box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
           border-radius:3px;
           margin:16px 32px 0 0;
@@ -34,6 +36,9 @@ class HTElementsCatalogFilter extends LitElement {
         </ht-elements-catalog-filter-section>
         <ht-elements-catalog-filter-section name$=${"Теги"}>
           <ht-elements-catalog-filter-block-tags parameters=${parameters}></ht-elements-catalog-filter-block-tags>
+        </ht-elements-catalog-filter-section>
+        <ht-elements-catalog-filter-section name$=${"Платформа"}>
+          <ht-elements-catalog-filter-block-platform parameters=${parameters}></ht-elements-catalog-filter-block-platform>
         </ht-elements-catalog-filter-section>
       </div>
 `;
@@ -66,6 +71,12 @@ class HTElementsCatalogFilter extends LitElement {
     );
   }
 
+  get platform() {
+    return this.shadowRoot.querySelector(
+      "ht-elements-catalog-filter-block-platform"
+    );
+  }
+
   // get data() {
   //   let data = {};
   //   data.categories = this.categories.data;
@@ -76,6 +87,7 @@ class HTElementsCatalogFilter extends LitElement {
   set data(data) {
     this.categories.data = data.categories;
     this.tags.data = data.tags;
+    this.platform.data = data.platform;
   }
 }
 

@@ -16,6 +16,13 @@ export function getPathFromParameters(parameters) {
       search === "" ? (search += "?") : (search += "&");
       search += `tags=${tags.join(",")}`;
     }
+    // &platform
+    let platform = parameters.platform;
+    if (platform) {
+      // search += platform;
+      search === "" ? (search += "?") : (search += "&");
+      search += `platform=${platform}`;
+    }
     // &search
     let searchText = parameters.search;
     if (searchText && searchText !== "") {
