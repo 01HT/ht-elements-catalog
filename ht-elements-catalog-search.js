@@ -42,7 +42,7 @@ class HTElementsCatalogSearch extends LitElement {
         }
       </style>
       <div id="container">
-        <input type="text" value$="${
+        <input type="text" autofocus value$="${
           parameters.search
         }" placeholder="Поиск" on-keydown=${e => {
       this._checkEnter(e);

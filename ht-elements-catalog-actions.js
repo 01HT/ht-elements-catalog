@@ -3,7 +3,7 @@ import { LitElement, html } from "@polymer/lit-element";
 import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
 import "@polymer/iron-icon/iron-icon.js";
 class HTElementsCatalogActions extends LitElement {
-  render({ parameters }) {
+  render({ parameters, view }) {
     return html`
       <style>
         :host {
@@ -12,8 +12,7 @@ class HTElementsCatalogActions extends LitElement {
           box-sizing:border-box;
         }
 
-        #actions > iron-icon {
-            //color:var(--secondary-text-color);
+        iron-icon {
             color:#b3b3b3;
             cursor:pointer;
             margin-right:4px;
@@ -25,14 +24,13 @@ class HTElementsCatalogActions extends LitElement {
 
         select{
             padding: 8px;
-            max-width: 300px;
+            width: 310px;
             font-size: 14px;
             background-color: #fff;
             border: 1px solid var(--divider-color);
             padding: 8px 16px;
-            border-radius: 2px;
+            border-radius: 3px;
             cursor: pointer;
-            padding-right: 40px;
         }
 
         #container {
@@ -66,11 +64,8 @@ class HTElementsCatalogActions extends LitElement {
             margin-left:16px;
         }
 
-        #select-icon {
+        [view] {
             color:var(--secondary-text-color);
-            position:absolute;
-            right: 8px;
-            top:6px;
         }
       </style>
       <iron-iconset-svg size="24" name="ht-elements-catalog-actions">
@@ -86,19 +81,28 @@ class HTElementsCatalogActions extends LitElement {
         <div id="usd">Все цены указаны в долларах США</div>
         <div id="divider"></div>
         <div id="actions">
-            <iron-icon icon="ht-elements-catalog-actions:view-list"></iron-icon>
-            <iron-icon icon="ht-elements-catalog-actions:view-module"></iron-icon>
+            <iron-icon id="grid" icon="ht-elements-catalog-actions:view-module" view?=${
+              view === "grid" ? true : false
+            } on-click=${e => {
+      this._changeView(e);
+    }}></iron-icon>
+            <iron-icon id="list" icon="ht-elements-catalog-actions:view-list" view?=${
+              view === "list" ? true : false
+            } on-click=${e => {
+      this._changeView(e);
+    }}></iron-icon>
             <div id="select-container">
-                <select>
-                    <option selected value="">Сортировать по: Новизне</option>
+                <select value=${this._setSort(parameters)}
+                  this.parameters.sort ? this.parameters.sort : ""
+                }>
+                    <option value="">Новизне</option>
                     <option value="sales">Продажам</option>
-                    <option value="trending">Популярности</option>
-                    <option value="rating">Лучшему рейтингу</option>
-                    <option value="price_asc">Цене | от низкой к высокой</option>
-                    <option value="price_desc">Цене | от высокой к низкой</option>
+                    <!--<option value="trending">Популярности</option>
+                    <option value="rating">Лучшему рейтингу</option>-->
+                    <option value="price-asc">Цене | от низкой</option>
+                    <option value="price-desc">Цене | от высокой</option>
                 </select>
             </div>
-            
         </div>
       </div>
 `;
@@ -110,19 +114,21 @@ class HTElementsCatalogActions extends LitElement {
 
   static get properties() {
     return {
-      parameters: Object
+      parameters: Object,
+      view: String
     };
   }
 
   constructor() {
     super();
     this.parameters = {};
+    this.view = "grid";
   }
 
   ready() {
     super.ready();
     this.select.addEventListener("change", e => {
-      this.changed();
+      this._onChange();
     });
   }
 
@@ -130,9 +136,47 @@ class HTElementsCatalogActions extends LitElement {
     return this.shadowRoot.querySelector("select");
   }
 
-  _search() {
+  _setSort(parameters) {
+    if (this.select === null) return;
+    let sort = parameters.sort;
+    if (parameters.sort === undefined) {
+      this.select.value = "";
+    } else {
+      this.select.value = sort;
+    }
+    this._changeTextInOptions();
+  }
+
+  _changeView(e) {
+    this.dispatchEvent(
+      new CustomEvent("view-changed", {
+        bubbles: true,
+        composed: true,
+        detail: e.target.id
+      })
+    );
+  }
+
+  _changeTextInOptions() {
+    let options = this.shadowRoot.querySelectorAll("option");
+    for (let option of options) {
+      option.innerHTML = option.innerHTML.replace("Сортировать по: ", "");
+      if (option.selected)
+        option.innerHTML = "Сортировать по: " + option.innerHTML;
+    }
+  }
+
+  _onChange() {
+    let value = this.select.value;
+    if (value === this.parameters.sort) return;
+    this._changeTextInOptions();
     let parameters = Object.assign({}, this.parameters);
-    parameters.search = this.input.value.trim().toLowerCase();
+    if (value === "" && parameters.sort) {
+      delete parameters["sort"];
+    }
+    if (value !== "") {
+      parameters.sort = value;
+    }
     this.dispatchEvent(
       new CustomEvent("parameters-changed", {
         bubbles: true,

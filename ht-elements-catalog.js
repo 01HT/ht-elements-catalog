@@ -5,6 +5,7 @@ import "./ht-elements-catalog-search.js";
 import "./ht-elements-catalog-filter.js";
 import "./ht-elements-catalog-list.js";
 import "./ht-elements-catalog-actions.js";
+import "./ht-elements-catalog-selected-filters.js";
 import {
   getParametersFromPath,
   getPathFromParameters
@@ -14,7 +15,7 @@ import {
   callFirebaseHTTPFunction
 } from "ht-client-helper-functions";
 class HTElementsCatalog extends LitElement {
-  render({ firstLoading, loading, parameters }) {
+  render({ firstLoading, loading, parameters, view }) {
     return html`
       <style>
         :host {
@@ -42,12 +43,17 @@ class HTElementsCatalog extends LitElement {
         }
 
         ht-elements-catalog-actions {
-          margin-top:32px;
+          width:100%;
+        }
+
+        ht-elements-catalog-selected-filters {
+          margin-top:16px;
           width:100%;
         }
 
         ht-elements-catalog-list {
           width:100%;
+          margin-top:8px;
         }
 
         #container {
@@ -58,9 +64,10 @@ class HTElementsCatalog extends LitElement {
         }
 
         #main {
-          margin-top:16px;
           display: flex;
+          align-items: flex-start;
           width:100%;
+          margin-top:32px;
         }
 
         #list {
@@ -94,8 +101,9 @@ class HTElementsCatalog extends LitElement {
         <section id="main" hidden?=${firstLoading}>
           <ht-elements-catalog-filter parameters=${parameters}></ht-elements-catalog-filter>
           <section id="list">
-            <ht-elements-catalog-actions parameters=${parameters}></ht-elements-catalog-actions>
-            <ht-elements-catalog-list hidden?=${loading}></ht-elements-catalog-list>
+            <ht-elements-catalog-actions view=${view} parameters=${parameters}></ht-elements-catalog-actions>
+            <ht-elements-catalog-selected-filters parameters=${parameters}></ht-elements-catalog-selected-filters>
+            <ht-elements-catalog-list view=${view} hidden?=${loading}></ht-elements-catalog-list>
             <div id="spinner-container" hidden?=${!loading}>
               <paper-spinner active?=${loading}></paper-spinner>
             </div>
@@ -114,7 +122,8 @@ class HTElementsCatalog extends LitElement {
       path: String,
       firstLoading: Boolean,
       loading: Boolean,
-      parameters: Object
+      parameters: Object,
+      view: String
     };
   }
 
@@ -123,6 +132,9 @@ class HTElementsCatalog extends LitElement {
     this.parameters = {};
     this.firstLoading = true;
     this.loading = false;
+    // view
+    let view = localStorage.getItem("catalog-list-view-mode");
+    view === null ? (this.view = "grid") : (this.view = view);
   }
 
   ready() {
@@ -131,6 +143,11 @@ class HTElementsCatalog extends LitElement {
       e.stopPropagation();
       const parameters = e.detail;
       this._updateLocation(parameters);
+    });
+    this.shadowRoot.addEventListener("view-changed", e => {
+      e.stopPropagation();
+      const view = e.detail;
+      this._changeView(view);
     });
   }
 
@@ -150,9 +167,14 @@ class HTElementsCatalog extends LitElement {
     return this.shadowRoot.querySelector("ht-elements-catalog-list");
   }
 
+  get selectedFilters() {
+    return this.shadowRoot.querySelector(
+      "ht-elements-catalog-selected-filters"
+    );
+  }
+
   async _setParameters(path) {
     let parameters = await getParametersFromPath(path);
-    // console.log(parameters);
     this.parameters = parameters;
     this._getItems(parameters);
   }
@@ -165,7 +187,6 @@ class HTElementsCatalog extends LitElement {
       //   .httpsCallable("dbItemsGetCatalogItems")({
       //   path: path
       // });
-      console.log(parameters);
       // let data = await callFirebaseHTTPFunction({
       //   name: "httpsGetCatalogPageDataIndex",
       //   options: {
@@ -180,7 +201,6 @@ class HTElementsCatalog extends LitElement {
         "httpsGetCatalogPageDataIndex",
         parameters
       );
-      console.log(data);
       await this._setData(data);
       if (this.firstLoading) this.firstLoading = false;
       this.loading = false;
@@ -193,6 +213,7 @@ class HTElementsCatalog extends LitElement {
     try {
       this.list.data = data.items;
       this.filter.data = data.filter;
+      this.selectedFilters.data = data.items.length;
       this.loading = false;
     } catch (err) {
       console.log("_setData: " + err.message);
@@ -202,7 +223,6 @@ class HTElementsCatalog extends LitElement {
   async _updateLocation(parameters) {
     let path = await getPathFromParameters(parameters);
     if (this.path === path) return;
-    console.log(path);
     window.history.pushState("page2", "Title", path);
     this.dispatchEvent(
       new CustomEvent("change-location", {
@@ -211,6 +231,16 @@ class HTElementsCatalog extends LitElement {
         detail: path
       })
     );
+  }
+
+  _changeView(view) {
+    localStorage.setItem("catalog-list-view-mode", view);
+    this.view = view;
+  }
+
+  _showSelectedFilters(parameters) {
+    if (Object.keys(parameters).length) return true;
+    return false;
   }
 }
 

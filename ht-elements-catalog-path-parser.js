@@ -19,9 +19,14 @@ export function getPathFromParameters(parameters) {
     // &platform
     let platform = parameters.platform;
     if (platform) {
-      // search += platform;
       search === "" ? (search += "?") : (search += "&");
       search += `platform=${platform}`;
+    }
+    // &sort
+    let sort = parameters.sort;
+    if (sort) {
+      search === "" ? (search += "?") : (search += "&");
+      search += `sort=${sort}`;
     }
     // &search
     let searchText = parameters.search;
@@ -33,7 +38,7 @@ export function getPathFromParameters(parameters) {
     path = pathname + search;
     return path;
   } catch (error) {
-    console.log("getPathFromParameters: " + error.message);
+    throw new Error("getPathFromParameters: " + error.message);
   }
 }
 
@@ -42,6 +47,8 @@ export function getParametersFromPath(path) {
     // let parameters = {
     //   categories: "wordpress/corporate",
     //   tags: ["business", "portfolio"],
+    //   platform: "webtutor",
+    //   sort: "sales"
     //   search: "go";
     // };
     // parse path
@@ -59,6 +66,7 @@ export function getParametersFromPath(path) {
     if (pathname !== "" && pathname !== "/")
       parameters.categories = pathname.substring(1);
     // tags
+    // sort
     // search
     const searchParameters = getParametersFromSearch(search);
     parameters = Object.assign(parameters, searchParameters);
@@ -81,7 +89,7 @@ function getParametersFromSearch(search) {
       search = splittedSearch[0];
     }
     // tags
-    //
+    // sort
     if (search !== "?") {
       // Remove first "?"
       search = search.substring(1);
