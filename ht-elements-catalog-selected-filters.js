@@ -3,6 +3,7 @@ import { LitElement, html } from "@polymer/lit-element";
 import { repeat } from "lit-html/lib/repeat.js";
 import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
 import "@polymer/iron-icon";
+import "ht-chip";
 import {
   getPathFromParameters,
   getParametersFromPath
@@ -58,54 +59,6 @@ class HTElementsCatalogSelectedFilters extends LitElement {
             margin: 0 4px;
         }
 
-        .item {
-            max-width: 250px;
-            //background: #e0dfe1;
-            background:#fff;
-            font-size:13px;
-            border-radius: 32px;
-            height:32px;
-            display: flex;
-            justify-content: space-between;
-            flex-direction: row;
-            position: relative;
-            padding-left: 12px;
-            align-items: center;
-            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-          0 1px 5px 0 rgba(0, 0, 0, 0.12),
-          0 3px 1px -2px rgba(0, 0, 0, 0.2);
-        }
-
-        .item iron-icon {
-            color:rgba(0,0,0,.54);
-            width: 20px;
-            height: 20px;
-            min-width:20px;
-            min-height: 20px;
-            padding: 0 8px;
-            //color:var(--secondary-text-color);
-        }
-
-        .item:hover {
-            background: rgba(0,0,0,.54);
-            color:#fff;
-        }
-
-        .item:hover iron-icon {
-            color:#fff;
-        }
-
-        .item .name {
-          color:rgba(0,0,0,.87);
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          overflow: hidden;
-        }
-
-        .item:hover .name {
-            color:#fff;
-        }
-
         #reset {
             margin-left:8px;
             text-decoration: underline;
@@ -116,13 +69,11 @@ class HTElementsCatalogSelectedFilters extends LitElement {
         #categories[hidden], #reset[hidden] {
           display:none;
         }
-        
       </style>
       <iron-iconset-svg size="24" name="ht-elements-catalog-selected-filters">
           <svg>
               <defs>
-               <g id="cancel"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"></path></g>
-              </defs>
+                <g id="sort"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"></path></g> </defs>
           </svg>
       </iron-iconset-svg>
       <div id="container">
@@ -133,9 +84,17 @@ class HTElementsCatalogSelectedFilters extends LitElement {
         ${repeat(
           items,
           item =>
-            html`<a class="item" href=${item.href}><div class="name">${
-              item.name
-            }</div><iron-icon icon="ht-elements-catalog-selected-filters:cancel"></iron-icon></a>`
+            html`<a class="item" href=${item.href}> 
+              <ht-chip label=${item.name} close shadow>
+                ${
+                  item.type === "sort"
+                    ? html`<div id="chip-background" slot="avatar">
+                  <iron-icon icon="ht-elements-catalog-selected-filters:sort"></iron-icon>
+                </div>`
+                    : ""
+                }
+              </ht-chip>
+            </a>`
         )}
         <a id="reset" href="/catalog" hidden?=${
           this._showClearAll(params) ? false : true
@@ -161,6 +120,13 @@ class HTElementsCatalogSelectedFilters extends LitElement {
     this.params = {};
     this.items = [];
     this.number = 0;
+  }
+
+  ready() {
+    super.ready();
+    this.shadowRoot.addEventListener("close-chip", e => {
+      e.stopPropagation();
+    });
   }
 
   set data(data) {
@@ -249,7 +215,8 @@ class HTElementsCatalogSelectedFilters extends LitElement {
           let href = await getPathFromParameters(newParameters);
           let item = {
             name: name,
-            href: href
+            href: href,
+            type: "sort"
           };
           items.push(item);
         }

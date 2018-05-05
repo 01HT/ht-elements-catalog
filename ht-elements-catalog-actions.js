@@ -64,6 +64,22 @@ class HTElementsCatalogActions extends LitElement {
             margin-left:16px;
         }
 
+        @media screen and (max-width:1120px) {
+          iron-icon {
+            display:none;
+          }
+          
+          #select-container {
+            margin-left:0;
+          }
+        }
+
+        @media screen and (max-width:960px) {
+          #usd, #divider {
+            display:none;
+          }
+        }
+
         [view] {
             color:var(--secondary-text-color);
         }
@@ -81,13 +97,13 @@ class HTElementsCatalogActions extends LitElement {
         <div id="usd">Все цены указаны в долларах США</div>
         <div id="divider"></div>
         <div id="actions">
-            <iron-icon id="grid" icon="ht-elements-catalog-actions:view-module" view?=${
-              view === "grid" ? true : false
-            } on-click=${e => {
+        <iron-icon id="list" icon="ht-elements-catalog-actions:view-list" view?=${
+          view === "list" ? true : false
+        } on-click=${e => {
       this._changeView(e);
     }}></iron-icon>
-            <iron-icon id="list" icon="ht-elements-catalog-actions:view-list" view?=${
-              view === "list" ? true : false
+            <iron-icon id="grid" icon="ht-elements-catalog-actions:view-module" view?=${
+              view === "grid" ? true : false
             } on-click=${e => {
       this._changeView(e);
     }}></iron-icon>

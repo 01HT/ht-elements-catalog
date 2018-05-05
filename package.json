@@ -17,6 +17,7 @@
     "@polymer/paper-toggle-button": "@next",
     "@polymer/paper-spinner": "@next",
     "ht-wysiwyg": "https://github.com/maksimyurkov/ht-user-avatar",
-    "ht-image": "https://github.com/maksimyurkov/ht-image"
+    "ht-image": "https://github.com/maksimyurkov/ht-image",
+    "ht-chip": "https://github.com/maksimyurkov/ht-chip"
   }
 }

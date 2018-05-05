@@ -40,6 +40,7 @@ class HTElementsCatalog extends LitElement {
           display:flex;
           position:relative;
           min-width: 300px;
+          margin-right:32px;
         }
 
         ht-elements-catalog-actions {
@@ -85,7 +86,14 @@ class HTElementsCatalog extends LitElement {
           align-content: center;
         }
 
-        @media screen and (max-width:650px) {
+
+        @media screen and (max-width:1120px) {
+          ht-elements-catalog-filter {
+            margin-right:16px;
+          }
+        }
+
+        @media screen and (max-width:700px) {
           ht-elements-catalog-filter {
             display:none;
           }
@@ -148,6 +156,9 @@ class HTElementsCatalog extends LitElement {
       e.stopPropagation();
       const view = e.detail;
       this._changeView(view);
+    });
+    this.shadowRoot.addEventListener("close-chip", e => {
+      e.stopPropagation();
     });
   }
 

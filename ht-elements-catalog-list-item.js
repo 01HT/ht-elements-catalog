@@ -1,9 +1,11 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-import "ht-image";
-import "ht-user-avatar";
+import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
+import "@polymer/paper-icon-button";
+import "./ht-elements-catalog-list-item-horizontal.js";
+import "./ht-elements-catalog-list-item-vertical.js";
 class HTElementsCatalogListItem extends LitElement {
-  render({ data }) {
+  render({ data, view }) {
     return html`
       <style>
         :host {
@@ -12,110 +14,47 @@ class HTElementsCatalogListItem extends LitElement {
           box-sizing:border-box;
         }
 
-        a {
-          display:block;
-          color:inherit;
-          text-decoration: none;
-        }
-
-        a:hover {
-          text-decoration: underline;
-        }
-
-        ht-user-avatar {
-          margin-right:8px;
-        }
-
-
-        header {
-          overflow: hidden;
-        }
-
-        section {
-          display:flex;
-          align-items:center;
-          margin:16px;
-        }
-
-        footer {
-          margin:16px;
+        #actions {
+          align-self: flex-end;
           display: flex;
-          flex-direction: column;
+          justify-content: flex-end;
+          width: 100%;
+          margin-top: auto;
         }
 
-        #container {
-          contain: content;
-          border-radius:3px;
-          display:flex;
-          flex-direction: column;
-          width:100%;
-          overflow:hidden;
-          background: #fff;
-          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-        }
-
-        #title {
-          display: flex;
-          flex-direction:column;
-          font-size: 14px;
-        }
-
-        #name {
-          font-weight: 500;
-        }
-        
-        #author {
-          display:flex;
-          margin:0;
+        paper-icon-button {
+          border-radius: 50%;
           color: var(--secondary-text-color);
         }
 
-        #author a {
-          margin-left:4px;
+        paper-icon-button:hover {
+          background: var(--secondary-text-color);
+          color:#fff;
         }
 
-        #price {
-          font-size: 16px;
-          font-weight:600;
-          text-transform: uppercase;
-          color: ${
-            this.getPrice(data.license) === "Free"
-              ? "var(--accent-color);"
-              : "inherit;"
-          }
-          }
-
-        #sales {
-          font-size:12px;
-          color: var(--secondary-text-color);
+        [hidden] {
+          display:none;
         }
       </style>
-      <div id="container">
-        <article>
-          <header>
-            <a href="/data/${data.nameInURL}">
-              <ht-image placeholder=${data.thumb_w60} image=${
-      data.thumb_w960
-    } size=${"16x9"}></ht-image>
-            </a>
-          </header>
-          <section>
-            <ht-user-avatar data=${
-              data.usersData
-            } size="42" verified-size="16"></ht-user-avatar>
-            <div id="title">
-              <a id="name" href="/data/${data.nameInURL}">${data.name}</a>
-              <div id="author">от <a href="/user/${data.usersData.nickname}">${
-      data.usersData.displayName
-    }</a></div>
-            </div>
-          </section>
-          <footer>
-          <div id="price">${this.getPrice(data.license)}</div>
-          <div id="sales">Продажи: ${data.sales}</div>
-          </footer>
-        </article>
+      <iron-iconset-svg size="24" name="ht-elements-catalog-list-item">
+          <svg>
+              <defs>
+                <g id="shopping-cart"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"></path></g>   
+              </defs>
+          </svg>
+      </iron-iconset-svg>
+      <ht-elements-catalog-list-item-horizontal data=${data} hidden?=${
+      view === "list" ? false : true
+    }>
+      <div id="actions" slot="actions">
+        <paper-icon-button icon="ht-elements-catalog-list-item:shopping-cart"></paper-icon-button>
       </div>
+      </ht-elements-catalog-list-item-horizontal>
+      <ht-elements-catalog-list-item-vertical data=${data} hidden?=${
+      view === "grid" ? false : true
+    }><div id="actions" slot="actions">
+        <paper-icon-button icon="ht-elements-catalog-list-item:shopping-cart"></paper-icon-button>
+      </div></ht-elements-catalog-list-item-vertical>
 `;
   }
 
@@ -125,27 +64,13 @@ class HTElementsCatalogListItem extends LitElement {
 
   static get properties() {
     return {
-      data: Object
+      data: Object,
+      view: String
     };
   }
 
   constructor() {
     super();
-    this.data = {
-      usersData: {},
-      license: []
-    };
-  }
-
-  getPrice(license) {
-    if (!license) return 0;
-    let price = "Free";
-    license.forEach(license => {
-      if (license.name === "Yunato Single") {
-        price = "$" + license.price;
-      }
-    });
-    return price;
   }
 }
 
