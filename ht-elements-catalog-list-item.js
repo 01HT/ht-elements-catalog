@@ -5,7 +5,7 @@ import "@polymer/paper-icon-button";
 import "./ht-elements-catalog-list-item-horizontal.js";
 import "./ht-elements-catalog-list-item-vertical.js";
 class HTElementsCatalogListItem extends LitElement {
-  render({ data, view }) {
+  _render({ data, view }) {
     return html`
       <style>
         :host {

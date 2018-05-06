@@ -3,7 +3,7 @@ import { LitElement, html } from "@polymer/lit-element";
 import { repeat } from "lit-html/lib/repeat.js";
 import "./ht-elements-catalog-filter-item.js";
 class HTElementsCatalogFiterBlockCategories extends LitElement {
-  render({ items, parameters }) {
+  _render({ items, parameters }) {
     return html`
       <style>
         :host {

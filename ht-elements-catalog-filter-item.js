@@ -4,7 +4,7 @@ import "@polymer/iron-iconset-svg";
 import "@polymer/iron-icon/iron-icon.js";
 import { getPathFromParameters } from "./ht-elements-catalog-path-parser.js";
 class HTElementsCatalogFilterItem extends LitElement {
-  render({ data, parameters }) {
+  _render({ data, parameters }) {
     return html`
       <style>
         :host {

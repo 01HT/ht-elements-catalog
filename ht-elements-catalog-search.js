@@ -5,7 +5,7 @@ import "@polymer/paper-icon-button";
 import "@polymer/paper-button";
 import { installMediaQueryWatcher } from "pwa-helpers/media-query.js";
 class HTElementsCatalogSearch extends LitElement {
-  render({ parameters, opened }) {
+  _render({ parameters, opened }) {
     return html`
       <style>
         :host {

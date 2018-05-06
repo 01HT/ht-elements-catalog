@@ -4,7 +4,7 @@ import { repeat } from "/node_modules/lit-html/lib/repeat.js";
 import "ht-elements-catalog/ht-elements-catalog-list-item.js";
 import { installMediaQueryWatcher } from "pwa-helpers/media-query.js";
 class HTElementsCatalogList extends LitElement {
-  render({ items, notFound, view, smallScreen }) {
+  _render({ items, notFound, view, smallScreen }) {
     return html`
       <style>
         :host {

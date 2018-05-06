@@ -5,7 +5,7 @@ import "./ht-elements-catalog-filter-block-categories.js";
 import "./ht-elements-catalog-filter-block-tags.js";
 import "./ht-elements-catalog-filter-block-platform.js";
 class HTElementsCatalogFilter extends LitElement {
-  render({ parameters }) {
+  _render({ parameters }) {
     return html`
       <style>
         :host {

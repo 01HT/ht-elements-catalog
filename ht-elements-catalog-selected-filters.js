@@ -9,7 +9,7 @@ import {
   getParametersFromPath
 } from "./ht-elements-catalog-path-parser.js";
 class HTElementsCatalogSelectedFilters extends LitElement {
-  render({ params, items, number }) {
+  _render({ params, items, number }) {
     return html`
       <style>
         :host {

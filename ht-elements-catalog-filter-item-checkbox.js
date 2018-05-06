@@ -3,7 +3,7 @@ import { LitElement, html } from "@polymer/lit-element";
 import { getPathFromParameters } from "./ht-elements-catalog-path-parser.js";
 import "@polymer/paper-checkbox";
 class HTElementsCatalogFilterItemCheckbox extends LitElement {
-  render({ data, parameters }) {
+  _render({ data, parameters }) {
     return html`
       <style>
         :host {

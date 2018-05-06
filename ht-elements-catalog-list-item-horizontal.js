@@ -3,7 +3,7 @@ import { LitElement, html } from "@polymer/lit-element";
 import "ht-image";
 import "ht-user-avatar";
 class HTElementsCatalogListItemHorizontal extends LitElement {
-  render({ data }) {
+  _render({ data }) {
     return html`
       <style>
         :host {

@@ -4,7 +4,7 @@ import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
 import "@polymer/iron-icon/iron-icon.js";
 import "@polymer/iron-collapse";
 class HTElementsCatalogFilterSection extends LitElement {
-  render({ name, opened }) {
+  _render({ name, opened }) {
     return html`
       <style>
         :host {

@@ -15,7 +15,7 @@ import {
   callFirebaseHTTPFunction
 } from "ht-client-helper-functions";
 class HTElementsCatalog extends LitElement {
-  render({ firstLoading, loading, parameters, view }) {
+  _render({ firstLoading, loading, parameters, view }) {
     return html`
       <style>
         :host {
