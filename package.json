@@ -7,17 +7,16 @@
   "license": "MIT",
   "dependencies": {
     "@polymer/lit-element": "@next",
-    "@polymer/iron-collapse": "@next",
-    "@polymer/paper-input": "@next",
+    "@polymer/iron-iconset-svg": "@next",
     "@polymer/iron-icon": "@next",
     "@polymer/paper-checkbox": "@next",
-    "@polymer/iron-iconset-svg": "@next",
-    "@polymer/paper-button": "@next",
+    "@polymer/iron-collapse": "@next",
     "@polymer/paper-icon-button": "@next",
-    "@polymer/paper-toggle-button": "@next",
+    "@polymer/paper-button": "@next",
     "@polymer/paper-spinner": "@next",
-    "ht-wysiwyg": "https://github.com/maksimyurkov/ht-user-avatar",
     "ht-image": "https://github.com/maksimyurkov/ht-image",
-    "ht-chip": "https://github.com/maksimyurkov/ht-chip"
+    "ht-user-avatar": "https://github.com/maksimyurkov/ht-user-avatar",
+    "ht-chip": "https://github.com/maksimyurkov/ht-chip",
+    "pwa-helpers": "https://github.com/maksimyurkov/pwa-helpers"
   }
 }

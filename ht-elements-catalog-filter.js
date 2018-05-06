@@ -19,10 +19,7 @@ class HTElementsCatalogFilter extends LitElement {
           align-content: flex-start;
           flex-wrap: wrap;
           width:100%;
-          max-width: 300px;
-          //box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
           border-radius:3px;
-          //background:#fff;
         }
 
         ht-elements-catalog-filter-section {
@@ -76,13 +73,6 @@ class HTElementsCatalogFilter extends LitElement {
       "ht-elements-catalog-filter-block-platform"
     );
   }
-
-  // get data() {
-  //   let data = {};
-  //   data.categories = this.categories.data;
-  //   data.tags = this.tags.data;
-  //   return data;
-  // }
 
   set data(data) {
     this.categories.data = data.categories;

@@ -1,7 +1,7 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-import { repeat } from "/node_modules/lit-html/lib/repeat.js";
-import "ht-elements-catalog/ht-elements-catalog-filter-item-checkbox.js";
+import { repeat } from "lit-html/lib/repeat.js";
+import "./ht-elements-catalog-filter-item-checkbox.js";
 class HTElementsCatalogFiterBlockTags extends LitElement {
   render({ items, parameters }) {
     return html`
@@ -58,7 +58,6 @@ class HTElementsCatalogFiterBlockTags extends LitElement {
         selected.push(checkbox.data.name.toLowerCase());
       }
     });
-    console.log(selected.join(","));
     return selected.join(",");
   }
 

@@ -25,6 +25,7 @@ class HTElementsCatalogList extends LitElement {
         .item[view="grid"] {
             width: calc(50% - 2 * 8px);
             flex:1 0 auto;
+            max-width: 50%;
         }
 
         #container {
@@ -78,6 +79,7 @@ class HTElementsCatalogList extends LitElement {
         @media screen and (max-width:900px) {
           .item[view="grid"] {
             width: calc(100% - 2 * 8px);
+            max-width: 100%;
           }
         }
 

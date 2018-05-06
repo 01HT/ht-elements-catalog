@@ -36,7 +36,7 @@ class HTElementsCatalog extends LitElement {
           width:100%;
         }
 
-        ht-elements-catalog-filter {
+        #main ht-elements-catalog-filter {
           display:flex;
           position:relative;
           min-width: 300px;
@@ -88,13 +88,13 @@ class HTElementsCatalog extends LitElement {
 
 
         @media screen and (max-width:1120px) {
-          ht-elements-catalog-filter {
+          #main ht-elements-catalog-filter {
             margin-right:16px;
           }
         }
 
         @media screen and (max-width:700px) {
-          ht-elements-catalog-filter {
+          #main ht-elements-catalog-filter {
             display:none;
           }
         }
@@ -104,7 +104,9 @@ class HTElementsCatalog extends LitElement {
         }
       </style>
       <div id="container">
-        <ht-elements-catalog-search parameters=${parameters}></ht-elements-catalog-search>
+        <ht-elements-catalog-search parameters=${parameters}>
+          <ht-elements-catalog-filter slot="filter" parameters=${parameters}></ht-elements-catalog-filter>
+        </ht-elements-catalog-search>
         <paper-spinner active?=${firstLoading} hidden?=${!firstLoading}></paper-spinner>
         <section id="main" hidden?=${firstLoading}>
           <ht-elements-catalog-filter parameters=${parameters}></ht-elements-catalog-filter>
@@ -171,7 +173,13 @@ class HTElementsCatalog extends LitElement {
   }
 
   get filter() {
-    return this.shadowRoot.querySelector("ht-elements-catalog-filter");
+    return this.shadowRoot.querySelector("#main ht-elements-catalog-filter");
+  }
+
+  get filterInSearch() {
+    return this.shadowRoot.querySelector(
+      "ht-elements-catalog-search ht-elements-catalog-filter"
+    );
   }
 
   get list() {
@@ -224,6 +232,7 @@ class HTElementsCatalog extends LitElement {
     try {
       this.list.data = data.items;
       this.filter.data = data.filter;
+      this.filterInSearch.data = data.filter;
       this.selectedFilters.data = data.items.length;
       this.loading = false;
     } catch (err) {
