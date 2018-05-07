@@ -39,6 +39,7 @@ class HTElementsCatalog extends LitElement {
         #main ht-elements-catalog-filter {
           display:flex;
           position:relative;
+          width:300px;
           min-width: 300px;
           margin-right:32px;
         }

@@ -81,11 +81,6 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
           font-size: 16px;
           font-weight:600;
           text-transform: uppercase;
-          color: ${
-            this.getPrice(data.price) === "Free"
-              ? "var(--accent-color);"
-              : "inherit;"
-          }
         }
 
         #updated {
@@ -109,7 +104,7 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
             <a href="/data/${data.nameInURL}">
               <ht-image placeholder=${data.thumb_w60} image=${
       data.thumb_w960
-    } size=${"16x9"}></ht-image>
+    } size="16x9"></ht-image>
             </a>
           </header>
           <section>
@@ -122,7 +117,11 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
                 </div>
           </section>
           <footer>
-          <div id="price">${this.getPrice(data.price)}</div>
+          <div id="price" style=${
+            this.getPrice(data.price) === "Free"
+              ? "color:var(--accent-color);"
+              : ""
+          }>${this.getPrice(data.price)}</div>
           <div id="updated">Последнее обновление: ${
             data.updated ? new Date(data.updated).toLocaleDateString() : ""
           }</div>

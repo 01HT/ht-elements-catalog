@@ -19,8 +19,7 @@ class HTElementsCatalogFilterItem extends LitElement {
           align-items:center;
           color:inherit;
           text-decoration: none;
-          font-weight:${data.child ? "400" : "600"};
-          padding-left:${data.child ? "8px" : "0"};
+          font-weight:600;
         }
         
 
@@ -52,10 +51,11 @@ class HTElementsCatalogFilterItem extends LitElement {
           </svg>
       </iron-iconset-svg>
         <div id="container">
-            <a href$=${this._getPath(parameters)}>
-                <iron-icon icon="ht-elements-catalog-filter-item:chevron-left" hidden?=${
-                  data.child
-                }></iron-icon>
+            <a href$=${this._getPath(parameters)} style=${this._getItemStyle(
+      data
+    )}>
+                <iron-icon icon="ht-elements-catalog-filter-item:chevron-left" hidden?=${data.child ||
+                  data.current}></iron-icon>
                 <div>${data.name}</div>
             </a>
             <div id="number">${data.number}</div>
@@ -88,6 +88,12 @@ class HTElementsCatalogFilterItem extends LitElement {
     parameters[this.type] = this.data.parameter;
     path = getPathFromParameters(parameters);
     return path;
+  }
+
+  _getItemStyle(data) {
+    if (data.child) return "font-weight:400;padding-left:24px";
+    if (data.current) return "font-weight:600;padding-left:8px";
+    return "";
   }
 }
 customElements.define(
