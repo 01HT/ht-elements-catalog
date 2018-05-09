@@ -244,7 +244,7 @@ class HTElementsCatalog extends LitElement {
   async _updateLocation(parameters) {
     let path = await getPathFromParameters(parameters);
     if (this.path === path) return;
-    window.history.pushState("page2", "Title", path);
+    history.pushState(null, "", path);
     this.dispatchEvent(
       new CustomEvent("change-location", {
         bubbles: true,
