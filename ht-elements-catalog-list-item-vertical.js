@@ -101,7 +101,7 @@ class HTElementsCatalogListItemVertical extends LitElement {
       <div id="container">
         <article>
           <header>
-            <a href="/data/${data.nameInURL}">
+            <a href="/item/${data.nameInURL}/${data.itemId}">
               <ht-image placeholder=${data.thumb_w60} image=${
       data.thumb_w960
     } size="16x9"></ht-image>
@@ -112,7 +112,9 @@ class HTElementsCatalogListItemVertical extends LitElement {
               data.usersData
             } size="42" verified-size="16"></ht-user-avatar>
             <div id="title">
-              <a id="name" href="/data/${data.nameInURL}">${data.name}</a>
+              <a id="name" href="/item/${data.nameInURL}/${data.itemId}">${
+      data.name
+    }</a>
               <div id="author">от <a href="/user/${data.usersData.nickname}">${
       data.usersData.displayName
     }</a></div>
