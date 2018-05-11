@@ -101,14 +101,16 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
       </style>
       <article id="container">
           <header>
-            <a href="/data/${data.nameInURL}">
+            <a href="/item/${data.nameInURL}/${data.itemId}">
               <ht-image placeholder=${data.thumb_w60} image=${
       data.thumb_w960
     } size="16x9"></ht-image>
             </a>
           </header>
           <section>
-            <a id="name" href="/data/${data.nameInURL}">${data.name}</a>
+            <a id="name" href="/item/${data.nameInURL}/${data.itemId}">${
+      data.name
+    }</a>
             <div id="author">от <ht-user-avatar data=${
               data.usersData
             } size="32" verifiedSize$=${12}></ht-user-avatar><a href="/user/${
