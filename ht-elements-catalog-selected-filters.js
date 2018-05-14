@@ -85,10 +85,12 @@ class HTElementsCatalogSelectedFilters extends LitElement {
           items,
           item =>
             html`<a class="item" href=${item.href}> 
-              <ht-chip label=${item.name} close shadow>
+              <ht-chip label=${item.name} close shadow icon?=${
+              item.type === "sort" ? true : false
+            }>
                 ${
                   item.type === "sort"
-                    ? html`<div id="chip-background" slot="avatar">
+                    ? html`<div slot="avatar">
                   <iron-icon icon="ht-elements-catalog-selected-filters:sort"></iron-icon>
                 </div>`
                     : ""
