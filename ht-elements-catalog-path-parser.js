@@ -10,17 +10,29 @@ export function getPathFromParameters(parameters) {
     if (categories) {
       pathname += `/${categories}`;
     }
-    // &tags
-    let tags = parameters.tags;
-    if (tags && tags.length > 0) {
-      search === "" ? (search += "?") : (search += "&");
-      search += `tags=${tags.join(",")}`;
-    }
     // &platform
     let platform = parameters.platform;
     if (platform) {
       search === "" ? (search += "?") : (search += "&");
       search += `platform=${platform}`;
+    }
+    // &browsers
+    let browsers = parameters.browsers;
+    if (browsers && browsers.length > 0) {
+      search === "" ? (search += "?") : (search += "&");
+      search += `browsers=${browsers.join(",")}`;
+    }
+    // &tools
+    let tools = parameters.tools;
+    if (tools && tools.length > 0) {
+      search === "" ? (search += "?") : (search += "&");
+      search += `tools=${tools.join(",")}`;
+    }
+    // &tags
+    let tags = parameters.tags;
+    if (tags && tags.length > 0) {
+      search === "" ? (search += "?") : (search += "&");
+      search += `tags=${tags.join(",")}`;
     }
     // &sort
     let sort = parameters.sort;
@@ -100,7 +112,7 @@ function getParametersFromSearch(search) {
         const nameValue = param.split("=");
         const name = nameValue[0];
         const value = nameValue[1];
-        if (name === "tags") {
+        if (name === "tags" || name === "browsers" || name === "tools") {
           parsed[name] = value.split(",");
         } else {
           parsed[name] = value;

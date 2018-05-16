@@ -2,8 +2,10 @@
 import { LitElement, html } from "@polymer/lit-element";
 import "./ht-elements-catalog-filter-section.js";
 import "./ht-elements-catalog-filter-block-categories.js";
-import "./ht-elements-catalog-filter-block-tags.js";
 import "./ht-elements-catalog-filter-block-platform.js";
+import "./ht-elements-catalog-filter-block-browsers.js";
+import "./ht-elements-catalog-filter-block-tools.js";
+import "./ht-elements-catalog-filter-block-tags.js";
 class HTElementsCatalogFilter extends LitElement {
   _render({ parameters }) {
     return html`
@@ -31,11 +33,17 @@ class HTElementsCatalogFilter extends LitElement {
         <ht-elements-catalog-filter-section name$=${"Категория"}>
           <ht-elements-catalog-filter-block-categories parameters=${parameters}></ht-elements-catalog-filter-block-categories>
         </ht-elements-catalog-filter-section>
-        <ht-elements-catalog-filter-section name$=${"Теги"}>
-          <ht-elements-catalog-filter-block-tags parameters=${parameters}></ht-elements-catalog-filter-block-tags>
-        </ht-elements-catalog-filter-section>
         <ht-elements-catalog-filter-section name$=${"Платформа"}>
           <ht-elements-catalog-filter-block-platform parameters=${parameters}></ht-elements-catalog-filter-block-platform>
+        </ht-elements-catalog-filter-section>
+        <ht-elements-catalog-filter-section name$=${"Совместимые браузеры"}>
+          <ht-elements-catalog-filter-block-browsers parameters=${parameters}></ht-elements-catalog-filter-block-browsers>
+        </ht-elements-catalog-filter-section>
+        <ht-elements-catalog-filter-section name$=${"Инструменты"}>
+          <ht-elements-catalog-filter-block-tools parameters=${parameters}></ht-elements-catalog-filter-block-tools>
+        </ht-elements-catalog-filter-section>
+        <ht-elements-catalog-filter-section name$=${"Теги"}>
+          <ht-elements-catalog-filter-block-tags parameters=${parameters}></ht-elements-catalog-filter-block-tags>
         </ht-elements-catalog-filter-section>
       </div>
 `;
@@ -62,22 +70,36 @@ class HTElementsCatalogFilter extends LitElement {
     );
   }
 
-  get tags() {
-    return this.shadowRoot.querySelector(
-      "ht-elements-catalog-filter-block-tags"
-    );
-  }
-
   get platform() {
     return this.shadowRoot.querySelector(
       "ht-elements-catalog-filter-block-platform"
     );
   }
 
+  get browsers() {
+    return this.shadowRoot.querySelector(
+      "ht-elements-catalog-filter-block-browsers"
+    );
+  }
+
+  get tools() {
+    return this.shadowRoot.querySelector(
+      "ht-elements-catalog-filter-block-tools"
+    );
+  }
+
+  get tags() {
+    return this.shadowRoot.querySelector(
+      "ht-elements-catalog-filter-block-tags"
+    );
+  }
+
   set data(data) {
     this.categories.data = data.categories;
-    this.tags.data = data.tags;
     this.platform.data = data.platform;
+    this.browsers.data = data.browsers;
+    this.tools.data = data.tools;
+    this.tags.data = data.tags;
   }
 }
 

@@ -65,8 +65,9 @@ class HTElementsCatalogFilterItemCheckbox extends LitElement {
   }
 
   getChecked() {
-    if (this.data.name === undefined || !this.parameters.tags) return false;
-    if (this.parameters.tags.indexOf(this.data.name.toLowerCase()) !== -1)
+    if (this.data.name === undefined || !this.parameters[this.type])
+      return false;
+    if (this.parameters[this.type].indexOf(this.data.name.toLowerCase()) !== -1)
       return true;
     return false;
   }

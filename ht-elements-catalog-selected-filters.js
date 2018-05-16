@@ -181,12 +181,12 @@ class HTElementsCatalogSelectedFilters extends LitElement {
     for (let name in parameters) {
       if (name !== "search" && name !== "categories") {
         // tags
-        if (name === "tags") {
-          let tags = parameters["tags"];
+        if (name === "tags" || name === "browsers" || name === "tools") {
+          let tags = parameters[name];
           for (let tag of tags) {
             const newParameters = JSON.parse(JSON.stringify(parameters));
-            let index = newParameters.tags.indexOf(tag);
-            newParameters.tags.splice(index, 1);
+            let index = newParameters[name].indexOf(tag);
+            newParameters[name].splice(index, 1);
             let href = await getPathFromParameters(newParameters);
             let item = {
               name: tag,

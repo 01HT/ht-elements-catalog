@@ -1,7 +1,10 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
-import "@polymer/iron-icon/iron-icon.js";
+import "@polymer/iron-iconset-svg";
+import "@polymer/iron-icon";
+import "@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
+import "@polymer/paper-listbox";
+import "@polymer/paper-item/paper-item.js";
 class HTElementsCatalogActions extends LitElement {
   _render({ parameters, view }) {
     return html`
@@ -18,19 +21,13 @@ class HTElementsCatalogActions extends LitElement {
             margin-right:4px;
         }
 
-        select {
-            border: 1px solid var(--divider-color);
+        paper-listbox {
+            width: 100%;
+            --paper-listbox-background-color: #fff;
         }
 
-        select{
-            padding: 8px;
-            width: 310px;
-            font-size: 14px;
-            background-color: #fff;
-            border: 1px solid var(--divider-color);
-            padding: 8px 16px;
-            border-radius: 3px;
-            cursor: pointer;
+        paper-item {
+            cursor:pointer;
         }
 
         #container {
@@ -38,7 +35,7 @@ class HTElementsCatalogActions extends LitElement {
           justify-content:flex-end;
           align-items:center;
           width:100%;
-          height:35px;
+          height:46px;
         }
 
         #usd {
@@ -60,8 +57,10 @@ class HTElementsCatalogActions extends LitElement {
         }
 
         #select-container {
-            position:relative;
-            margin-left:16px;
+          position: relative;
+          display: flex;
+          align-items: center;
+          margin-left: 16px;
         }
 
         @media screen and (max-width:1120px) {
@@ -107,16 +106,21 @@ class HTElementsCatalogActions extends LitElement {
       this._changeView(e);
     }}></iron-icon>
             <div id="select-container">
-                <select value=${this._setSort(parameters)}
-                  this.parameters.sort ? this.parameters.sort : ""
-                }>
-                    <option value="">Новизне</option>
-                    <option value="sales">Продажам</option>
-                    <!--<option value="trending">Популярности</option>
-                    <option value="rating">Лучшему рейтингу</option>-->
-                    <option value="price-asc">Цене | от низкой</option>
-                    <option value="price-desc">Цене | от высокой</option>
-                </select>
+              <!-- placeholder="новизне" -->
+              <paper-dropdown-menu label="сортировать по"  always-float-label no-animations on-iron-select=${e => {
+                this._onChange();
+              }}>
+                <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" setSort=${this._setSort(
+                  parameters
+                )}>
+                    <paper-item value="">новизне</paper-item>
+                    <paper-item value="sales">продажам</paper-item>
+                    <!--paper-item value="trending">Популярности<paper-item>
+                    <paper-item value="rating">Лучшему рейтингу<paper-item>-->
+                    <paper-item value="price-asc">цене | от низкой</paper-item>
+                    <paper-item value="price-desc">цене | от высокой</paper-item>
+                </paper-listbox>
+              </paper-dropdown-menu>
             </div>
         </div>
       </div>
@@ -140,26 +144,12 @@ class HTElementsCatalogActions extends LitElement {
     this.view = "grid";
   }
 
-  ready() {
-    super.ready();
-    this.select.addEventListener("change", e => {
-      this._onChange();
-    });
+  _firstRendered() {
+    this.listbox.selected = "";
   }
 
-  get select() {
-    return this.shadowRoot.querySelector("select");
-  }
-
-  _setSort(parameters) {
-    if (this.select === null) return;
-    let sort = parameters.sort;
-    if (parameters.sort === undefined) {
-      this.select.value = "";
-    } else {
-      this.select.value = sort;
-    }
-    this._changeTextInOptions();
+  get listbox() {
+    return this.shadowRoot.querySelector("paper-listbox");
   }
 
   _changeView(e) {
@@ -172,26 +162,25 @@ class HTElementsCatalogActions extends LitElement {
     );
   }
 
-  _changeTextInOptions() {
-    let options = this.shadowRoot.querySelectorAll("option");
-    for (let option of options) {
-      option.innerHTML = option.innerHTML.replace("Сортировать по: ", "");
-      if (option.selected)
-        option.innerHTML = "Сортировать по: " + option.innerHTML;
+  _setSort() {
+    if (this.listbox === null) return;
+    let sort = this.parameters.sort;
+    if (sort === undefined) {
+      this.listbox.selected = "";
+    } else {
+      this.listbox.selected = sort;
     }
   }
 
   _onChange() {
-    let value = this.select.value;
-    if (value === this.parameters.sort) return;
-    this._changeTextInOptions();
+    let sort = this.listbox.selected;
+    if (sort === "" && this.parameters.sort === undefined) {
+      this.listbox.selected = "";
+      return;
+    }
     let parameters = Object.assign({}, this.parameters);
-    if (value === "" && parameters.sort) {
-      delete parameters["sort"];
-    }
-    if (value !== "") {
-      parameters.sort = value;
-    }
+    if (sort === "" && parameters.sort) delete parameters["sort"];
+    if (sort !== "") parameters.sort = sort;
     this.dispatchEvent(
       new CustomEvent("parameters-changed", {
         bubbles: true,
