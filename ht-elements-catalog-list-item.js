@@ -20,6 +20,7 @@ class HTElementsCatalogListItem extends LitElement {
           justify-content: flex-end;
           width: 100%;
           margin-top: auto;
+          height:40px;
         }
 
         paper-icon-button {
@@ -44,13 +45,17 @@ class HTElementsCatalogListItem extends LitElement {
       view === "list" ? false : true
     }>
       <div id="actions" slot="actions">
-        <paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart"></paper-icon-button>
+        <paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart" hidden?=${
+          data && data.price === 0 ? true : false
+        }></paper-icon-button>
       </div>
       </ht-elements-catalog-list-item-horizontal>
       <ht-elements-catalog-list-item-vertical data=${data} hidden?=${
       view === "grid" ? false : true
     }><div id="actions" slot="actions">
-        <paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart"></paper-icon-button>
+        <paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart" hidden?=${
+          data && data.price === 0 ? true : false
+        }></paper-icon-button>
       </div></ht-elements-catalog-list-item-vertical>
 `;
   }
