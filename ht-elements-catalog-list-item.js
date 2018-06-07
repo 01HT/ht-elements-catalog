@@ -2,10 +2,11 @@
 import { LitElement, html } from "@polymer/lit-element";
 import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
 import "@polymer/paper-icon-button";
+import "@polymer/paper-spinner/paper-spinner.js";
 import "./ht-elements-catalog-list-item-horizontal.js";
 import "./ht-elements-catalog-list-item-vertical.js";
 class HTElementsCatalogListItem extends LitElement {
-  _render({ data, view }) {
+  _render({ data, view, cartChangeInProcess }) {
     return html`
       <style>
         :host {
@@ -14,13 +15,21 @@ class HTElementsCatalogListItem extends LitElement {
           box-sizing:border-box;
         }
 
+        paper-spinner {
+            width: 32px;
+            height: 32px;
+            --paper-spinner-stroke-width: 2px;
+        }
+
         #actions {
           align-self: flex-end;
           display: flex;
-          justify-content: flex-end;
+          justify-content: center;
+          align-items:center;
           width: 100%;
           margin-top: auto;
           height:40px;
+          width:40px;
         }
 
         paper-icon-button {
@@ -53,9 +62,17 @@ class HTElementsCatalogListItem extends LitElement {
       <ht-elements-catalog-list-item-vertical data=${data} hidden?=${
       view === "grid" ? false : true
     }><div id="actions" slot="actions">
-        <paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart" hidden?=${
-          data && data.price === 0 ? true : false
-        }></paper-icon-button>
+      ${
+        this._showSpinner(cartChangeInProcess)
+          ? html`<paper-spinner active></paper-spinner>`
+          : html`<paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart" on-click=${_ => {
+              this._addToCart();
+            }} hidden?=${
+              data && data.price === 0 ? true : false
+            }></paper-icon-button>`
+      }
+  
+        
       </div></ht-elements-catalog-list-item-vertical>
 `;
   }
@@ -67,12 +84,37 @@ class HTElementsCatalogListItem extends LitElement {
   static get properties() {
     return {
       data: Object,
-      view: String
+      view: String,
+      cartChangeInProcess: Boolean
     };
   }
 
   constructor() {
     super();
+    this.waitUntilCartAdd = false;
+  }
+
+  _showSpinner(cartChangeInProcess) {
+    if (!cartChangeInProcess) {
+      this.waitUntilCartAdd = false;
+      return false;
+    }
+    if (cartChangeInProcess && this.waitUntilCartAdd) return true;
+  }
+
+  _addToCart() {
+    if (this.cartChangeInProcess) return;
+    this.waitUntilCartAdd = true;
+    this.dispatchEvent(
+      new CustomEvent("add-to-cart", {
+        bubbles: true,
+        composed: true,
+        detail: {
+          itemId: this.data.itemId,
+          licensetypeId: "lprhp51XIs962tedCeyq"
+        }
+      })
+    );
   }
 }
 

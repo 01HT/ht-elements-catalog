@@ -15,7 +15,7 @@ import {
   callFirebaseHTTPFunction
 } from "ht-client-helper-functions";
 class HTElementsCatalog extends LitElement {
-  _render({ firstLoading, loading, parameters, view }) {
+  _render({ firstLoading, loading, parameters, view, cartChangeInProcess }) {
     return html`
       <style>
         :host {
@@ -114,7 +114,7 @@ class HTElementsCatalog extends LitElement {
           <section id="list">
             <ht-elements-catalog-actions view=${view} parameters=${parameters}></ht-elements-catalog-actions>
             <ht-elements-catalog-selected-filters parameters=${parameters}></ht-elements-catalog-selected-filters>
-            <ht-elements-catalog-list view=${view} hidden?=${loading}></ht-elements-catalog-list>
+            <ht-elements-catalog-list view=${view} hidden?=${loading} cartChangeInProcess=${cartChangeInProcess}></ht-elements-catalog-list>
             <div id="spinner-container" hidden?=${!loading}>
               <paper-spinner active?=${loading}></paper-spinner>
             </div>
@@ -134,7 +134,8 @@ class HTElementsCatalog extends LitElement {
       firstLoading: Boolean,
       loading: Boolean,
       parameters: Object,
-      view: String
+      view: String,
+      cartChangeInProcess: Boolean
     };
   }
 
@@ -207,20 +208,20 @@ class HTElementsCatalog extends LitElement {
       //   .httpsCallable("dbItemsGetCatalogItems")({
       //   path: path
       // });
-      // let data = await callFirebaseHTTPFunction({
-      //   name: "httpsGetCatalogPageDataIndex",
-      //   options: {
-      //     method: "POST",
-      //     headers: new Headers({
-      //       "Content-Type": "application/json"
-      //     }),
-      //     body: JSON.stringify(parameters)
-      //   }
-      // });
-      let data = await callTestHTTPFunction(
-        "httpsGetCatalogPageDataIndex",
-        parameters
-      );
+      let data = await callFirebaseHTTPFunction({
+        name: "httpsGetCatalogPageDataIndex",
+        options: {
+          method: "POST",
+          headers: new Headers({
+            "Content-Type": "application/json"
+          }),
+          body: JSON.stringify(parameters)
+        }
+      });
+      // let data = await callTestHTTPFunction(
+      //   "httpsGetCatalogPageDataIndex",
+      //   parameters
+      // );
       await this._setData(data);
       if (this.firstLoading) this.firstLoading = false;
       this.loading = false;

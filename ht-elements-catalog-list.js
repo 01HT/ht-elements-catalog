@@ -4,7 +4,7 @@ import { repeat } from "lit-html/lib/repeat.js";
 import "ht-elements-catalog/ht-elements-catalog-list-item.js";
 import { installMediaQueryWatcher } from "pwa-helpers/media-query.js";
 class HTElementsCatalogList extends LitElement {
-  _render({ items, notFound, view, smallScreen }) {
+  _render({ items, notFound, view, smallScreen, cartChangeInProcess }) {
     return html`
       <style>
         :host {
@@ -93,7 +93,7 @@ class HTElementsCatalogList extends LitElement {
             item =>
               html`<div class="item" view$=${
                 view === "list" && !smallScreen ? "list" : "grid"
-              }><ht-elements-catalog-list-item data=${item} view$=${
+              }><ht-elements-catalog-list-item data=${item} cartChangeInProcess=${cartChangeInProcess} view$=${
                 view === "list" && !smallScreen ? "list" : "grid"
               }></ht-elements-catalog-list-item></div>`
           )}
@@ -181,7 +181,8 @@ class HTElementsCatalogList extends LitElement {
       items: Array,
       notFound: Boolean,
       view: String,
-      smallScreen: Boolean
+      smallScreen: Boolean,
+      cartChangeInProcess: Boolean
     };
   }
 

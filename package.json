@@ -1,25 +1,60 @@
 {
-  "name": "ht-elements-catalog",
-  "version": "1.0.0",
-  "main": "ht-elements-catalog.js",
-  "repository": "https://github.com/maksimyurkov/ht-elements-catalog",
-  "author": "maksimyurkov <yurkov.maksim.sergeevich@gmail.com>",
-  "license": "MIT",
+  "_from": "git+https://github.com/maksimyurkov/ht-elements-catalog.git",
+  "_id": "ht-elements-catalog@1.0.0",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/ht-elements-catalog",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "ht-elements-catalog@git+https://github.com/maksimyurkov/ht-elements-catalog.git",
+    "name": "ht-elements-catalog",
+    "escapedName": "ht-elements-catalog",
+    "rawSpec": "git+https://github.com/maksimyurkov/ht-elements-catalog.git",
+    "saveSpec": "git+https://github.com/maksimyurkov/ht-elements-catalog.git",
+    "fetchSpec": "https://github.com/maksimyurkov/ht-elements-catalog.git",
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "git+https://github.com/maksimyurkov/ht-elements-catalog.git#a06e5b05c849c81d70a87905fbb9c3ff72c1b4a7",
+  "_spec": "ht-elements-catalog@git+https://github.com/maksimyurkov/ht-elements-catalog.git",
+  "_where": "C:\\Users\\max\\Desktop\\elements-01-ht",
+  "author": {
+    "name": "maksimyurkov",
+    "email": "yurkov.maksim.sergeevich@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/maksimyurkov/ht-elements-catalog/issues"
+  },
+  "bundleDependencies": false,
   "dependencies": {
-    "@polymer/lit-element": "^0.5.1",
-    "@polymer/iron-iconset-svg": "^3.0.0-pre.18",
-    "@polymer/iron-icon": "^3.0.0-pre.18",
-    "@polymer/paper-checkbox": "^3.0.0-pre.18",
     "@polymer/iron-collapse": "^3.0.0-pre.18",
-    "@polymer/paper-icon-button": "^3.0.0-pre.18",
+    "@polymer/iron-icon": "^3.0.0-pre.18",
+    "@polymer/iron-iconset-svg": "^3.0.0-pre.18",
+    "@polymer/lit-element": "^0.5.1",
     "@polymer/paper-button": "^3.0.0-pre.18",
-    "@polymer/paper-spinner": "^3.0.0-pre.18",
+    "@polymer/paper-checkbox": "^3.0.0-pre.18",
     "@polymer/paper-dropdown-menu": "^3.0.0-pre.18",
-    "@polymer/paper-listbox": "^3.0.0-pre.18",
+    "@polymer/paper-icon-button": "^3.0.0-pre.18",
     "@polymer/paper-item": "^3.0.0-pre.18",
-    "ht-image": "https://github.com/maksimyurkov/ht-image",
-    "ht-user-avatar": "https://github.com/maksimyurkov/ht-user-avatar",
-    "ht-chip": "https://github.com/maksimyurkov/ht-chip",
-    "pwa-helpers": "https://github.com/Polymer/pwa-helpers"
-  }
+    "@polymer/paper-listbox": "^3.0.0-pre.18",
+    "@polymer/paper-spinner": "^3.0.0-pre.18",
+    "ht-chip": "git+https://github.com/maksimyurkov/ht-chip.git",
+    "ht-image": "git+https://github.com/maksimyurkov/ht-image.git",
+    "ht-user-avatar": "git+https://github.com/maksimyurkov/ht-user-avatar.git",
+    "pwa-helpers": "git+https://github.com/Polymer/pwa-helpers.git"
+  },
+  "deprecated": false,
+  "description": "",
+  "homepage": "https://github.com/maksimyurkov/ht-elements-catalog#readme",
+  "license": "MIT",
+  "main": "ht-elements-catalog.js",
+  "name": "ht-elements-catalog",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maksimyurkov/ht-elements-catalog.git"
+  },
+  "version": "1.0.0"
 }
