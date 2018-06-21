@@ -34,24 +34,24 @@ class HTElementsCatalogListItemVertical extends LitElement {
         section {
           display:flex;
           align-items:center;
-          margin:16px;
+          margin-top: 25px;
         }
 
         footer {
-          margin:16px;
+          margin-top:16px;
           display: flex;
           justify-content: space-between;
+          align-items:center;
         }
 
         #container {
           contain: content;
-          border-radius:3px;
+          //border-radius:3px;
           display:flex;
           flex-direction: column;
           width:100%;
           overflow:hidden;
-          background: #fff;
-          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+          //background: #fff;
         }
 
         #title {
@@ -61,7 +61,11 @@ class HTElementsCatalogListItemVertical extends LitElement {
         }
 
         #name {
-          font-weight: 500;
+          font-size: 24px;
+          line-height: 32px;
+          color: #424242;
+          letter-spacing: .28px;
+          text-decoration:none;
         }
         
         #author {
@@ -80,8 +84,9 @@ class HTElementsCatalogListItemVertical extends LitElement {
         }
 
         #price {
-          font-size: 16px;
-          font-weight:600;
+          font-size: 18px;
+          color:var(--secondary-text-color);
+          font-weight:500;
           text-transform: uppercase;
         }
 
