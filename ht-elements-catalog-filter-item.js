@@ -32,10 +32,11 @@ class HTElementsCatalogFilterItem extends LitElement {
           display:flex;
           align-items: center;
           justify-content: space-between;
-          height:35px;
+          min-height:35px;
         }
 
         #number {
+          margin-left:16px;
           color:var(--secondary-text-color);
         }
 

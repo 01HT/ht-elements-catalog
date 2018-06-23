@@ -39,9 +39,7 @@ class HTElementsCatalog extends LitElement {
         #main ht-elements-catalog-filter {
           display:flex;
           position:relative;
-          width:300px;
-          min-width: 300px;
-          margin-right:32px;
+          width:100%;
         }
 
         ht-elements-catalog-actions {
@@ -49,7 +47,7 @@ class HTElementsCatalog extends LitElement {
         }
 
         ht-elements-catalog-selected-filters {
-          margin-top:16px;
+          margin-top:32px;
           width:100%;
         }
 
@@ -66,17 +64,16 @@ class HTElementsCatalog extends LitElement {
         }
 
         #main {
-          display: flex;
-          align-items: flex-start;
+          display: grid;
+          grid-template-columns: 0.25fr 1fr;
           width:100%;
           margin-top:32px;
+          grid-gap:32px;
         }
 
         #list {
           display:flex;
-          flex-wrap:wrap;
-          position:relative;
-          width:100%;
+          flex-direction:column;
         }
 
         #spinner-container {
@@ -89,12 +86,17 @@ class HTElementsCatalog extends LitElement {
 
 
         @media screen and (max-width:1120px) {
-          #main ht-elements-catalog-filter {
-            margin-right:16px;
+          #main {
+            grid-gap:16px;
           }
         }
 
         @media screen and (max-width:700px) {
+          #main {
+            grid-template-columns: 1fr;
+            grid-gap:0;
+          }
+
           #main ht-elements-catalog-filter {
             display:none;
           }
@@ -203,11 +205,12 @@ class HTElementsCatalog extends LitElement {
   async _getItems(parameters) {
     try {
       this.loading = true;
-      // let response = await window.firebase
-      //   .functions()
-      //   .httpsCallable("dbItemsGetCatalogItems")({
-      //   path: path
-      // });
+      // test function
+      // let data = await callTestHTTPFunction(
+      //   "httpsGetCatalogPageDataIndex",
+      //   parameters
+      // );
+      // real function
       let data = await callFirebaseHTTPFunction({
         name: "httpsGetCatalogPageDataIndex",
         options: {
@@ -218,10 +221,6 @@ class HTElementsCatalog extends LitElement {
           body: JSON.stringify(parameters)
         }
       });
-      // let data = await callTestHTTPFunction(
-      //   "httpsGetCatalogPageDataIndex",
-      //   parameters
-      // );
       await this._setData(data);
       if (this.firstLoading) this.firstLoading = false;
       this.loading = false;

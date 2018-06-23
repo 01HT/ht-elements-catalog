@@ -23,7 +23,7 @@ class HTElementsCatalogListItemVertical extends LitElement {
         }
 
         ht-user-avatar {
-          margin-right:8px;
+          margin-right:16px;
         }
 
 
@@ -34,7 +34,7 @@ class HTElementsCatalogListItemVertical extends LitElement {
         section {
           display:flex;
           align-items:center;
-          margin-top: 25px;
+          margin-top: 16px;
         }
 
         footer {
@@ -46,12 +46,10 @@ class HTElementsCatalogListItemVertical extends LitElement {
 
         #container {
           contain: content;
-          //border-radius:3px;
           display:flex;
           flex-direction: column;
           width:100%;
           overflow:hidden;
-          //background: #fff;
         }
 
         #title {
@@ -65,7 +63,6 @@ class HTElementsCatalogListItemVertical extends LitElement {
           line-height: 32px;
           color: #424242;
           letter-spacing: .28px;
-          text-decoration:none;
         }
         
         #author {
@@ -78,9 +75,17 @@ class HTElementsCatalogListItemVertical extends LitElement {
           margin-left:4px;
         }
 
+        #author span {
+          margin-left:4px;
+        }
+
         #info {
             display: flex;
             flex-direction: column;
+        }
+
+        #info #sales, #info #donations {
+          margin-top: 4px;
         }
 
         #price {
@@ -91,6 +96,11 @@ class HTElementsCatalogListItemVertical extends LitElement {
         }
 
         #sales {
+          font-size:12px;
+          color: var(--secondary-text-color);
+        }
+
+        #donations {
           font-size:12px;
           color: var(--secondary-text-color);
         }
@@ -122,19 +132,25 @@ class HTElementsCatalogListItemVertical extends LitElement {
     }</a>
               <div id="author">от <a href="/user/${data.usersData.nickname}">${
       data.usersData.displayName
-    }</a></div>
+    }</a><span>|</span><a href="/catalog/${this._getRootCategory(
+      data.categories
+    ).toLowerCase()}">${this._getRootCategory(data.categories)}
+    </a></div>
             </div>
           </section>
           <footer>
           <div id="info">
             <div id="price" style=${
-              this.getPrice(data.price) === "Free"
+              this._getPrice(data.price) === "Free"
                 ? "color:var(--accent-color);"
                 : ""
-            }>${this.getPrice(data.price)}</div>
+            }>${this._getPrice(data.price)}</div>
             <div id="sales" hidden?=${
               data.sales === 0 ? true : false
             }>Продажи: ${data.sales}${view}</div>
+            <div id="donations" hidden?=${
+              data.donations === 0 ? true : false
+            }>Поддержка: ${data.donations}$ (${data.donationsAmount})</div>
           </div>
           <div id="actions">
             <slot name="actions"></slot>
@@ -161,9 +177,17 @@ class HTElementsCatalogListItemVertical extends LitElement {
     this.data.usersData = {};
   }
 
-  getPrice(price) {
+  _getPrice(price) {
     if (price === 0) return "Free";
     return "$" + price;
+  }
+
+  _getRootCategory(categories) {
+    for (let categoryId in categories) {
+      if (categories[categoryId].parentId === "root")
+        return categories[categoryId].name;
+    }
+    return "";
   }
 }
 

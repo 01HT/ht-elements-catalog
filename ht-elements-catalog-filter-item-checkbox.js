@@ -10,7 +10,6 @@ class HTElementsCatalogFilterItemCheckbox extends LitElement {
           display: block;
           position:relative;
           box-sizing:border-box;
-          overflow:hidden;
         }
 
         a {
@@ -26,12 +25,13 @@ class HTElementsCatalogFilterItemCheckbox extends LitElement {
         #container {
           display:flex;
           justify-content: space-between;
-          padding-left:8px;
+          margin-left:8px;
           align-items: center;
-          height:35px;
+          min-height:35px;
         }
 
         #number {
+          margin-left:16px;
           color:var(--secondary-text-color);
         }
       </style>
@@ -67,8 +67,7 @@ class HTElementsCatalogFilterItemCheckbox extends LitElement {
   getChecked() {
     if (this.data.name === undefined || !this.parameters[this.type])
       return false;
-    if (this.parameters[this.type].indexOf(this.data.name.toLowerCase()) !== -1)
-      return true;
+    if (this.parameters[this.type].indexOf(this.data.name) !== -1) return true;
     return false;
   }
 
@@ -76,7 +75,7 @@ class HTElementsCatalogFilterItemCheckbox extends LitElement {
     let path = "";
     if (this.data.name === undefined) return;
     parameters = JSON.parse(JSON.stringify(parameters));
-    let name = this.data.name.toLowerCase();
+    let name = this.data.name;
     let isChecked = this.getChecked();
     let param = parameters[this.type];
     if (isChecked) {

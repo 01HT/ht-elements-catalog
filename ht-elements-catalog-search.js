@@ -3,6 +3,7 @@ import { LitElement, html } from "@polymer/lit-element";
 import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
 import "@polymer/paper-icon-button";
 import "@polymer/paper-button";
+import "./ht-elements-catalog-search-speech-mic.js";
 import { installMediaQueryWatcher } from "pwa-helpers/media-query.js";
 class HTElementsCatalogSearch extends LitElement {
   _render({ parameters, opened, clearButtonVisible }) {
@@ -16,41 +17,16 @@ class HTElementsCatalogSearch extends LitElement {
 
         input {
           outline: none;
+          border:none;
           width: 100%;
           font-size: 16px;
           color: #1a1a1a;
-          border: 1px solid var(--divider-color);
-          border-right: none;
-          border-radius:3px;
-          border-top-right-radius:0;
-          border-bottom-right-radius:0;
-          background-color: #fff;
-          padding: 16px 0 16px 24px;
-        }
-
-        paper-button {
-          margin:0;
-          width:88px;
-          min-width:88px;
-          padding: 8px 24px;
-          background: var(--accent-color);
-          color:#fff;
-          font-weight:500;
-          border-top-left-radius:0;
-          border-bottom-left-radius:0;
-        }
-
-        #actions {
-          display: flex;
-          align-items: center;
-          background: #fff;
-          border: 1px solid var(--divider-color);
-          border-left:none;
-          border-right:none;
-          box-sizing:border-box;
+          height:54px;
+          margin-left:16px;
         }
 
         paper-icon-button {
+          min-width:40px;
           margin:0 2px;
           padding:0 8px;
           color: var(--secondary-text-color);
@@ -58,10 +34,19 @@ class HTElementsCatalogSearch extends LitElement {
 
         #container {
           display: flex;
+          align-items:center;
+          border-radius:2px;
+          box-shadow:0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+          transition: box-shadow .15s cubic-bezier(.4,0,.2,1);
+          padding:0 8px;
+          height: 56px;
+        }
+
+        #container:hover {
+          //box-shadow:0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
         }
 
         #filter-container {
-          border: 1px solid #ddd;
           position: absolute;
           width: calc(100% - 34px);
           z-index: 9;
@@ -105,12 +90,20 @@ class HTElementsCatalogSearch extends LitElement {
       <iron-iconset-svg size="24" name="ht-elements-catalog-search">
           <svg>
               <defs>
+                <g id="search"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></g>
                 <g id="tune"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"></path></g>
-                <g id="close"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></g>
+                <g id="arrow-back"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></g>
               </defs>
           </svg>
       </iron-iconset-svg>
       <div id="container">
+       <paper-icon-button id="search-button" toggles icon="ht-elements-catalog-search:search" on-click=${e => {
+         this._search();
+       }} hidden?=${clearButtonVisible ? true : false}></paper-icon-button>
+       <paper-icon-button id="clear-toggle" toggles icon="ht-elements-catalog-search:arrow-back" on-click=${e => {
+         this._clear();
+       }} hidden?=${clearButtonVisible ? false : true}></paper-icon-button>
+        
         <input type="text" autofocus value="${
           parameters.search ? parameters.search : ""
         }" placeholder="Поиск" on-change=${e => {
@@ -118,21 +111,17 @@ class HTElementsCatalogSearch extends LitElement {
     }} on-keyup=${e => {
       this._onInputKeyUp(e);
     }}> 
-        <div id="actions">
-        <paper-icon-button id="clear-toggle" toggles icon="ht-elements-catalog-search:close" on-click=${e => {
-          this._clear();
-        }} hidden?=${clearButtonVisible ? false : true}></paper-icon-button>
+
+        <ht-elements-catalog-search-speech-mic continuous interimResults on-result="${e =>
+          this._micResult(e)}"></ht-elements-catalog-search-speech-mic>
+
         <paper-icon-button id="filter-toggle" toggles icon="ht-elements-catalog-search:${
           opened ? "close" : "tune"
         }" on-click=${e => {
       this.toggleFilter();
     }}>
         </paper-icon-button>
-        </div>
-        <paper-button onclick=${e => {
-          this._search();
-        }}>Поиск</paper-button>
-
+       
         <div id="filter-container" hidden?=${opened ? false : true}>
           <slot name="filter"></slot>
         </div>
@@ -158,6 +147,7 @@ class HTElementsCatalogSearch extends LitElement {
     this.parameters = {};
     this.opened = false;
     this.clearButtonVisible = false;
+    this._currentTimerId = undefined;
   }
 
   ready() {
@@ -180,22 +170,27 @@ class HTElementsCatalogSearch extends LitElement {
   }
 
   _onInputChange() {
-    console.log(" _onInputChange");
     this._updateClearButtonState();
   }
 
   _onInputKeyUp(e) {
-    console.log("_onInputKeyUp");
+    this._updateClearButtonState();
+    if (this._currentTimerId !== undefined) {
+      clearTimeout(this._currentTimerId);
+      this._currentTimerId = undefined;
+    }
     if (e.keyCode === 13) {
       this._search();
       return;
     }
-    this._updateClearButtonState();
+    this._currentTimerId = setTimeout(_ => {
+      this._search();
+    }, 400);
   }
 
   _search() {
     let parameters = Object.assign({}, this.parameters);
-    parameters.search = this.input.value.trim().toLowerCase();
+    parameters.search = this.input.value.trim();
     this.dispatchEvent(
       new CustomEvent("parameters-changed", {
         bubbles: true,
@@ -221,6 +216,16 @@ class HTElementsCatalogSearch extends LitElement {
         detail: parameters
       })
     );
+  }
+
+  _micResult(e) {
+    const d = e.detail;
+    const value = d.completeTranscript;
+    if (d.isFinal) {
+      this.input.value = value.trim();
+      this._search();
+      this._updateClearButtonState();
+    }
   }
 }
 

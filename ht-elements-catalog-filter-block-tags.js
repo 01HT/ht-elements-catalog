@@ -55,7 +55,7 @@ class HTElementsCatalogFiterBlockTags extends LitElement {
     );
     selectedCheckboxes.forEach(checkbox => {
       if (checkbox.isChecked()) {
-        selected.push(checkbox.data.name.toLowerCase());
+        selected.push(checkbox.data.name);
       }
     });
     return selected.join(",");

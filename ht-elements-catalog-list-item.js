@@ -54,9 +54,15 @@ class HTElementsCatalogListItem extends LitElement {
       view === "list" ? false : true
     }>
       <div id="actions" slot="actions">
-        <paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart" hidden?=${
-          data && data.price === 0 ? true : false
-        }></paper-icon-button>
+      ${
+        this._showSpinner(cartChangeInProcess)
+          ? html`<paper-spinner active></paper-spinner>`
+          : html`<paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart" on-click=${_ => {
+              this._addToCart();
+            }} hidden?=${
+              data && data.price === 0 ? true : false
+            }></paper-icon-button>`
+      }
       </div>
       </ht-elements-catalog-list-item-horizontal>
       <ht-elements-catalog-list-item-vertical data=${data} hidden?=${
@@ -71,8 +77,6 @@ class HTElementsCatalogListItem extends LitElement {
               data && data.price === 0 ? true : false
             }></paper-icon-button>`
       }
-  
-        
       </div></ht-elements-catalog-list-item-vertical>
 `;
   }

@@ -27,7 +27,7 @@ class HTElementsCatalogFilterSection extends LitElement {
             color: #3e3f3d;
             font-weight: 500;
             cursor:pointer;
-            padding:0 0 16px 8px;
+            padding:0 8px 16px 8px;
             user-select: none;
         }
 

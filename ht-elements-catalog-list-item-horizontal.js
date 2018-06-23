@@ -37,11 +37,10 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
             display:flex;
             flex-direction:column;
             flex: 3 0;
-            padding:16px;
+            padding: 0 16px;
         }
 
         footer {
-          margin:16px;
           padding-left:16px;
           border-left: 1px solid var(--divider-color);
           display: flex;
@@ -51,47 +50,41 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
 
         #container {
           contain: content;
-          border-radius:3px;
           display:flex;
           width:100%;
           overflow:hidden;
           background: #fff;
-          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
         }
 
         #name {
-            max-height: 50px;
-            font-size: 16px;
-            font-weight: 500;
-            line-height: 1.3;
-            margin-bottom:8px;
-            text-overflow: ellipsis;
-            overflow: hidden;
+          font-size: 24px;
+          line-height: 32px;
+          color: #424242;
+          letter-spacing: .28px;
         }
         
         #author {
           display:flex;
           position:relative;
           align-items:center;
-          margin:0;
+          margin-top:8px;
           color: var(--secondary-text-color);
+        }
+
+        #author span {
+          margin: 0 4px;
         }
 
         #price {
-          font-size: 16px;
-          font-weight:600;
+          font-size: 18px;
+          color:var(--secondary-text-color);
+          font-weight:500;
           text-transform: uppercase;
+          margin-bottom: 16px;
         }
-
-        #updated {
-          margin-top: 16px;
-          font-size: 12px;
-          color: var(--secondary-text-color);
-        }
-
-        #sales {
+        
+        #sales, #donations, #updated {
           margin-top: 4px;
-          font-size:12px;
           color: var(--secondary-text-color);
         }
 
@@ -115,20 +108,27 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
               data.usersData
             } size="32" verifiedSize$=${12}></ht-user-avatar><a href="/user/${
       data.usersData.nickname
-    }">${data.usersData.displayName}</a>
+    }">${data.usersData.displayName}</a><span>|</span>
+    <a href="/catalog/${this._getRootCategory(
+      data.categories
+    ).toLowerCase()}">${this._getRootCategory(data.categories)}
+      </a>
                 </div>
           </section>
           <footer>
           <div id="price" style=${
-            this.getPrice(data.price) === "Free"
+            this._getPrice(data.price) === "Free"
               ? "color:var(--accent-color);"
               : ""
-          }>${this.getPrice(data.price)}</div>
-          <div id="updated">Последнее обновление: ${
-            data.updated ? new Date(data.updated).toLocaleDateString() : ""
-          }</div>
+          }>${this._getPrice(data.price)}</div>
           <div id="sales" hidden?=${data.sales === 0 ? true : false}>Продажи: ${
       data.sales
+    }</div>
+    <div id="donations" hidden?=${
+      data.donations === 0 ? true : false
+    }>Поддержка: ${data.donations}$ (${data.donationsAmount})</div>
+    <div id="updated">Обновлено: ${
+      data.updated ? new Date(data.updated).toLocaleDateString() : ""
     }</div>
           <slot name="actions"></slot>
           </footer>
@@ -152,9 +152,17 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
     this.data.usersData = {};
   }
 
-  getPrice(price) {
+  _getPrice(price) {
     if (price === 0) return "Free";
     return "$" + price;
+  }
+
+  _getRootCategory(categories) {
+    for (let categoryId in categories) {
+      if (categories[categoryId].parentId === "root")
+        return categories[categoryId].name;
+    }
+    return "";
   }
 }
 
