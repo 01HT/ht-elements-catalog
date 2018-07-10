@@ -1,7 +1,7 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
 import { repeat } from "lit-html/lib/repeat.js";
-import "ht-elements-catalog/ht-elements-catalog-list-item.js";
+import "./ht-elements-catalog-list-item.js";
 import { installMediaQueryWatcher } from "pwa-helpers/media-query.js";
 class HTElementsCatalogList extends LitElement {
   _render({ items, notFound, view, smallScreen, cartChangeInProcess }) {

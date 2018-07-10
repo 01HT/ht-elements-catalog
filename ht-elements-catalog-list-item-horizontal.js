@@ -1,7 +1,7 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-import "ht-image";
-import "ht-user-avatar";
+import "@01ht/ht-image";
+import "@01ht/ht-user-avatar";
 class HTElementsCatalogListItemHorizontal extends LitElement {
   _render({ data }) {
     return html`
