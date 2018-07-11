@@ -13,7 +13,7 @@ import {
 import {
   callTestHTTPFunction,
   callFirebaseHTTPFunction
-} from "ht-client-helper-functions";
+} from "@01ht/ht-client-helper-functions";
 class HTElementsCatalog extends LitElement {
   _render({ firstLoading, loading, parameters, view, cartChangeInProcess }) {
     return html`

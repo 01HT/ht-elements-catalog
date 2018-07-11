@@ -1,7 +1,7 @@
 
 {
   "name": "@01ht/ht-elements-catalog",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "ht-elements-catalog.js",
   "repository": "01ht/ht-elements-catalog",
   "author": "01ht Ltd",
