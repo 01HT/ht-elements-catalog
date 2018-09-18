@@ -1,15 +1,14 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-import { repeat } from "lit-html/lib/repeat.js";
+import { repeat } from "lit-html/directives/repeat.js";
 import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
 import "@polymer/iron-icon";
 import "@01ht/ht-chip";
-import {
-  getPathFromParameters,
-  getParametersFromPath
-} from "./ht-elements-catalog-path-parser.js";
+import { getPathFromParameters } from "./ht-elements-catalog-path-parser.js";
+
 class HTElementsCatalogSelectedFilters extends LitElement {
-  _render({ params, items, number }) {
+  render() {
+    const { params, items, number } = this;
     return html`
       <style>
         :host {
@@ -78,16 +77,13 @@ class HTElementsCatalogSelectedFilters extends LitElement {
       </iron-iconset-svg>
       <div id="container">
         <div id="all-items">Всего элементов: <span id="number">${number}</span></div>
-        <div id="categories" hidden?=${
-          this._showCategories(params) ? false : true
-        }></div>
+        <div id="categories" ?hidden=${!this._showCategories(params)}></div>
         ${repeat(
           items,
-          item =>
-            html`<a class="item" href=${item.href}> 
-              <ht-chip label=${item.name} close shadow icon?=${
-              item.type === "sort" ? true : false
-            }>
+          item => html`<a class="item" href=${item.href}> 
+              <ht-chip label=${item.name} close shadow image=${
+            item.imageURL
+          } ?icon=${item.type === "sort"}>
                 ${
                   item.type === "sort"
                     ? html`<div slot="avatar">
@@ -95,12 +91,19 @@ class HTElementsCatalogSelectedFilters extends LitElement {
                 </div>`
                     : ""
                 }
+                ${
+                  item.imageURL
+                    ? html`<div slot="avatar">
+                  <iron-icon src=${item.imageURL}></iron-icon>
+                </div>`
+                    : ``
+                }
               </ht-chip>
             </a>`
         )}
-        <a id="reset" href="/catalog" hidden?=${
-          this._showClearAll(params) ? false : true
-        }>Очистить все</a>
+        <a id="reset" href="/catalog" ?hidden=${!this._showClearAll(
+          params
+        )}>Очистить все</a>
       </div>
 `;
   }
@@ -111,9 +114,10 @@ class HTElementsCatalogSelectedFilters extends LitElement {
 
   static get properties() {
     return {
-      params: Object,
-      items: Array,
-      number: Number
+      params: { type: Object },
+      items: { type: Array },
+      number: { type: Number },
+      parameters: { type: Object }
     };
   }
 
@@ -122,20 +126,23 @@ class HTElementsCatalogSelectedFilters extends LitElement {
     this.params = {};
     this.items = [];
     this.number = 0;
+    this.filterData = {};
   }
 
-  ready() {
-    super.ready();
+  firstUpdated() {
     this.shadowRoot.addEventListener("close-chip", e => {
       e.stopPropagation();
     });
   }
 
   set data(data) {
-    this.number = data;
+    this.number = data.count;
+    this.filterData = data.filter;
+    this.updateItems();
   }
 
   set parameters(parameters) {
+    parameters = JSON.parse(parameters);
     if (Object.keys(parameters).length === 0) {
       this.params = {};
       this.items = [];
@@ -150,6 +157,7 @@ class HTElementsCatalogSelectedFilters extends LitElement {
   }
 
   async updateItems() {
+    if (Object.keys(this.filterData).length === 0) return;
     let items = [];
     let parameters = JSON.parse(JSON.stringify(this.params));
     // categories
@@ -188,9 +196,17 @@ class HTElementsCatalogSelectedFilters extends LitElement {
             let index = newParameters[name].indexOf(tag);
             newParameters[name].splice(index, 1);
             let href = await getPathFromParameters(newParameters);
+            let imageURL = null;
+            for (let index in this.filterData[name]) {
+              let item = this.filterData[name][index];
+              if (item.name.toLowerCase() === tag.toLowerCase()) {
+                imageURL = item.imageURL;
+              }
+            }
             let item = {
               name: tag,
-              href: href
+              href: href,
+              imageURL: imageURL
             };
             items.push(item);
           }
@@ -228,9 +244,17 @@ class HTElementsCatalogSelectedFilters extends LitElement {
           delete newParameters["platform"];
           let name = parameters["platform"];
           let href = await getPathFromParameters(newParameters);
+          let imageURL = null;
+          for (let index in this.filterData["platform"]) {
+            let item = this.filterData["platform"][index];
+            if (item.name.toLowerCase() === name.toLowerCase()) {
+              imageURL = item.imageURL;
+            }
+          }
           let item = {
             name: name,
-            href: href
+            href: href,
+            imageURL: imageURL
           };
           items.push(item);
         }

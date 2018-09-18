@@ -3,8 +3,10 @@ import { LitElement, html } from "@polymer/lit-element";
 import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
 import "@polymer/iron-icon/iron-icon.js";
 import "@polymer/iron-collapse";
+
 class HTElementsCatalogFilterSection extends LitElement {
-  _render({ name, opened }) {
+  render() {
+    const { name, opened } = this;
     return html`
       <style>
         :host {
@@ -31,10 +33,15 @@ class HTElementsCatalogFilterSection extends LitElement {
             user-select: none;
         }
 
+        iron-collapse {
+          overflow:hidden;
+        }
+
         #scroll {
           overflow-y: auto;
           overflow-x: hidden;
           max-height: 214px;
+          height:auto;
           padding-right: 16px;
           margin-bottom:16px;
         }
@@ -60,17 +67,15 @@ class HTElementsCatalogFilterSection extends LitElement {
       </iron-iconset-svg>
 
       <div id="container">
-        <div id="header" onclick=${e => {
+        <div id="header" @click=${e => {
           this.toggle();
-        }}><div>${
-      this.name
-    }</div><iron-icon icon="ht-elements-catalog-filter-section:${
+        }}><div>${name}</div><iron-icon icon="ht-elements-catalog-filter-section:${
       opened ? "expand-less" : "expand-more"
     }"></iron-icon></div>
-        <iron-collapse opened=${opened}>
-            <div id="scroll">
+        <iron-collapse ?opened=${opened}>
+          <div id="scroll">
               <slot></slot>
-            </div>
+          </div>
         </iron-collapse>
       </div>
 `;
@@ -82,8 +87,8 @@ class HTElementsCatalogFilterSection extends LitElement {
 
   static get properties() {
     return {
-      name: String,
-      opened: Boolean
+      name: { type: String },
+      opened: { type: Boolean }
     };
   }
 

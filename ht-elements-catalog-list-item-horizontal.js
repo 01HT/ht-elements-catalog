@@ -2,8 +2,12 @@
 import { LitElement, html } from "@polymer/lit-element";
 import "@01ht/ht-image";
 import "@01ht/ht-user-avatar";
+import "@01ht/ht-image-slider";
+import "@01ht/ht-animated-image";
+
 class HTElementsCatalogListItemHorizontal extends LitElement {
-  _render({ data }) {
+  render() {
+    const { data } = this;
     return html`
       <style>
         :host {
@@ -25,12 +29,14 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
         ht-user-avatar {
           margin:0 4px;
         }
-
-
+        
         header {
           flex: 3 0;
-          min-width:310px;
+          min-width: 310px;
+          max-width: 310px;
+          height: 100%;
           overflow: hidden;
+          position: relative;
         }
 
         section {
@@ -49,7 +55,6 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
         }
 
         #container {
-          contain: content;
           display:flex;
           width:100%;
           overflow:hidden;
@@ -58,7 +63,7 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
 
         #name {
           font-size: 24px;
-          line-height: 32px;
+          line-height: 28px;
           color: #424242;
           letter-spacing: .28px;
         }
@@ -94,21 +99,54 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
       </style>
       <article id="container">
           <header>
-            <a href="/item/${data.nameInURL}/${data.itemId}">
-              <ht-image placeholder=${data.thumb_w60} image=${
-      data.thumb_w960
-    } size="16x9"></ht-image>
-            </a>
+            ${
+              data.previewMode === "image"
+                ? html`<a href="/item/${data.nameInURL}/${data.itemId}">
+              <ht-image placeholder=${
+                window.cloudinaryURL
+              }/image/upload/c_scale,f_auto,w_60/v${data.image.version}/${
+                    data.image.public_id
+                  }.jpg image=${
+                    window.cloudinaryURL
+                  }/image/upload/c_scale,f_auto,w_1024/v${data.image.version}/${
+                    data.image.public_id
+                  }.jpg size="16x9"></ht-image>
+            </a>`
+                : ""
+            }
+            ${
+              data.previewMode === "slider"
+                ? html`<ht-image-slider .data=${data.slider} url=${`/item/${
+                    data.nameInURL
+                  }/${data.itemId}`}></ht-image-slider>`
+                : ""
+            }
+            ${
+              data.previewMode === "animated"
+                ? html`<a href="/item/${data.nameInURL}/${
+                    data.itemId
+                  }"><ht-animated-image .data=${
+                    data.animated
+                  }></ht-animated-image></a>`
+                : ""
+            }
+            ${
+              data.previewMode === "youtube"
+                ? html`<ht-elements-item-youtube-preview .data=${
+                    data.youtube
+                  }></ht-elements-item-youtube-preview>`
+                : ""
+            }
           </header>
           <section>
             <a id="name" href="/item/${data.nameInURL}/${data.itemId}">${
       data.name
     }</a>
-            <div id="author">от <ht-user-avatar data=${
-              data.usersData
-            } size="32" verifiedSize$=${12}></ht-user-avatar><a href="/user/${
-      data.usersData.nickname
-    }">${data.usersData.displayName}</a><span>|</span>
+            <div id="author">от <ht-user-avatar .data=${
+              data.authorData
+            } size="32" verifiedSize=${12}></ht-user-avatar><a href="/${
+      data.authorData.isOrg ? "organization" : "user"
+    }/${data.authorData.uid}">${data.authorData.displayName}</a><span>|</span>
     <a href="/catalog/${this._getRootCategory(
       data.categories
     ).toLowerCase()}">${this._getRootCategory(data.categories)}
@@ -121,11 +159,11 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
               ? "color:var(--accent-color);"
               : ""
           }>${this._getPrice(data.price)}</div>
-          <div id="sales" hidden?=${data.sales === 0 ? true : false}>Продажи: ${
+          <div id="sales" ?hidden=${data.sales === 0 ? true : false}>Продажи: ${
       data.sales
     }</div>
-    <div id="donations" hidden?=${
-      data.donations === 0 ? true : false
+    <div id="donations" ?hidden=${
+      data.donations === 0 || data.donations === undefined ? true : false
     }>Поддержка: ${data.donations}$ (${data.donationsAmount})</div>
     <div id="updated">Обновлено: ${
       data.updated ? new Date(data.updated).toLocaleDateString() : ""
@@ -142,14 +180,14 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
 
   static get properties() {
     return {
-      data: Object
+      data: { type: Object }
     };
   }
 
   constructor() {
     super();
     this.data = {};
-    this.data.usersData = {};
+    this.data.authorData = {};
   }
 
   _getPrice(price) {

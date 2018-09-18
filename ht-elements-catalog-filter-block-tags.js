@@ -1,9 +1,12 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-import { repeat } from "lit-html/lib/repeat.js";
+import { repeat } from "lit-html/directives/repeat.js";
 import "./ht-elements-catalog-filter-item-checkbox.js";
+import "./ht-elements-catalog-filter-block-no-data.js";
+
 class HTElementsCatalogFiterBlockTags extends LitElement {
-  _render({ items, parameters }) {
+  render() {
+    const { parameters, items } = this;
     return html`
       <style>
         :host {
@@ -25,8 +28,13 @@ class HTElementsCatalogFiterBlockTags extends LitElement {
       ${repeat(
         items,
         item =>
-          html`<ht-elements-catalog-filter-item-checkbox data=${item} parameters=${parameters} type="tags"></ht-elements-catalog-filter-item-checkbox>`
+          html`<ht-elements-catalog-filter-item-checkbox .data=${item} .parameters=${parameters} type="tags"></ht-elements-catalog-filter-item-checkbox>`
       )}
+      ${
+        items.length === 0
+          ? html`<ht-elements-catalog-filter-block-no-data></ht-elements-catalog-filter-block-no-data>`
+          : ""
+      }
       </div>
 `;
   }
@@ -37,8 +45,8 @@ class HTElementsCatalogFiterBlockTags extends LitElement {
 
   static get properties() {
     return {
-      items: Array,
-      parameters: Object
+      items: { type: Array },
+      parameters: { type: Object }
     };
   }
 
@@ -46,6 +54,30 @@ class HTElementsCatalogFiterBlockTags extends LitElement {
     super();
     this.items = [];
     this.parameters = {};
+  }
+
+  _sortCheckedFirst(items, parameters, block) {
+    if (Object.keys(parameters).length === 0) return items;
+    let sorted = items;
+    let filterData = parameters[block];
+    if (filterData) {
+      sorted = [];
+      for (let index in items) {
+        let item = items[index];
+        let unshift = false;
+        for (let index in filterData) {
+          let filterItem = filterData[index];
+          if (filterItem.toLowerCase() === item.name.toLowerCase())
+            unshift = true;
+        }
+        if (unshift) {
+          sorted.unshift(item);
+        } else {
+          sorted.push(item);
+        }
+      }
+    }
+    return sorted;
   }
 
   get data() {
@@ -62,6 +94,7 @@ class HTElementsCatalogFiterBlockTags extends LitElement {
   }
 
   set data(data) {
+    data = this._sortCheckedFirst(data, this.parameters, "tags");
     this.items = data;
   }
 }

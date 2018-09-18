@@ -6,8 +6,9 @@ import "./ht-elements-catalog-filter-block-platform.js";
 import "./ht-elements-catalog-filter-block-browsers.js";
 import "./ht-elements-catalog-filter-block-tools.js";
 import "./ht-elements-catalog-filter-block-tags.js";
+
 class HTElementsCatalogFilter extends LitElement {
-  _render({ parameters }) {
+  render() {
     return html`
       <style>
         :host {
@@ -28,22 +29,36 @@ class HTElementsCatalogFilter extends LitElement {
           width:100%;
           margin-bottom:16px;
         }
+
+        [hidden] {
+          display:none;
+        }
       </style>
       <div id="container">
-        <ht-elements-catalog-filter-section name$=${"Категория"}>
-          <ht-elements-catalog-filter-block-categories parameters=${parameters}></ht-elements-catalog-filter-block-categories>
+        <ht-elements-catalog-filter-section name="Категория">
+          <ht-elements-catalog-filter-block-categories .parameters=${
+            this.parameters
+          }></ht-elements-catalog-filter-block-categories>
         </ht-elements-catalog-filter-section>
-        <ht-elements-catalog-filter-section name$=${"Платформа"}>
-          <ht-elements-catalog-filter-block-platform parameters=${parameters}></ht-elements-catalog-filter-block-platform>
+        <ht-elements-catalog-filter-section name="Платформа">
+          <ht-elements-catalog-filter-block-platform .parameters=${
+            this.parameters
+          }></ht-elements-catalog-filter-block-platform>
         </ht-elements-catalog-filter-section>
-        <ht-elements-catalog-filter-section name$=${"Совместимые браузеры"}>
-          <ht-elements-catalog-filter-block-browsers parameters=${parameters}></ht-elements-catalog-filter-block-browsers>
+        <ht-elements-catalog-filter-section name="Совместимые браузеры">
+          <ht-elements-catalog-filter-block-browsers .parameters=${
+            this.parameters
+          }></ht-elements-catalog-filter-block-browsers>
         </ht-elements-catalog-filter-section>
-        <ht-elements-catalog-filter-section name$=${"Инструменты"}>
-          <ht-elements-catalog-filter-block-tools parameters=${parameters}></ht-elements-catalog-filter-block-tools>
+        <ht-elements-catalog-filter-section name="Инструменты">
+          <ht-elements-catalog-filter-block-tools .parameters=${
+            this.parameters
+          }></ht-elements-catalog-filter-block-tools>
         </ht-elements-catalog-filter-section>
-        <ht-elements-catalog-filter-section name$=${"Теги"}>
-          <ht-elements-catalog-filter-block-tags parameters=${parameters}></ht-elements-catalog-filter-block-tags>
+        <ht-elements-catalog-filter-section name="Теги">
+          <ht-elements-catalog-filter-block-tags .parameters=${
+            this.parameters
+          }></ht-elements-catalog-filter-block-tags>
         </ht-elements-catalog-filter-section>
       </div>
 `;
@@ -55,7 +70,7 @@ class HTElementsCatalogFilter extends LitElement {
 
   static get properties() {
     return {
-      parameters: Object
+      parameters: { type: Object }
     };
   }
 

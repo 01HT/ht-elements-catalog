@@ -2,23 +2,19 @@
 import { LitElement, html } from "@polymer/lit-element";
 import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
 import "@polymer/paper-icon-button";
-import "@polymer/paper-spinner/paper-spinner.js";
+import "@01ht/ht-spinner";
 import "./ht-elements-catalog-list-item-horizontal.js";
 import "./ht-elements-catalog-list-item-vertical.js";
+
 class HTElementsCatalogListItem extends LitElement {
-  _render({ data, view, cartChangeInProcess }) {
+  render() {
+    const { data, view, cartChangeInProcess } = this;
     return html`
       <style>
         :host {
           display: block;
           position:relative;
           box-sizing:border-box;
-        }
-
-        paper-spinner {
-            width: 32px;
-            height: 32px;
-            --paper-spinner-stroke-width: 2px;
         }
 
         #actions {
@@ -50,34 +46,29 @@ class HTElementsCatalogListItem extends LitElement {
               </defs>
           </svg>
       </iron-iconset-svg>
-      <ht-elements-catalog-list-item-horizontal data=${data} hidden?=${
-      view === "list" ? false : true
-    }>
+      ${
+        view === "list"
+          ? html`<ht-elements-catalog-list-item-horizontal .data=${data}>
       <div id="actions" slot="actions">
       ${
         this._showSpinner(cartChangeInProcess)
-          ? html`<paper-spinner active></paper-spinner>`
-          : html`<paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart" on-click=${_ => {
+          ? html`<ht-spinner icon-button></ht-spinner>`
+          : html`<paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart" @click=${_ => {
               this._addToCart();
-            }} hidden?=${
-              data && data.price === 0 ? true : false
-            }></paper-icon-button>`
+            }} ?hidden=${data && data.price === 0}></paper-icon-button>`
       }
       </div>
-      </ht-elements-catalog-list-item-horizontal>
-      <ht-elements-catalog-list-item-vertical data=${data} hidden?=${
-      view === "grid" ? false : true
-    }><div id="actions" slot="actions">
+      </ht-elements-catalog-list-item-horizontal>`
+          : html`<ht-elements-catalog-list-item-vertical .data=${data}><div id="actions" slot="actions">
       ${
         this._showSpinner(cartChangeInProcess)
-          ? html`<paper-spinner active></paper-spinner>`
-          : html`<paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart" on-click=${_ => {
+          ? html`<ht-spinner icon-button></ht-spinner>`
+          : html`<paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart" @click=${_ => {
               this._addToCart();
-            }} hidden?=${
-              data && data.price === 0 ? true : false
-            }></paper-icon-button>`
+            }} ?hidden=${data && data.price === 0}></paper-icon-button>`
       }
-      </div></ht-elements-catalog-list-item-vertical>
+      </div></ht-elements-catalog-list-item-vertical>`
+      }
 `;
   }
 
@@ -87,9 +78,9 @@ class HTElementsCatalogListItem extends LitElement {
 
   static get properties() {
     return {
-      data: Object,
-      view: String,
-      cartChangeInProcess: Boolean
+      data: { type: Object },
+      view: { type: String },
+      cartChangeInProcess: { type: Boolean }
     };
   }
 

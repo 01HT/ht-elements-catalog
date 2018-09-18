@@ -1,6 +1,6 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-import "@polymer/paper-spinner/paper-spinner.js";
+import "@01ht/ht-spinner";
 import "./ht-elements-catalog-search.js";
 import "./ht-elements-catalog-filter.js";
 import "./ht-elements-catalog-list.js";
@@ -11,24 +11,25 @@ import {
   getPathFromParameters
 } from "./ht-elements-catalog-path-parser.js";
 import {
-  callTestHTTPFunction,
+  // callTestHTTPFunction,
   callFirebaseHTTPFunction
 } from "@01ht/ht-client-helper-functions";
+
 class HTElementsCatalog extends LitElement {
-  _render({ firstLoading, loading, parameters, view, cartChangeInProcess }) {
+  render() {
+    const {
+      firstLoading,
+      loading,
+      parameters,
+      view,
+      cartChangeInProcess
+    } = this;
     return html`
       <style>
         :host {
           display: block;
           position:relative;
           box-sizing:border-box;
-        }
-
-        paper-spinner {
-          --paper-spinner-stroke-width: 4px;
-          margin-top:64px;
-          width:64px;
-          height:64px;
         }
 
         ht-elements-catalog-search {
@@ -65,7 +66,7 @@ class HTElementsCatalog extends LitElement {
 
         #main {
           display: grid;
-          grid-template-columns: 0.25fr 1fr;
+          grid-template-columns: 0.3fr 1fr;
           width:100%;
           margin-top:32px;
           grid-gap:32px;
@@ -76,14 +77,14 @@ class HTElementsCatalog extends LitElement {
           flex-direction:column;
         }
 
-        #spinner-container {
+        .spinner-container {
           display: flex;
           flex-direction: column;
           width: 100%;
           align-items: center;
           align-content: center;
+          margin-top:64px;
         }
-
 
         @media screen and (max-width:1120px) {
           #main {
@@ -107,18 +108,22 @@ class HTElementsCatalog extends LitElement {
         }
       </style>
       <div id="container">
-        <ht-elements-catalog-search parameters=${parameters}>
-          <ht-elements-catalog-filter slot="filter" parameters=${parameters}></ht-elements-catalog-filter>
+        <ht-elements-catalog-search .parameters=${parameters}>
+          <ht-elements-catalog-filter slot="filter" .parameters=${parameters}></ht-elements-catalog-filter>
         </ht-elements-catalog-search>
-        <paper-spinner active?=${firstLoading} hidden?=${!firstLoading}></paper-spinner>
-        <section id="main" hidden?=${firstLoading}>
-          <ht-elements-catalog-filter parameters=${parameters}></ht-elements-catalog-filter>
+        <div class="spinner-container" ?hidden=${!firstLoading}>
+          <ht-spinner></ht-spinner>
+        </div>
+        <section id="main" ?hidden=${firstLoading}>
+          <ht-elements-catalog-filter .parameters=${parameters}></ht-elements-catalog-filter>
           <section id="list">
-            <ht-elements-catalog-actions view=${view} parameters=${parameters}></ht-elements-catalog-actions>
-            <ht-elements-catalog-selected-filters parameters=${parameters}></ht-elements-catalog-selected-filters>
-            <ht-elements-catalog-list view=${view} hidden?=${loading} cartChangeInProcess=${cartChangeInProcess}></ht-elements-catalog-list>
-            <div id="spinner-container" hidden?=${!loading}>
-              <paper-spinner active?=${loading}></paper-spinner>
+            <ht-elements-catalog-actions .view=${view} .parameters=${parameters}></ht-elements-catalog-actions>
+            <ht-elements-catalog-selected-filters parameters=${JSON.stringify(
+              parameters
+            )}></ht-elements-catalog-selected-filters>
+            <ht-elements-catalog-list view=${view} ?hidden=${loading} cartChangeInProcess=${cartChangeInProcess}></ht-elements-catalog-list>
+            <div class="spinner-container" ?hidden=${!loading}>
+              <ht-spinner></ht-spinner>
             </div>
           </section>
         </section>
@@ -132,12 +137,12 @@ class HTElementsCatalog extends LitElement {
 
   static get properties() {
     return {
-      path: String,
-      firstLoading: Boolean,
-      loading: Boolean,
-      parameters: Object,
-      view: String,
-      cartChangeInProcess: Boolean
+      path: { type: String },
+      firstLoading: { type: Boolean },
+      loading: { type: Boolean },
+      parameters: { type: Object },
+      view: { type: String },
+      cartChangeInProcess: { type: Boolean }
     };
   }
 
@@ -151,8 +156,7 @@ class HTElementsCatalog extends LitElement {
     view === null ? (this.view = "grid") : (this.view = view);
   }
 
-  ready() {
-    super.ready();
+  firstUpdated() {
     this.shadowRoot.addEventListener("parameters-changed", e => {
       e.stopPropagation();
       const parameters = e.detail;
@@ -207,12 +211,13 @@ class HTElementsCatalog extends LitElement {
       this.loading = true;
       // test function
       // let data = await callTestHTTPFunction(
-      //   "httpsGetCatalogPageDataIndex",
+      //   "httpsItemsGetCatalogPageDataIndex",
       //   parameters
       // );
       // real function
+      // callTestHTTPFunction;
       let data = await callFirebaseHTTPFunction({
-        name: "httpsGetCatalogPageDataIndex",
+        name: "httpsItemsGetCatalogPageDataIndex",
         options: {
           method: "POST",
           headers: new Headers({
@@ -234,7 +239,7 @@ class HTElementsCatalog extends LitElement {
       this.list.data = data.items;
       this.filter.data = data.filter;
       this.filterInSearch.data = data.filter;
-      this.selectedFilters.data = data.items.length;
+      this.selectedFilters.data = data;
       this.loading = false;
     } catch (err) {
       console.log("_setData: " + err.message);

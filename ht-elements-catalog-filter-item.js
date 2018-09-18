@@ -3,8 +3,10 @@ import { LitElement, html } from "@polymer/lit-element";
 import "@polymer/iron-iconset-svg";
 import "@polymer/iron-icon/iron-icon.js";
 import { getPathFromParameters } from "./ht-elements-catalog-path-parser.js";
+
 class HTElementsCatalogFilterItem extends LitElement {
-  _render({ data, parameters }) {
+  render() {
+    const { data, parameters } = this;
     return html`
       <style>
         :host {
@@ -35,6 +37,19 @@ class HTElementsCatalogFilterItem extends LitElement {
           min-height:35px;
         }
 
+        #inner {
+          display:flex;
+          flex-wrap:wrap;
+          align-items:center;
+        }
+
+        img {
+          margin-right:8px;
+          display:block;
+          width:24px;
+          height:24px;
+        }
+
         #number {
           margin-left:16px;
           color:var(--secondary-text-color);
@@ -52,12 +67,14 @@ class HTElementsCatalogFilterItem extends LitElement {
           </svg>
       </iron-iconset-svg>
         <div id="container">
-            <a href$=${this._getPath(parameters)} style=${this._getItemStyle(
+            <a href=${this._getPath(parameters)} style=${this._getItemStyle(
       data
     )}>
-                <iron-icon icon="ht-elements-catalog-filter-item:chevron-left" hidden?=${data.child ||
+                <iron-icon icon="ht-elements-catalog-filter-item:chevron-left" ?hidden=${data.child ||
                   data.current}></iron-icon>
-                <div>${data.name}</div>
+                  <div id="inner">${
+                    data.imageURL ? html`<img src=${data.imageURL}>` : ""
+                  }${data.name}</div>
             </a>
             <div id="number">${data.number}</div>
         </div>
@@ -70,9 +87,9 @@ class HTElementsCatalogFilterItem extends LitElement {
 
   static get properties() {
     return {
-      data: Object,
-      type: String,
-      parameters: Object
+      data: { type: Object },
+      type: { type: String },
+      parameters: { type: Object }
     };
   }
 

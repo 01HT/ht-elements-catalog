@@ -1,9 +1,12 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-import { repeat } from "lit-html/lib/repeat.js";
+import { repeat } from "lit-html/directives/repeat.js";
 import "./ht-elements-catalog-filter-item.js";
+import "./ht-elements-catalog-filter-block-no-data.js";
+
 class HTElementsCatalogFilterBlockPlatform extends LitElement {
-  _render({ items, parameters }) {
+  render() {
+    const { parameters, items } = this;
     return html`
       <style>
         :host {
@@ -25,8 +28,13 @@ class HTElementsCatalogFilterBlockPlatform extends LitElement {
       ${repeat(
         items,
         item =>
-          html`<ht-elements-catalog-filter-item data=${item} parameters=${parameters} type="platform"></ht-elements-catalog-filter-item>`
+          html`<ht-elements-catalog-filter-item .data=${item} .parameters=${parameters} type="platform"></ht-elements-catalog-filter-item>`
       )}
+      ${
+        items.length === 0
+          ? html`<ht-elements-catalog-filter-block-no-data></ht-elements-catalog-filter-block-no-data>`
+          : ""
+      }
       </div>
 `;
   }
@@ -37,8 +45,8 @@ class HTElementsCatalogFilterBlockPlatform extends LitElement {
 
   static get properties() {
     return {
-      items: Array,
-      parameters: Object
+      items: { type: Array },
+      parameters: { type: Object }
     };
   }
 

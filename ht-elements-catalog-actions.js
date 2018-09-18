@@ -5,8 +5,10 @@ import "@polymer/iron-icon";
 import "@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
 import "@polymer/paper-listbox";
 import "@polymer/paper-item/paper-item.js";
+
 class HTElementsCatalogActions extends LitElement {
-  _render({ parameters, view }) {
+  render() {
+    const { parameters, view } = this;
     return html`
       <style>
         :host {
@@ -95,19 +97,17 @@ class HTElementsCatalogActions extends LitElement {
         <div id="usd">Все цены указаны в долларах США</div>
         <div id="divider"></div>
         <div id="actions">
-        <iron-icon id="list" icon="ht-elements-catalog-actions:view-list" view?=${
-          view === "list" ? true : false
-        } on-click=${e => {
+        <iron-icon id="list" icon="ht-elements-catalog-actions:view-list" ?view=${view ===
+          "list"} @click=${e => {
       this._changeView(e);
     }}></iron-icon>
-            <iron-icon id="grid" icon="ht-elements-catalog-actions:view-module" view?=${
-              view === "grid" ? true : false
-            } on-click=${e => {
+            <iron-icon id="grid" icon="ht-elements-catalog-actions:view-module" ?view=${view ===
+              "grid"} @click=${e => {
       this._changeView(e);
     }}></iron-icon>
             <div id="select-container">
               <!-- placeholder="новизне" -->
-              <paper-dropdown-menu label="сортировать по"  always-float-label no-animations on-iron-select=${e => {
+              <paper-dropdown-menu label="сортировать по" always-float-label no-animations @iron-select=${e => {
                 this._onChange();
               }}>
                 <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" setSort=${this._setSort(
@@ -133,8 +133,8 @@ class HTElementsCatalogActions extends LitElement {
 
   static get properties() {
     return {
-      parameters: Object,
-      view: String
+      parameters: { type: Object },
+      view: { type: String }
     };
   }
 
@@ -144,7 +144,7 @@ class HTElementsCatalogActions extends LitElement {
     this.view = "grid";
   }
 
-  _firstRendered() {
+  firstUpdated() {
     this.listbox.selected = "";
   }
 

@@ -2,8 +2,10 @@
 import { LitElement, html } from "@polymer/lit-element";
 import { getPathFromParameters } from "./ht-elements-catalog-path-parser.js";
 import "@polymer/paper-checkbox";
+
 class HTElementsCatalogFilterItemCheckbox extends LitElement {
-  _render({ data, parameters }) {
+  render() {
+    const { data, parameters } = this;
     return html`
       <style>
         :host {
@@ -30,16 +32,31 @@ class HTElementsCatalogFilterItemCheckbox extends LitElement {
           min-height:35px;
         }
 
+        #checkbox-inner {
+          display:flex;
+          flex-wrap:wrap;
+          align-items:center;
+        }
+
+        img {
+          margin-right:8px;
+          display:block;
+          width:24px;
+          height:24px;
+        }
+
         #number {
           margin-left:16px;
           color:var(--secondary-text-color);
         }
       </style>
       <div id="container">
-      <a href$=${this._getPath(parameters)}>
-          <paper-checkbox noink checked?=${this.getChecked()}>${
-      data.name
-    }</paper-checkbox>
+      <a href=${this._getPath(parameters)}>
+          <paper-checkbox noink ?checked=${this.getChecked()}>
+          <div id="checkbox-inner">${
+            data.imageURL ? html`<img src=${data.imageURL}>` : ""
+          }${data.name}</div>
+          </paper-checkbox>
       </a>
       <div id="number">${data.number}</div>
       </div>
@@ -52,9 +69,9 @@ class HTElementsCatalogFilterItemCheckbox extends LitElement {
 
   static get properties() {
     return {
-      data: Object,
-      type: String,
-      parameters: Object
+      data: { type: Object },
+      type: { type: String },
+      parameters: { type: Object }
     };
   }
 

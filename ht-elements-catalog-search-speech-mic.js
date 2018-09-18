@@ -1,13 +1,9 @@
-import { LitElement, html, renderAttributes } from "@polymer/lit-element";
+import { LitElement, html } from "@polymer/lit-element";
 import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
 import "@polymer/paper-icon-button";
 
 class HTElementsCatalogSearchSpeechMic extends LitElement {
-  _render({ _recognizing }) {
-    renderAttributes(this, {
-      recognizing: _recognizing
-    });
-
+  render() {
     return html`
     <style>
         :host {
@@ -23,10 +19,6 @@ class HTElementsCatalogSearchSpeechMic extends LitElement {
         paper-icon-button {
             color: var(--secondary-text-color);
             border-radius: 50%;
-        }
-    
-        paper-icon-button:focus {
-            //background-color: #dedede;
         }
     
         :host([recognizing])>paper-icon-button {
@@ -101,7 +93,7 @@ class HTElementsCatalogSearchSpeechMic extends LitElement {
 
     <div class="ring1"></div>
     <div class="ring2"></div>
-     <paper-icon-button id="clear-toggle" toggles icon="ht-elements-catalog-search-speech-mic:mic" on-click=${e => {
+     <paper-icon-button id="clear-toggle" toggles icon="ht-elements-catalog-search-speech-mic:mic" @click=${e => {
        this.toggle();
      }}></paper-icon-button>
     `;
@@ -113,12 +105,12 @@ class HTElementsCatalogSearchSpeechMic extends LitElement {
 
   static get properties() {
     return {
-      transcript: String,
-      completeTranscript: String,
-      language: String,
-      continuous: Boolean,
-      interimResults: Boolean,
-      _recognizing: Boolean
+      transcript: { type: String },
+      completeTranscript: { type: String },
+      language: { type: String },
+      continuous: { type: Boolean },
+      interimResults: { type: Boolean },
+      _recognizing: { type: Boolean }
     };
   }
 
@@ -127,7 +119,7 @@ class HTElementsCatalogSearchSpeechMic extends LitElement {
     this.language = window.navigator.language;
   }
 
-  _firstRendered() {
+  updated() {
     if (window.webkitSpeechRecognition) {
       this._recognition = new webkitSpeechRecognition();
       this._recognition.continuous = this.continuous;
