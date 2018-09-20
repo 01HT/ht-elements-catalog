@@ -7,7 +7,7 @@ import "@01ht/ht-nothing-found-placeholder";
 
 class HTElementsCatalogList extends LitElement {
   render() {
-    const { view, smallScreen, items, notFound } = this;
+    const { view, smallScreen, items, notFound, cartChangeInProcess } = this;
     return html`
       <style>
         :host {
