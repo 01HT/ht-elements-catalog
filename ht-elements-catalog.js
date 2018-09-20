@@ -121,7 +121,7 @@ class HTElementsCatalog extends LitElement {
             <ht-elements-catalog-selected-filters parameters=${JSON.stringify(
               parameters
             )}></ht-elements-catalog-selected-filters>
-            <ht-elements-catalog-list view=${view} ?hidden=${loading} cartChangeInProcess=${cartChangeInProcess}></ht-elements-catalog-list>
+            <ht-elements-catalog-list view=${view} ?hidden=${loading} .cartChangeInProcess=${cartChangeInProcess}></ht-elements-catalog-list>
             <div class="spinner-container" ?hidden=${!loading}>
               <ht-spinner></ht-spinner>
             </div>

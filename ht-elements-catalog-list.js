@@ -66,7 +66,7 @@ class HTElementsCatalogList extends LitElement {
           ${repeat(
             items,
             item =>
-              html`<ht-elements-catalog-list-item .data=${item} cartChangeInProcess=${cartChangeInProcess} view=${
+              html`<ht-elements-catalog-list-item .data=${item} .cartChangeInProcess=${cartChangeInProcess} view=${
                 view === "list" && !smallScreen ? "list" : "grid"
               }></ht-elements-catalog-list-item>`
           )}

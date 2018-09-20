@@ -98,6 +98,7 @@ class HTElementsCatalogListItem extends LitElement {
   }
 
   _addToCart() {
+    console.log(this.cartChangeInProcess);
     if (this.cartChangeInProcess) return;
     this.waitUntilCartAdd = true;
     this.dispatchEvent(
