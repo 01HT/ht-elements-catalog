@@ -110,7 +110,7 @@ class HTElementsCatalogSearchSpeechMic extends LitElement {
       language: { type: String },
       continuous: { type: Boolean },
       interimResults: { type: Boolean },
-      _recognizing: { type: Boolean }
+      _recognizing: { type: Boolean, attribute: "recognizing", reflect: true }
     };
   }
 
@@ -119,7 +119,7 @@ class HTElementsCatalogSearchSpeechMic extends LitElement {
     this.language = window.navigator.language;
   }
 
-  updated() {
+  firstUpdated() {
     if (window.webkitSpeechRecognition) {
       this._recognition = new webkitSpeechRecognition();
       this._recognition.continuous = this.continuous;

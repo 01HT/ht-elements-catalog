@@ -39,7 +39,6 @@ class HTElementsCatalogFilterItem extends LitElement {
 
         #inner {
           display:flex;
-          flex-wrap:wrap;
           align-items:center;
         }
 

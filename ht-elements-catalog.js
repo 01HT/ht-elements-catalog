@@ -41,6 +41,7 @@ class HTElementsCatalog extends LitElement {
           display:flex;
           position:relative;
           width:100%;
+          min-width: 240px;
         }
 
         ht-elements-catalog-actions {

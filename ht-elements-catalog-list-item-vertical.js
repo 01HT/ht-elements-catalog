@@ -11,7 +11,9 @@ class HTElementsCatalogListItemVertical extends LitElement {
     return html`
       <style>
         :host {
-          display: block;
+          display: flex;
+          flex-direction:column;
+          height: 100%;
           position:relative;
           box-sizing:border-box;
         }
@@ -53,14 +55,16 @@ class HTElementsCatalogListItemVertical extends LitElement {
         footer {
           margin-top:16px;
           display: flex;
+          flex: 1;
           justify-content: space-between;
-          align-items:center;
+          align-items:flex-end;
         }
 
         #container {
           display:flex;
           flex-direction: column;
           width:100%;
+          height: 100%;
           overflow:hidden;
         }
 
@@ -94,6 +98,7 @@ class HTElementsCatalogListItemVertical extends LitElement {
         #info {
             display: flex;
             flex-direction: column;
+            line-height: 40px;
         }
 
         #info #sales, #info #donations {
@@ -130,7 +135,6 @@ class HTElementsCatalogListItemVertical extends LitElement {
         }
       </style>
       <div id="container">
-        <article>
           <header>
             ${
               data.previewMode === "image"
@@ -209,7 +213,6 @@ class HTElementsCatalogListItemVertical extends LitElement {
             <slot name="actions"></slot>
           </div>
           </footer>
-        </article>
       </div>
 `;
   }

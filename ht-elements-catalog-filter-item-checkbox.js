@@ -34,7 +34,6 @@ class HTElementsCatalogFilterItemCheckbox extends LitElement {
 
         #checkbox-inner {
           display:flex;
-          flex-wrap:wrap;
           align-items:center;
         }
 
