@@ -90,6 +90,7 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
         
         #sales, #donations, #updated {
           margin-top: 4px;
+          font-size: 13px;
           color: var(--secondary-text-color);
         }
 
