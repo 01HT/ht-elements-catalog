@@ -57,7 +57,7 @@ class HTElementsCatalogListItemVertical extends LitElement {
           display: flex;
           flex: 1;
           justify-content: space-between;
-          align-items:flex-end;
+          align-items:center;
         }
 
         #container {
@@ -101,8 +101,14 @@ class HTElementsCatalogListItemVertical extends LitElement {
             line-height: 40px;
         }
 
-        #info #sales, #info #donations {
+        #donations, #sales {
           margin-top: 4px;
+          font-size:12px;
+          color: var(--secondary-text-color);
+        }
+
+        #price, #sales, #donations {
+          line-height: 1;
         }
 
         #price {
@@ -110,16 +116,6 @@ class HTElementsCatalogListItemVertical extends LitElement {
           color:var(--secondary-text-color);
           font-weight:500;
           text-transform: uppercase;
-        }
-
-        #sales {
-          font-size:12px;
-          color: var(--secondary-text-color);
-        }
-
-        #donations {
-          font-size:12px;
-          color: var(--secondary-text-color);
         }
 
         #actions {
