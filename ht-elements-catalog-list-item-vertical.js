@@ -4,6 +4,7 @@ import "@01ht/ht-image";
 import "@01ht/ht-user-avatar";
 import "@01ht/ht-image-slider";
 import "@01ht/ht-animated-image";
+import "@01ht/ht-elements-item-youtube-preview";
 
 class HTElementsCatalogListItemVertical extends LitElement {
   render() {
