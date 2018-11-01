@@ -90,7 +90,6 @@ class HTElementsCatalogSearchSpeechMic extends LitElement {
             </defs>
         </svg>
     </iron-iconset-svg>
-
     <div class="ring1"></div>
     <div class="ring2"></div>
      <paper-icon-button id="clear-toggle" toggles icon="ht-elements-catalog-search-speech-mic:mic" @click=${e => {
@@ -155,30 +154,18 @@ class HTElementsCatalogSearchSpeechMic extends LitElement {
 
   _onEnd() {
     this._recognizing = false;
-  }
-
-  _onResult(e) {
-    let t,
-      ct = "",
-      isFinal;
-    for (let i = 0, r; (r = e.results[i]); i++) {
-      t = (r[0] && r[0].transcript) || "";
-      ct += t;
-      isFinal = r.isFinal;
-    }
-    this.transcript = t;
-    this.completeTranscript = ct;
     this.dispatchEvent(
       new CustomEvent("result", {
         detail: {
-          results: e.results,
-          transcript: t,
-          completeTranscript: ct,
-          isFinal: isFinal
+          completeTranscript: this.completeTranscript
         }
       })
     );
-    if (isFinal) {
+  }
+
+  _onResult(e) {
+    if (e.results[0].isFinal) {
+      this.completeTranscript = e.results[0][0].transcript;
       this.stop();
     }
   }
