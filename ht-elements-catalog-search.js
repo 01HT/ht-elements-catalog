@@ -112,7 +112,7 @@ class HTElementsCatalogSearch extends LitElement {
       this._onInputKeyUp(e);
     }}> 
 
-        <ht-elements-catalog-search-speech-mic continuous interimResults @result=${e =>
+        <ht-elements-catalog-search-speech-mic continuous @result=${e =>
           this._micResult(e)}></ht-elements-catalog-search-speech-mic>
 
         <paper-icon-button id="filter-toggle" toggles icon="ht-elements-catalog-search:${
@@ -218,13 +218,9 @@ class HTElementsCatalogSearch extends LitElement {
   }
 
   _micResult(e) {
-    const d = e.detail;
-    const value = d.completeTranscript;
-    if (d.isFinal) {
-      this.input.value = value.trim();
-      this._search();
-      this._updateClearButtonState();
-    }
+    this.input.value = e.detail.completeTranscript.trim();
+    this._search();
+    this._updateClearButtonState();
   }
 }
 
