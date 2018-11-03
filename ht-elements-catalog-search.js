@@ -97,10 +97,10 @@ class HTElementsCatalogSearch extends LitElement {
           </svg>
       </iron-iconset-svg>
       <div id="container">
-       <paper-icon-button id="search-button" toggles icon="ht-elements-catalog-search:search" @click=${e => {
+       <paper-icon-button id="search-button" alt="Поиск" toggles icon="ht-elements-catalog-search:search" @click=${e => {
          this._search();
        }} ?hidden=${clearButtonVisible}></paper-icon-button>
-       <paper-icon-button id="clear-toggle" toggles icon="ht-elements-catalog-search:arrow-back" @click=${e => {
+       <paper-icon-button id="clear-toggle" alt="Очистить поле поиска" toggles icon="ht-elements-catalog-search:arrow-back" @click=${e => {
          this._clear();
        }} ?hidden=${!clearButtonVisible}></paper-icon-button>
         <input type="text" aria-label="Поиск" autofocus value=${
@@ -114,7 +114,7 @@ class HTElementsCatalogSearch extends LitElement {
         <ht-elements-catalog-search-speech-mic continuous @result=${e =>
           this._micResult(e)}></ht-elements-catalog-search-speech-mic>
 
-        <paper-icon-button id="filter-toggle" toggles icon="ht-elements-catalog-search:${
+        <paper-icon-button id="filter-toggle" alt="Открыть настройки фильтра" toggles icon="ht-elements-catalog-search:${
           opened ? "close" : "tune"
         }" @click=${e => {
       this.toggleFilter();
