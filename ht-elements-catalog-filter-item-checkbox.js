@@ -53,7 +53,9 @@ class HTElementsCatalogFilterItemCheckbox extends LitElement {
       <a href=${this._getPath(parameters)}>
           <paper-checkbox noink ?checked=${this.getChecked()}>
           <div id="checkbox-inner">${
-            data.imageURL ? html`<img src=${data.imageURL}>` : ""
+            data.imageURL
+              ? html`<img src=${data.imageURL} alt=${data.name}>`
+              : ""
           }${data.name}</div>
           </paper-checkbox>
       </a>
