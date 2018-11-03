@@ -72,7 +72,9 @@ class HTElementsCatalogFilterItem extends LitElement {
                 <iron-icon icon="ht-elements-catalog-filter-item:chevron-left" ?hidden=${data.child ||
                   data.current}></iron-icon>
                   <div id="inner">${
-                    data.imageURL ? html`<img src=${data.imageURL}>` : ""
+                    data.imageURL
+                      ? html`<img src=${data.imageURL} alt=${data.name}>`
+                      : ""
                   }${data.name}</div>
             </a>
             <div id="number">${data.number}</div>
