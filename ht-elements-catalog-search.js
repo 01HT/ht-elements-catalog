@@ -103,8 +103,7 @@ class HTElementsCatalogSearch extends LitElement {
        <paper-icon-button id="clear-toggle" toggles icon="ht-elements-catalog-search:arrow-back" @click=${e => {
          this._clear();
        }} ?hidden=${!clearButtonVisible}></paper-icon-button>
-        
-        <input type="text" autofocus value=${
+        <input type="text" aria-label="Поиск" autofocus value=${
           parameters.search ? parameters.search : ""
         } placeholder="Поиск" @change=${e => {
       this._onInputChange(e);
