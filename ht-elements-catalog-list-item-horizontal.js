@@ -112,7 +112,7 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
                     window.cloudinaryURL
                   }/image/upload/c_scale,f_auto,w_1024/v${data.image.version}/${
                     data.image.public_id
-                  }.jpg size="16x9"></ht-image>
+                  }.jpg size="16x9" .altText=${data.name}></ht-image>
             </a>`
                 : ""
             }
@@ -120,7 +120,7 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
               data.previewMode === "slider"
                 ? html`<ht-image-slider .data=${data.slider} url=${`/item/${
                     data.nameInURL
-                  }/${data.itemId}`}></ht-image-slider>`
+                  }/${data.itemId}`} .altText=${data.name}></ht-image-slider>`
                 : ""
             }
             ${
@@ -136,7 +136,7 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
               data.previewMode === "youtube"
                 ? html`<ht-elements-item-youtube-preview .data=${
                     data.youtube
-                  }></ht-elements-item-youtube-preview>`
+                  } .titleText=${data.name}></ht-elements-item-youtube-preview>`
                 : ""
             }
           </header>
