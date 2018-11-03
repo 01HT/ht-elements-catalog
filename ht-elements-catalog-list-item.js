@@ -53,7 +53,7 @@ class HTElementsCatalogListItem extends LitElement {
       ${
         this._showSpinner(cartChangeInProcess)
           ? html`<ht-spinner icon-button></ht-spinner>`
-          : html`<paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart" @click=${_ => {
+          : html`<paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart" alt="Добавить элемент в корзину" @click=${_ => {
               this._addToCart();
             }} ?hidden=${data && data.price === 0}></paper-icon-button>`
       }
@@ -63,7 +63,7 @@ class HTElementsCatalogListItem extends LitElement {
       ${
         this._showSpinner(cartChangeInProcess)
           ? html`<ht-spinner icon-button></ht-spinner>`
-          : html`<paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart" @click=${_ => {
+          : html`<paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart" alt="Добавить элемент в корзину" @click=${_ => {
               this._addToCart();
             }} ?hidden=${data && data.price === 0}></paper-icon-button>`
       }
