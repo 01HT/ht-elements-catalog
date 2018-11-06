@@ -94,7 +94,7 @@ class HTElementsCatalogSearchSpeechMic extends LitElement {
     <div class="ring2"></div>
      <paper-icon-button id="clear-toggle" toggles icon="ht-elements-catalog-search-speech-mic:mic" @click=${e => {
        this.toggle();
-     }}></paper-icon-button>
+     }} alt="Голосовой ввод"></paper-icon-button>
     `;
   }
 
