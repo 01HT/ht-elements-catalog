@@ -104,15 +104,15 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
             ${
               data.previewMode === "image"
                 ? html`<a href="/item/${data.nameInURL}/${data.itemId}">
-              <ht-image placeholder=${
+              <ht-image placeholder="${
                 window.cloudinaryURL
               }/image/upload/c_scale,f_auto,w_60/v${data.image.version}/${
                     data.image.public_id
-                  }.jpg image=${
+                  }.jpg" image="${
                     window.cloudinaryURL
                   }/image/upload/c_scale,f_auto,w_1024/v${data.image.version}/${
                     data.image.public_id
-                  }.jpg size="16x9" .altText=${data.name}></ht-image>
+                  }.jpg" size="16x9" .altText=${data.name}></ht-image>
             </a>`
                 : ""
             }
