@@ -135,7 +135,7 @@ class HTElementsCatalogListItemVertical extends LitElement {
           <header>
             ${
               data.previewMode === "image"
-                ? html`<a href="/item/${data.nameInURL}/${data.itemId}">
+                ? html`<a href="/item/${data.nameInURL}/${data.itemNumber}">
               <ht-image placeholder="${
                 window.cloudinaryURL
               }/image/upload/c_scale,f_auto,w_60/v${data.image.version}/${
@@ -177,12 +177,16 @@ class HTElementsCatalogListItemVertical extends LitElement {
            data.authorData
          } size="42" verified-size="16"></ht-user-avatar>
             <div id="title">
-              <a id="name" href="/item/${data.nameInURL}/${data.itemId}">${
+              <a id="name" href="/item/${data.nameInURL}/${data.itemNumber}">${
       data.name
     }</a>
               <div id="author">от <a href="/${
                 data.authorData.isOrg ? "organization" : "user"
-              }/${data.authorData.uid}">${
+              }/${data.authorData.nameInURL}/${
+      data.authorData.isOrg
+        ? `${data.authorData.organizationNumber}`
+        : `${data.authorData.userNumber}`
+    }">${
       data.authorData.displayName
     }</a><span>|</span><a href="/catalog/${this._getRootCategory(
       data.categories

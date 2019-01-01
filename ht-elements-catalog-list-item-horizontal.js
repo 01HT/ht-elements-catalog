@@ -103,7 +103,7 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
           <header>
             ${
               data.previewMode === "image"
-                ? html`<a href="/item/${data.nameInURL}/${data.itemId}">
+                ? html`<a href="/item/${data.nameInURL}/${data.itemNumber}">
               <ht-image placeholder="${
                 window.cloudinaryURL
               }/image/upload/c_scale,f_auto,w_60/v${data.image.version}/${
@@ -141,14 +141,18 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
             }
           </header>
           <section>
-            <a id="name" href="/item/${data.nameInURL}/${data.itemId}">${
+            <a id="name" href="/item/${data.nameInURL}/${data.itemNumber}">${
       data.name
     }</a>
             <div id="author">от <ht-user-avatar .data=${
               data.authorData
             } size="32" verifiedSize=${12}></ht-user-avatar><a href="/${
       data.authorData.isOrg ? "organization" : "user"
-    }/${data.authorData.uid}">${data.authorData.displayName}</a><span>|</span>
+    }/${data.authorData.nameInURL}/${
+      data.authorData.isOrg
+        ? `${data.authorData.organizationNumber}`
+        : `${data.authorData.userNumber}`
+    }">${data.authorData.displayName}</a><span>|</span>
     <a href="/catalog/${this._getRootCategory(
       data.categories
     ).toLowerCase()}">${this._getRootCategory(data.categories)}
