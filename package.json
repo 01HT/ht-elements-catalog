@@ -16,6 +16,7 @@
     "@polymer/paper-item": "^3.0.1",
     "@polymer/paper-listbox": "^3.0.1",
     "@01ht/ht-chip": "01ht/ht-chip",
+    "@01ht/ht-date": "01ht/ht-date",
     "@01ht/ht-spinner": "01ht/ht-spinner",
     "@01ht/ht-image": "01ht/ht-image",
     "@01ht/ht-image-slider": "01ht/ht-image-slider",
