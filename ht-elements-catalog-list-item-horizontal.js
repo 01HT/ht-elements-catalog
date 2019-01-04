@@ -5,6 +5,7 @@ import "@01ht/ht-user-avatar";
 import "@01ht/ht-image-slider";
 import "@01ht/ht-animated-image";
 import "@01ht/ht-elements-item-youtube-preview";
+import "@01ht/ht-date";
 
 class HTElementsCatalogListItemHorizontal extends LitElement {
   render() {
@@ -171,13 +172,10 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
     <div id="donations" ?hidden=${
       data.donations === 0 || data.donations === undefined ? true : false
     }>Поддержка: ${data.donations}$ (${data.donationsAmount})</div>
-    <div id="updated">Обновлено: ${
-      data.updated ? new Date(data.updated).toLocaleDateString() : ""
-    }</div>
+    <div id="updated">Обновлено: <ht-date .data=${data.updated}></ht-date></div>
           <slot name="actions"></slot>
           </footer>
-      </article>
-`;
+      </article>`;
   }
 
   static get is() {
