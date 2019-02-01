@@ -94,7 +94,7 @@ class HTElementsCatalogActions extends LitElement {
           </svg>
       </iron-iconset-svg>
       <div id="container">
-        <div id="usd">Все цены указаны в долларах США</div>
+        <div id="usd">Цены указаны в USD | Оплата производится в RUB | Курс ЦБ РФ</div>
         <div id="divider"></div>
         <div id="actions">
         <iron-icon id="list" icon="ht-elements-catalog-actions:view-list" ?view=${view ===
