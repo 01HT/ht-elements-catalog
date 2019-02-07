@@ -14,6 +14,7 @@ import {
   // callTestHTTPFunction,
   callFirebaseHTTPFunction
 } from "@01ht/ht-client-helper-functions";
+import { updateMetadata } from "@01ht/ht-client-helper-functions/metadata.js";
 
 class HTElementsCatalog extends LitElement {
   render() {
@@ -228,10 +229,137 @@ class HTElementsCatalog extends LitElement {
         }
       });
       await this._setData(data);
+      await this._updateMeta(parameters, data);
       if (this.firstLoading) this.firstLoading = false;
       this.loading = false;
     } catch (error) {
       console.log("_getItems: " + error.message);
+    }
+  }
+
+  async _updateMeta(parameters, responseData) {
+    try {
+      let title = "";
+      let description = "";
+      if (Object.keys(parameters).length === 0 && responseData.count === 0) {
+        title = "Готовые курсы и модули для СДО & Онлайн обучение от Elements";
+        description =
+          "Каталог элементов обучения (электронных курсов, модулей для СДО итп) от независимых разработчиков, для развития вас и пользователей ваших систем.";
+      }
+      if (responseData.count === 0) {
+        title = "Результаты не найдены";
+        description = "По данному запросу ничего не найдено.";
+      }
+      if (responseData.count > 0) {
+        description += `Выберите из ${responseData.count} `;
+        if (parameters.search) {
+          title += `${parameters.search}`;
+          description += `${parameters.search}`;
+        }
+        // add tags
+        if (parameters.tags) {
+          let tags = parameters.tags;
+          if (parameters.search) {
+            title += " ";
+            description += " ";
+          }
+          let tagSubstring = "";
+          if (parameters.tags.length > 1) {
+            tagSubstring = `${tags[0]} и ${tags[1]}`;
+          } else {
+            tagSubstring = `${tags[0]}`;
+          }
+          title += tagSubstring;
+          description += `${tagSubstring}`;
+        }
+        // add categories
+        if (parameters.categories) {
+          let categoriesSubstring = "";
+          if (parameters.search || parameters.tags) {
+            title += " ";
+            description += " ";
+          }
+          let responseCategories = responseData.filter.categories;
+
+          if (responseCategories.length > 2) {
+            categoriesSubstring += `${
+              responseCategories[responseCategories.length - 1].name
+            } ${responseCategories[1].name}`;
+          } else {
+            categoriesSubstring += `${responseCategories[1].name}`;
+          }
+          title += categoriesSubstring;
+          description += categoriesSubstring;
+        }
+        if (title === "") {
+          title += `Элементы обучения`;
+        }
+        if (description === `Выберите из ${responseData.count} `) {
+          description += `элементы обучения`;
+        }
+        // add platform
+        if (parameters.platform) {
+          title += ` для ${parameters.platform}`;
+          description += ` для ${parameters.platform}`;
+        }
+        // add browsers
+        if (parameters.browsers) {
+          let browsers = parameters.browsers;
+          let browsersSubstring = "";
+          if (parameters.platform) browsersSubstring += `,`;
+          browsersSubstring += ` совместимые с браузером`;
+          if (browsers.length === 1) {
+            browsersSubstring += ` ${browsers[browsers.length - 1]}`;
+          } else {
+            for (let i = 0; i < browsers.length; i++) {
+              if (i === browsers.length - 1) {
+                browsersSubstring += ` и ${browsers[i]}`;
+              } else {
+                if (i === 0) {
+                  browsersSubstring += ` ${browsers[i]}`;
+                } else {
+                  browsersSubstring += `, ${browsers[i]}`;
+                }
+              }
+            }
+          }
+          title += browsersSubstring;
+          description += browsersSubstring;
+        }
+        if (parameters.tools) {
+          let tools = parameters.tools;
+          let toolsSubstring = "";
+          if (parameters.platform) toolsSubstring += `,`;
+          toolsSubstring += ` сделанные используя`;
+          if (tools.length === 1) {
+            toolsSubstring += ` ${tools[tools.length - 1]}`;
+          } else {
+            for (let i = 0; i < tools.length; i++) {
+              if (i === tools.length - 1) {
+                toolsSubstring += ` и ${tools[i]}`;
+              } else {
+                if (i === 0) {
+                  toolsSubstring += ` ${tools[i]}`;
+                } else {
+                  titletoolsSubstring += `, ${tools[i]}`;
+                }
+              }
+            }
+          }
+          title += toolsSubstring;
+          description += toolsSubstring;
+        }
+        title = title.charAt(0).toUpperCase() + title.slice(1);
+        if (title.length < 40) title += " от Elements";
+        description += `. Все это создано нашим глобальным сообществом независимых разработчиков.`;
+      }
+
+      updateMetadata({
+        title: title,
+        description: description
+      });
+    } catch (error) {
+      console.log("_updateMeta: " + error.message);
     }
   }
 
