@@ -1,5 +1,5 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import { repeat } from "lit-html/directives/repeat.js";
 import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
 import "@polymer/iron-icon";
@@ -7,10 +7,7 @@ import "@01ht/ht-chip";
 import { getPathFromParameters } from "./ht-elements-catalog-path-parser.js";
 
 class HTElementsCatalogSelectedFilters extends LitElement {
-  render() {
-    const { params, items, number } = this;
-    return html`
-      <style>
+  static styles = css`<style>
         :host {
             display: block;
             position:relative;
@@ -68,7 +65,11 @@ class HTElementsCatalogSelectedFilters extends LitElement {
         #categories[hidden], #reset[hidden] {
           display:none;
         }
-      </style>
+      </style>`;
+
+  render() {
+    const { params, items, number } = this;
+    return html`
       <iron-iconset-svg size="24" name="ht-elements-catalog-selected-filters">
           <svg>
               <defs>
@@ -77,13 +78,13 @@ class HTElementsCatalogSelectedFilters extends LitElement {
       </iron-iconset-svg>
       <div id="container">
         <div id="all-items">Всего элементов: <span id="number">${number}</span></div>
-        <div id="categories" ?hidden=${!this._showCategories(params)}></div>
+        <div id="categories" ?hidden="${!this._showCategories(params)}"></div>
         ${repeat(
           items,
-          item => html`<a class="item" href=${item.href}> 
-              <ht-chip label=${item.name} close shadow image=${
+          item => html`<a class="item" href="${item.href}"> 
+              <ht-chip .label="${item.name}" close shadow image="${
             item.imageURL
-          } ?icon=${item.type === "sort"}>
+          }" ?icon="${item.type === "sort"}">
                 ${
                   item.type === "sort"
                     ? html`<div slot="avatar">
@@ -94,22 +95,18 @@ class HTElementsCatalogSelectedFilters extends LitElement {
                 ${
                   item.imageURL
                     ? html`<div slot="avatar">
-                  <iron-icon src=${item.imageURL}></iron-icon>
+                  <iron-icon src="${item.imageURL}"></iron-icon>
                 </div>`
                     : ``
                 }
               </ht-chip>
             </a>`
         )}
-        <a id="reset" href="/catalog" ?hidden=${!this._showClearAll(
+        <a id="reset" href="/catalog" ?hidden="${!this._showClearAll(
           params
-        )}>Очистить все</a>
+        )}">Очистить все</a>
       </div>
 `;
-  }
-
-  static get is() {
-    return "ht-elements-catalog-selected-filters";
   }
 
   static get properties() {
@@ -275,6 +272,6 @@ class HTElementsCatalogSelectedFilters extends LitElement {
 }
 
 customElements.define(
-  HTElementsCatalogSelectedFilters.is,
+  "ht-elements-catalog-selected-filters",
   HTElementsCatalogSelectedFilters
 );

@@ -1,5 +1,5 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import "@01ht/ht-spinner";
 import "./ht-elements-catalog-search.js";
 import "./ht-elements-catalog-filter.js";
@@ -17,16 +17,7 @@ import {
 import { updateMetadata } from "@01ht/ht-client-helper-functions/metadata.js";
 
 class HTElementsCatalog extends LitElement {
-  render() {
-    const {
-      firstLoading,
-      loading,
-      parameters,
-      view,
-      cartChangeInProcess
-    } = this;
-    return html`
-      <style>
+  static styles = css`<style>
         :host {
           display: block;
           position:relative;
@@ -108,33 +99,39 @@ class HTElementsCatalog extends LitElement {
         [hidden] {
           display:none !important;
         }
-      </style>
+      </style>`;
+
+  render() {
+    const {
+      firstLoading,
+      loading,
+      parameters,
+      view,
+      cartChangeInProcess
+    } = this;
+    return html`
       <div id="container">
-        <ht-elements-catalog-search .parameters=${parameters}>
-          <ht-elements-catalog-filter slot="filter" .parameters=${parameters}></ht-elements-catalog-filter>
+        <ht-elements-catalog-search .parameters="${parameters}">
+          <ht-elements-catalog-filter slot="filter" .parameters="${parameters}"></ht-elements-catalog-filter>
         </ht-elements-catalog-search>
-        <div class="spinner-container" ?hidden=${!firstLoading}>
+        <div class="spinner-container" ?hidden="${!firstLoading}">
           <ht-spinner></ht-spinner>
         </div>
-        <section id="main" ?hidden=${firstLoading}>
-          <ht-elements-catalog-filter .parameters=${parameters}></ht-elements-catalog-filter>
+        <section id="main" ?hidden="${firstLoading}">
+          <ht-elements-catalog-filter .parameters="${parameters}"></ht-elements-catalog-filter>
           <section id="list">
-            <ht-elements-catalog-actions .view=${view} .parameters=${parameters}></ht-elements-catalog-actions>
-            <ht-elements-catalog-selected-filters parameters=${JSON.stringify(
+            <ht-elements-catalog-actions .view="${view}" .parameters="${parameters}"></ht-elements-catalog-actions>
+            <ht-elements-catalog-selected-filters .parameters="${JSON.stringify(
               parameters
-            )}></ht-elements-catalog-selected-filters>
-            <ht-elements-catalog-list view=${view} ?hidden=${loading} .cartChangeInProcess=${cartChangeInProcess}></ht-elements-catalog-list>
-            <div class="spinner-container" ?hidden=${!loading}>
+            )}"></ht-elements-catalog-selected-filters>
+            <ht-elements-catalog-list view="${view}" ?hidden="${loading}" .cartChangeInProcess="${cartChangeInProcess}"></ht-elements-catalog-list>
+            <div class="spinner-container" ?hidden="${!loading}">
               <ht-spinner></ht-spinner>
             </div>
           </section>
         </section>
       </div>
 `;
-  }
-
-  static get is() {
-    return "ht-elements-catalog";
   }
 
   static get properties() {
@@ -399,4 +396,4 @@ class HTElementsCatalog extends LitElement {
   }
 }
 
-customElements.define(HTElementsCatalog.is, HTElementsCatalog);
+customElements.define("ht-elements-catalog", HTElementsCatalog);

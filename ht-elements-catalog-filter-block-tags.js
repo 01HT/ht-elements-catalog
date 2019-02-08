@@ -1,34 +1,35 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import { repeat } from "lit-html/directives/repeat.js";
 import "./ht-elements-catalog-filter-item-checkbox.js";
 import "./ht-elements-catalog-filter-block-no-data.js";
 
 class HTElementsCatalogFiterBlockTags extends LitElement {
+  static styles = css`<style>
+    :host {
+        display: block;
+        position:relative;
+        box-sizing:border-box;
+    }
+
+    #container {
+        display:flex;
+        flex-direction: column;
+    }
+
+    #number {
+        color:var(--secondary-text-color);
+    }
+  </style>`;
+
   render() {
     const { parameters, items } = this;
     return html`
-      <style>
-        :host {
-            display: block;
-            position:relative;
-            box-sizing:border-box;
-        }
-
-        #container {
-            display:flex;
-            flex-direction: column;
-        }
-
-        #number {
-            color:var(--secondary-text-color);
-        }
-      </style>
       <div id="container">
       ${repeat(
         items,
         item =>
-          html`<ht-elements-catalog-filter-item-checkbox .data=${item} .parameters=${parameters} type="tags"></ht-elements-catalog-filter-item-checkbox>`
+          html`<ht-elements-catalog-filter-item-checkbox .data="${item}" .parameters="${parameters}" type="tags"></ht-elements-catalog-filter-item-checkbox>`
       )}
       ${
         items.length === 0
@@ -37,10 +38,6 @@ class HTElementsCatalogFiterBlockTags extends LitElement {
       }
       </div>
 `;
-  }
-
-  static get is() {
-    return "ht-elements-catalog-filter-block-tags";
   }
 
   static get properties() {
@@ -100,6 +97,6 @@ class HTElementsCatalogFiterBlockTags extends LitElement {
 }
 
 customElements.define(
-  HTElementsCatalogFiterBlockTags.is,
+  "ht-elements-catalog-filter-block-tags",
   HTElementsCatalogFiterBlockTags
 );

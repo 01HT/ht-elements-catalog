@@ -1,14 +1,11 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import "@polymer/iron-iconset-svg";
 import "@polymer/iron-icon/iron-icon.js";
 import { getPathFromParameters } from "./ht-elements-catalog-path-parser.js";
 
 class HTElementsCatalogFilterItem extends LitElement {
-  render() {
-    const { data, parameters } = this;
-    return html`
-      <style>
+  static styles = css`<style>
         :host {
           display: block;
           position:relative;
@@ -57,7 +54,11 @@ class HTElementsCatalogFilterItem extends LitElement {
         [hidden] {
             display:none;
         }
-      </style>
+      </style>`;
+
+  render() {
+    const { data, parameters } = this;
+    return html`
        <iron-iconset-svg size="24" name="ht-elements-catalog-filter-item">
           <svg>
             <defs>
@@ -66,24 +67,20 @@ class HTElementsCatalogFilterItem extends LitElement {
           </svg>
       </iron-iconset-svg>
         <div id="container">
-            <a href=${this._getPath(parameters)} style=${this._getItemStyle(
+            <a href="${this._getPath(parameters)}" style="${this._getItemStyle(
       data
-    )}>
-                <iron-icon icon="ht-elements-catalog-filter-item:chevron-left" ?hidden=${data.child ||
-                  data.current}></iron-icon>
+    )}">
+                <iron-icon icon="ht-elements-catalog-filter-item:chevron-left" ?hidden="${data.child ||
+                  data.current}"></iron-icon>
                   <div id="inner">${
                     data.imageURL
-                      ? html`<img src=${data.imageURL} alt=${data.name}>`
+                      ? html`<img src="${data.imageURL}" alt="${data.name}">`
                       : ""
                   }${data.name}</div>
             </a>
             <div id="number">${data.number}</div>
         </div>
 `;
-  }
-
-  static get is() {
-    return "ht-elements-catalog-filter-item";
   }
 
   static get properties() {
@@ -116,6 +113,6 @@ class HTElementsCatalogFilterItem extends LitElement {
   }
 }
 customElements.define(
-  HTElementsCatalogFilterItem.is,
+  "ht-elements-catalog-filter-item",
   HTElementsCatalogFilterItem
 );

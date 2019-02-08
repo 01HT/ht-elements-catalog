@@ -1,15 +1,12 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import { repeat } from "lit-html/directives/repeat.js";
 import "./ht-elements-catalog-list-item.js";
 import { installMediaQueryWatcher } from "pwa-helpers/media-query.js";
 import "@01ht/ht-nothing-found-placeholder";
 
 class HTElementsCatalogList extends LitElement {
-  render() {
-    const { view, smallScreen, items, notFound, cartChangeInProcess } = this;
-    return html`
-      <style>
+  static styles = css`<style>
         :host {
           display: block;
           position:relative;
@@ -59,19 +56,23 @@ class HTElementsCatalogList extends LitElement {
         #not-found[hidden] {
           display: none;
         }
-      </style>
+      </style>`;
+
+  render() {
+    const { view, smallScreen, items, notFound, cartChangeInProcess } = this;
+    return html`
       <div id="container" view=${
         view === "list" && !smallScreen ? "list" : "grid"
       }>
           ${repeat(
             items,
             item =>
-              html`<ht-elements-catalog-list-item .data=${item} .cartChangeInProcess=${cartChangeInProcess} view=${
+              html`<ht-elements-catalog-list-item .data="${item}" .cartChangeInProcess="${cartChangeInProcess}" view="${
                 view === "list" && !smallScreen ? "list" : "grid"
-              }></ht-elements-catalog-list-item>`
+              }"></ht-elements-catalog-list-item>`
           )}
       </div>
-      <div id="not-found" ?hidden=${!notFound ? true : false}>
+      <div id="not-found" ?hidden="${!notFound ? true : false}">
       
        
 ${
@@ -82,10 +83,6 @@ ${
     </div>
         
 `;
-  }
-
-  static get is() {
-    return "ht-elements-catalog-list";
   }
 
   static get properties() {
@@ -120,4 +117,4 @@ ${
   }
 }
 
-customElements.define(HTElementsCatalogList.is, HTElementsCatalogList);
+customElements.define("ht-elements-catalog-list", HTElementsCatalogList);

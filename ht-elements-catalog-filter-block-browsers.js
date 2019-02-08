@@ -1,14 +1,11 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import { repeat } from "lit-html/directives/repeat.js";
 import "./ht-elements-catalog-filter-item-checkbox.js";
 import "./ht-elements-catalog-filter-block-no-data.js";
 
 class HTElementsCatalogFiterBlockBrowsers extends LitElement {
-  render() {
-    const { parameters, items } = this;
-    return html`
-    <style>
+  static styles = css`<style>
         :host {
             display: block;
             position: relative;
@@ -23,12 +20,16 @@ class HTElementsCatalogFiterBlockBrowsers extends LitElement {
         #number {
             color: var(--secondary-text-color);
         }
-    </style>
+    </style>`;
+
+  render() {
+    const { parameters, items } = this;
+    return html`
     <div id="container">
         ${repeat(
           items,
           item => html`
-            <ht-elements-catalog-filter-item-checkbox .data=${item} .parameters=${parameters} type="browsers"></ht-elements-catalog-filter-item-checkbox>`
+            <ht-elements-catalog-filter-item-checkbox .data="${item}" .parameters="${parameters}" type="browsers"></ht-elements-catalog-filter-item-checkbox>`
         )}
         ${
           items.length === 0
@@ -37,10 +38,6 @@ class HTElementsCatalogFiterBlockBrowsers extends LitElement {
         }
     </div>
 `;
-  }
-
-  static get is() {
-    return "ht-elements-catalog-filter-block-browsers";
   }
 
   static get properties() {
@@ -100,6 +97,6 @@ class HTElementsCatalogFiterBlockBrowsers extends LitElement {
 }
 
 customElements.define(
-  HTElementsCatalogFiterBlockBrowsers.is,
+  "ht-elements-catalog-filter-block-browsers",
   HTElementsCatalogFiterBlockBrowsers
 );

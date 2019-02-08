@@ -1,5 +1,5 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import "@01ht/ht-image";
 import "@01ht/ht-user-avatar";
 import "@01ht/ht-image-slider";
@@ -8,10 +8,7 @@ import "@01ht/ht-elements-item-youtube-preview";
 import "@01ht/ht-date";
 
 class HTElementsCatalogListItemHorizontal extends LitElement {
-  render() {
-    const { data } = this;
-    return html`
-      <style>
+  static styles = css`<style>
         :host {
           display: block;
           position:relative;
@@ -99,7 +96,11 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
         [hidden] {
           display:none;
         }
-      </style>
+      </style>`;
+
+  render() {
+    const { data } = this;
+    return html`
       <article id="container">
           <header>
             ${
@@ -113,31 +114,35 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
                     window.cloudinaryURL
                   }/image/upload/c_scale,f_auto,w_1024/v${data.image.version}/${
                     data.image.public_id
-                  }.jpg" size="16x9" .altText=${data.name}></ht-image>
+                  }.jpg" size="16x9" .altText="${data.name}"></ht-image>
             </a>`
                 : ""
             }
             ${
               data.previewMode === "slider"
-                ? html`<ht-image-slider .data=${data.slider} url=${`/item/${
+                ? html`<ht-image-slider .data="${data.slider}" url="${`/item/${
                     data.nameInURL
-                  }/${data.itemId}`} .altText=${data.name}></ht-image-slider>`
+                  }/${data.itemId}`}" .altText="${
+                    data.name
+                  }"></ht-image-slider>`
                 : ""
             }
             ${
               data.previewMode === "animated"
                 ? html`<a href="/item/${data.nameInURL}/${
                     data.itemId
-                  }"><ht-animated-image .data=${
+                  }"><ht-animated-image .data="${
                     data.animated
-                  }></ht-animated-image></a>`
+                  }"></ht-animated-image></a>`
                 : ""
             }
             ${
               data.previewMode === "youtube"
-                ? html`<ht-elements-item-youtube-preview .data=${
+                ? html`<ht-elements-item-youtube-preview .data="${
                     data.youtube
-                  } .titleText=${data.name}></ht-elements-item-youtube-preview>`
+                  }" .titleText="${
+                    data.name
+                  }"></ht-elements-item-youtube-preview>`
                 : ""
             }
           </header>
@@ -145,9 +150,9 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
             <a id="name" href="/item/${data.nameInURL}/${data.itemNumber}">${
       data.name
     }</a>
-            <div id="author">от <ht-user-avatar .data=${
+            <div id="author">от <ht-user-avatar .data="${
               data.authorData
-            } size="32" verifiedSize=${12}></ht-user-avatar><a href="/${
+            }" size="32" verifiedSize="${12}"></ht-user-avatar><a href="/${
       data.authorData.isOrg ? "organization" : "user"
     }/${data.authorData.nameInURL}/${
       data.authorData.isOrg
@@ -161,25 +166,23 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
                 </div>
           </section>
           <footer>
-          <div id="price" style=${
+          <div id="price" style="${
             this._getPrice(data.price) === "Free"
               ? "color:var(--accent-color);"
               : ""
-          }>${this._getPrice(data.price)}</div>
-          <div id="sales" ?hidden=${data.sales === 0 ? true : false}>Продажи: ${
-      data.sales
-    }</div>
-    <div id="donations" ?hidden=${
+          }">${this._getPrice(data.price)}</div>
+          <div id="sales" ?hidden="${
+            data.sales === 0 ? true : false
+          }">Продажи: ${data.sales}</div>
+    <div id="donations" ?hidden="${
       data.donations === 0 || data.donations === undefined ? true : false
-    }>Поддержка: ${data.donations}$ (${data.donationsAmount})</div>
-    <div id="updated">Обновлено: <ht-date .data=${data.updated}></ht-date></div>
+    }">Поддержка: ${data.donations}$ (${data.donationsAmount})</div>
+    <div id="updated">Обновлено: <ht-date .data="${
+      data.updated
+    }"></ht-date></div>
           <slot name="actions"></slot>
           </footer>
       </article>`;
-  }
-
-  static get is() {
-    return "ht-elements-catalog-list-item-horizontal";
   }
 
   static get properties() {
@@ -209,6 +212,6 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
 }
 
 customElements.define(
-  HTElementsCatalogListItemHorizontal.is,
+  "ht-elements-catalog-list-item-horizontal",
   HTElementsCatalogListItemHorizontal
 );

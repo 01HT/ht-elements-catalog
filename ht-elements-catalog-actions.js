@@ -1,5 +1,5 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import "@polymer/iron-iconset-svg";
 import "@polymer/iron-icon";
 import "@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
@@ -7,10 +7,7 @@ import "@polymer/paper-listbox";
 import "@polymer/paper-item/paper-item.js";
 
 class HTElementsCatalogActions extends LitElement {
-  render() {
-    const { parameters, view } = this;
-    return html`
-      <style>
+  static styles = css`<style>
         :host {
           display: block;
           position:relative;
@@ -84,7 +81,11 @@ class HTElementsCatalogActions extends LitElement {
         [view] {
             color:var(--secondary-text-color);
         }
-      </style>
+      </style>`;
+
+  render() {
+    const { parameters, view } = this;
+    return html`
       <iron-iconset-svg size="24" name="ht-elements-catalog-actions">
           <svg>
               <defs>
@@ -97,22 +98,22 @@ class HTElementsCatalogActions extends LitElement {
         <div id="usd">Цены указаны в USD | Оплата производится в RUB | Курс ЦБ РФ</div>
         <div id="divider"></div>
         <div id="actions">
-        <iron-icon id="list" icon="ht-elements-catalog-actions:view-list" ?view=${view ===
-          "list"} @click=${e => {
+        <iron-icon id="list" icon="ht-elements-catalog-actions:view-list" ?view="${view ===
+          "list"}" @click="${e => {
       this._changeView(e);
-    }}></iron-icon>
-            <iron-icon id="grid" icon="ht-elements-catalog-actions:view-module" ?view=${view ===
-              "grid"} @click=${e => {
+    }}"></iron-icon>
+            <iron-icon id="grid" icon="ht-elements-catalog-actions:view-module" ?view="${view ===
+              "grid"}" @click="${e => {
       this._changeView(e);
-    }}></iron-icon>
+    }}"></iron-icon>
             <div id="select-container">
               <!-- placeholder="новизне" -->
-              <paper-dropdown-menu label="сортировать по" always-float-label no-animations @iron-select=${e => {
+              <paper-dropdown-menu label="сортировать по" always-float-label no-animations @iron-select="${e => {
                 this._onChange();
-              }}>
-                <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" setSort=${this._setSort(
+              }}">
+                <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" setSort="${this._setSort(
                   parameters
-                )}>
+                )}">
                     <paper-item value="">новизне</paper-item>
                     <paper-item value="sales">продажам</paper-item>
                     <!--paper-item value="trending">Популярности<paper-item>
@@ -125,10 +126,6 @@ class HTElementsCatalogActions extends LitElement {
         </div>
       </div>
 `;
-  }
-
-  static get is() {
-    return "ht-elements-catalog-actions";
   }
 
   static get properties() {
@@ -191,4 +188,4 @@ class HTElementsCatalogActions extends LitElement {
   }
 }
 
-customElements.define(HTElementsCatalogActions.is, HTElementsCatalogActions);
+customElements.define("ht-elements-catalog-actions", HTElementsCatalogActions);

@@ -1,14 +1,11 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
 import "@polymer/iron-icon/iron-icon.js";
 import "@polymer/iron-collapse";
 
 class HTElementsCatalogFilterSection extends LitElement {
-  render() {
-    const { name, opened } = this;
-    return html`
-      <style>
+  static styles = css`<style>
         :host {
           display: block;
           position:relative;
@@ -56,7 +53,11 @@ class HTElementsCatalogFilterSection extends LitElement {
         ::-webkit-scrollbar-thumb {
             background-color: #b3b3b3;
         }
-      </style>
+      </style>`;
+
+  render() {
+    const { name, opened } = this;
+    return html`
       <iron-iconset-svg size="24" name="ht-elements-catalog-filter-section">
           <svg>
               <defs>
@@ -67,22 +68,18 @@ class HTElementsCatalogFilterSection extends LitElement {
       </iron-iconset-svg>
 
       <div id="container">
-        <div id="header" @click=${e => {
-          this.toggle();
-        }}><div>${name}</div><iron-icon icon="ht-elements-catalog-filter-section:${
+        <div id="header" @click="${
+          this.toggle
+        }"><div>${name}</div><iron-icon icon="ht-elements-catalog-filter-section:${
       opened ? "expand-less" : "expand-more"
     }"></iron-icon></div>
-        <iron-collapse ?opened=${opened}>
+        <iron-collapse ?opened="${opened}">
           <div id="scroll">
               <slot></slot>
           </div>
         </iron-collapse>
       </div>
 `;
-  }
-
-  static get is() {
-    return "ht-elements-catalog-filter-section";
   }
 
   static get properties() {
@@ -104,6 +101,6 @@ class HTElementsCatalogFilterSection extends LitElement {
 }
 
 customElements.define(
-  HTElementsCatalogFilterSection.is,
+  "ht-elements-catalog-filter-section",
   HTElementsCatalogFilterSection
 );

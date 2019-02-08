@@ -1,5 +1,5 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import "./ht-elements-catalog-filter-section.js";
 import "./ht-elements-catalog-filter-block-categories.js";
 import "./ht-elements-catalog-filter-block-platform.js";
@@ -8,64 +8,61 @@ import "./ht-elements-catalog-filter-block-tools.js";
 import "./ht-elements-catalog-filter-block-tags.js";
 
 class HTElementsCatalogFilter extends LitElement {
+  static styles = css`<style>
+    :host {
+      display: block;
+      position:relative;
+      box-sizing:border-box;
+    }
+
+    #container {
+      display:flex;
+      align-content: flex-start;
+      flex-wrap: wrap;
+      width:100%;
+      border-radius:3px;
+    }
+
+    ht-elements-catalog-filter-section {
+      width:100%;
+      margin-bottom:16px;
+    }
+
+    [hidden] {
+      display:none;
+    }
+  </style>`;
+
   render() {
     return html`
-      <style>
-        :host {
-          display: block;
-          position:relative;
-          box-sizing:border-box;
-        }
-
-        #container {
-          display:flex;
-          align-content: flex-start;
-          flex-wrap: wrap;
-          width:100%;
-          border-radius:3px;
-        }
-
-        ht-elements-catalog-filter-section {
-          width:100%;
-          margin-bottom:16px;
-        }
-
-        [hidden] {
-          display:none;
-        }
-      </style>
       <div id="container">
         <ht-elements-catalog-filter-section name="Категория">
-          <ht-elements-catalog-filter-block-categories .parameters=${
+          <ht-elements-catalog-filter-block-categories .parameters="${
             this.parameters
-          }></ht-elements-catalog-filter-block-categories>
+          }"></ht-elements-catalog-filter-block-categories>
         </ht-elements-catalog-filter-section>
         <ht-elements-catalog-filter-section name="Платформа">
-          <ht-elements-catalog-filter-block-platform .parameters=${
+          <ht-elements-catalog-filter-block-platform .parameters="${
             this.parameters
-          }></ht-elements-catalog-filter-block-platform>
+          }"></ht-elements-catalog-filter-block-platform>
         </ht-elements-catalog-filter-section>
         <ht-elements-catalog-filter-section name="Совместимые браузеры">
-          <ht-elements-catalog-filter-block-browsers .parameters=${
+          <ht-elements-catalog-filter-block-browsers .parameters="${
             this.parameters
-          }></ht-elements-catalog-filter-block-browsers>
+          }"></ht-elements-catalog-filter-block-browsers>
         </ht-elements-catalog-filter-section>
         <ht-elements-catalog-filter-section name="Инструменты">
-          <ht-elements-catalog-filter-block-tools .parameters=${
+          <ht-elements-catalog-filter-block-tools .parameters="${
             this.parameters
-          }></ht-elements-catalog-filter-block-tools>
+          }"></ht-elements-catalog-filter-block-tools>
         </ht-elements-catalog-filter-section>
         <ht-elements-catalog-filter-section name="Теги">
-          <ht-elements-catalog-filter-block-tags .parameters=${
+          <ht-elements-catalog-filter-block-tags .parameters="${
             this.parameters
-          }></ht-elements-catalog-filter-block-tags>
+          }"></ht-elements-catalog-filter-block-tags>
         </ht-elements-catalog-filter-section>
       </div>
 `;
-  }
-
-  static get is() {
-    return "ht-elements-catalog-filter";
   }
 
   static get properties() {
@@ -118,4 +115,4 @@ class HTElementsCatalogFilter extends LitElement {
   }
 }
 
-customElements.define(HTElementsCatalogFilter.is, HTElementsCatalogFilter);
+customElements.define("ht-elements-catalog-filter", HTElementsCatalogFilter);

@@ -1,15 +1,12 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
 import "@polymer/paper-icon-button";
 import "./ht-elements-catalog-search-speech-mic.js";
 import { installMediaQueryWatcher } from "pwa-helpers/media-query.js";
 
 class HTElementsCatalogSearch extends LitElement {
-  render() {
-    const { parameters, opened, clearButtonVisible } = this;
-    return html`
-      <style>
+  static styles = css`<style>
         :host {
           display: block;
           position:relative;
@@ -85,7 +82,11 @@ class HTElementsCatalogSearch extends LitElement {
         [hidden] {
           display:none;
         }
-      </style>
+      </style>`;
+
+  render() {
+    const { parameters, opened, clearButtonVisible } = this;
+    return html`
       <iron-iconset-svg size="24" name="ht-elements-catalog-search">
           <svg>
               <defs>
@@ -97,40 +98,36 @@ class HTElementsCatalogSearch extends LitElement {
           </svg>
       </iron-iconset-svg>
       <div id="container">
-       <paper-icon-button id="search-button" alt="Поиск" toggles icon="ht-elements-catalog-search:search" @click=${e => {
+       <paper-icon-button id="search-button" alt="Поиск" toggles icon="ht-elements-catalog-search:search" @click="${
          this._search();
-       }} ?hidden=${clearButtonVisible}></paper-icon-button>
-       <paper-icon-button id="clear-toggle" alt="Очистить поле поиска" toggles icon="ht-elements-catalog-search:arrow-back" @click=${e => {
-         this._clear();
-       }} ?hidden=${!clearButtonVisible}></paper-icon-button>
-        <input type="text" aria-label="Поиск" autofocus value=${
+       }" ?hidden="${clearButtonVisible}"></paper-icon-button>
+       <paper-icon-button id="clear-toggle" alt="Очистить поле поиска" toggles icon="ht-elements-catalog-search:arrow-back" @click="${
+         this._clear
+       }" ?hidden="${!clearButtonVisible}"></paper-icon-button>
+        <input type="text" aria-label="Поиск" autofocus value="${
           parameters.search ? parameters.search : ""
-        } placeholder="Поиск" @change=${e => {
+        }" placeholder="Поиск" @change="${e => {
       this._onInputChange(e);
-    }} @keyup=${e => {
+    }}" @keyup="${e => {
       this._onInputKeyUp(e);
-    }}> 
+    }}"> 
 
-        <ht-elements-catalog-search-speech-mic continuous @result=${e =>
-          this._micResult(e)}></ht-elements-catalog-search-speech-mic>
+        <ht-elements-catalog-search-speech-mic continuous @result="${e =>
+          this._micResult(e)}"></ht-elements-catalog-search-speech-mic>
 
         <paper-icon-button id="filter-toggle" alt="Открыть настройки фильтра" toggles icon="ht-elements-catalog-search:${
           opened ? "close" : "tune"
-        }" @click=${e => {
+        }" @click="${e => {
       this.toggleFilter();
-    }}>
+    }}">
         </paper-icon-button>
        
-        <div id="filter-container" ?hidden=${!opened}>
+        <div id="filter-container" ?hidden="${!opened}">
           <slot name="filter"></slot>
         </div>
 
       </div>
 `;
-  }
-
-  static get is() {
-    return "ht-elements-catalog-search";
   }
 
   static get properties() {
@@ -223,4 +220,4 @@ class HTElementsCatalogSearch extends LitElement {
   }
 }
 
-customElements.define(HTElementsCatalogSearch.is, HTElementsCatalogSearch);
+customElements.define("ht-elements-catalog-search", HTElementsCatalogSearch);

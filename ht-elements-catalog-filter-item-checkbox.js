@@ -1,60 +1,61 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import { getPathFromParameters } from "./ht-elements-catalog-path-parser.js";
 import "@polymer/paper-checkbox";
 
 class HTElementsCatalogFilterItemCheckbox extends LitElement {
+  static styles = css`<style>
+    :host {
+      display: block;
+      position:relative;
+      box-sizing:border-box;
+    }
+
+    a {
+      display:block;
+      color:inherit;
+      text-decoration: none;
+    }
+
+    paper-checkbox {
+      font-size: 14px;
+    }
+
+    #container {
+      display:flex;
+      justify-content: space-between;
+      margin-left:8px;
+      align-items: center;
+      min-height:35px;
+    }
+
+    #checkbox-inner {
+      display:flex;
+      align-items:center;
+    }
+
+    img {
+      margin-right:8px;
+      display:block;
+      width:24px;
+      height:24px;
+    }
+
+    #number {
+      margin-left:16px;
+      color:var(--secondary-text-color);
+    }
+  </style>`;
+
   render() {
     const { data, parameters } = this;
     return html`
-      <style>
-        :host {
-          display: block;
-          position:relative;
-          box-sizing:border-box;
-        }
-
-        a {
-          display:block;
-          color:inherit;
-          text-decoration: none;
-        }
-
-        paper-checkbox {
-          font-size: 14px;
-        }
-
-        #container {
-          display:flex;
-          justify-content: space-between;
-          margin-left:8px;
-          align-items: center;
-          min-height:35px;
-        }
-
-        #checkbox-inner {
-          display:flex;
-          align-items:center;
-        }
-
-        img {
-          margin-right:8px;
-          display:block;
-          width:24px;
-          height:24px;
-        }
-
-        #number {
-          margin-left:16px;
-          color:var(--secondary-text-color);
-        }
-      </style>
       <div id="container">
-      <a href=${this._getPath(parameters)}>
-          <paper-checkbox noink ?checked=${this.getChecked()}>
+      <a href="${this._getPath(parameters)}">
+          <paper-checkbox noink ?checked="${this.getChecked}">
           <div id="checkbox-inner">${
             data.imageURL
-              ? html`<img src=${data.imageURL} alt=${data.name}>`
+              ? html`<img src="${data.imageURL}" alt="${data.name}">`
               : ""
           }${data.name}</div>
           </paper-checkbox>
@@ -62,10 +63,6 @@ class HTElementsCatalogFilterItemCheckbox extends LitElement {
       <div id="number">${data.number}</div>
       </div>
 `;
-  }
-
-  static get is() {
-    return "ht-elements-catalog-filter-item-checkbox";
   }
 
   static get properties() {
@@ -109,6 +106,6 @@ class HTElementsCatalogFilterItemCheckbox extends LitElement {
   }
 }
 customElements.define(
-  HTElementsCatalogFilterItemCheckbox.is,
+  "ht-elements-catalog-filter-item-checkbox",
   HTElementsCatalogFilterItemCheckbox
 );

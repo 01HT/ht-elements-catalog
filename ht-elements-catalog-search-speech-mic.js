@@ -1,11 +1,9 @@
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
 import "@polymer/paper-icon-button";
 
 class HTElementsCatalogSearchSpeechMic extends LitElement {
-  render() {
-    return html`
-    <style>
+  static styles = css`<style>
         :host {
           display: inline-flex;
           justify-content: center;
@@ -80,7 +78,10 @@ class HTElementsCatalogSearchSpeechMic extends LitElement {
                 transform: scale(1);
             }
         }
-    </style>
+    </style>`;
+
+  render() {
+    return html`
     <iron-iconset-svg size="24" name="ht-elements-catalog-search-speech-mic">
         <svg>
             <defs>
@@ -92,14 +93,10 @@ class HTElementsCatalogSearchSpeechMic extends LitElement {
     </iron-iconset-svg>
     <div class="ring1"></div>
     <div class="ring2"></div>
-     <paper-icon-button id="clear-toggle" toggles icon="ht-elements-catalog-search-speech-mic:mic" @click=${e => {
-       this.toggle();
-     }} alt="Голосовой ввод"></paper-icon-button>
+     <paper-icon-button id="clear-toggle" toggles icon="ht-elements-catalog-search-speech-mic:mic" @click="${
+       this.toggle
+     }" alt="Голосовой ввод"></paper-icon-button>
     `;
-  }
-
-  static get is() {
-    return "ht-elements-catalog-search-speech-mic";
   }
 
   static get properties() {
@@ -176,6 +173,6 @@ class HTElementsCatalogSearchSpeechMic extends LitElement {
 }
 
 customElements.define(
-  HTElementsCatalogSearchSpeechMic.is,
+  "ht-elements-catalog-search-speech-mic",
   HTElementsCatalogSearchSpeechMic
 );
