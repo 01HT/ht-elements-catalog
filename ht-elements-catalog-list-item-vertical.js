@@ -21,6 +21,7 @@ class HTElementsCatalogListItemVertical extends LitElement {
         display: block;
         color: inherit;
         text-decoration: none;
+        outline: none;
       }
 
       a:hover {

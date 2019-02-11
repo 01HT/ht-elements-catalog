@@ -17,6 +17,8 @@ class HTElementsCatalogSelectedFilters extends LitElement {
           display: block;
           color: inherit;
           text-decoration: none;
+          outline: none;
+          text-decoration: none;
         }
 
         #container {

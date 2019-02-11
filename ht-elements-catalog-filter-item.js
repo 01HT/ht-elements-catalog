@@ -18,6 +18,7 @@ class HTElementsCatalogFilterItem extends LitElement {
           color: inherit;
           text-decoration: none;
           font-weight: 600;
+          outline: none;
         }
 
         iron-icon {
