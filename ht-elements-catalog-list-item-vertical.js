@@ -7,127 +7,131 @@ import "@01ht/ht-animated-image";
 import "@01ht/ht-elements-item-youtube-preview";
 
 class HTElementsCatalogListItemVertical extends LitElement {
-  static styles = css`<style>
-        :host {
-          display: flex;
-          flex-direction:column;
-          height: 100%;
-          position:relative;
-          box-sizing:border-box;
-        }
+  static get styles() {
+    return css`
+      :host {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        position: relative;
+        box-sizing: border-box;
+      }
 
-        a {
-          display:block;
-          color:inherit;
-          text-decoration: none;
-        }
+      a {
+        display: block;
+        color: inherit;
+        text-decoration: none;
+      }
 
-        a:hover {
-          text-decoration: underline;
-        }
+      a:hover {
+        text-decoration: underline;
+      }
 
-        ht-user-avatar {
-          margin-right:16px;
-        }
+      ht-user-avatar {
+        margin-right: 16px;
+      }
 
-        header {
-          padding-bottom: 56.25%;
-          max-height: 56.25%;
-          position: relative;
-        }
+      header {
+        padding-bottom: 56.25%;
+        max-height: 56.25%;
+        position: relative;
+      }
 
-        header > * {
-          position:absolute;
-          top:0;
-          left:0;
-          right:0;
-        }
+      header > * {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+      }
 
-        section {
-          display:flex;
-          align-items:center;
-          margin-top: 16px;
-          
-        }
+      section {
+        display: flex;
+        align-items: center;
+        margin-top: 16px;
+      }
 
-        footer {
-          margin-top:16px;
-          display: flex;
-          flex: 1;
-          justify-content: space-between;
-          align-items:center;
-        }
+      footer {
+        margin-top: 16px;
+        display: flex;
+        flex: 1;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-        #container {
-          display:flex;
-          flex-direction: column;
-          width:100%;
-          height: 100%;
-          overflow:hidden;
-        }
+      #container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
 
-        #title {
-          display: flex;
-          flex-direction:column;
-          font-size: 14px;
-        }
+      #title {
+        display: flex;
+        flex-direction: column;
+        font-size: 14px;
+      }
 
-        #name {
-          font-size: 24px;
-          line-height: 28px;
-          color: #424242;
-          letter-spacing: .28px;
-        }
-        
-        #author {
-          display:flex;
-          margin:4px 0 0 0;
-          color: var(--secondary-text-color);
-        }
+      #name {
+        font-size: 24px;
+        line-height: 28px;
+        color: #424242;
+        letter-spacing: 0.28px;
+      }
 
-        #author a {
-          margin-left:4px;
-        }
+      #author {
+        display: flex;
+        margin: 4px 0 0 0;
+        color: var(--secondary-text-color);
+      }
 
-        #author span {
-          margin-left:4px;
-        }
+      #author a {
+        margin-left: 4px;
+      }
 
-        #info {
-            display: flex;
-            flex-direction: column;
-            line-height: 40px;
-        }
+      #author span {
+        margin-left: 4px;
+      }
 
-        #donations, #sales {
-          margin-top: 4px;
-          font-size:12px;
-          color: var(--secondary-text-color);
-        }
+      #info {
+        display: flex;
+        flex-direction: column;
+        line-height: 40px;
+      }
 
-        #price, #sales, #donations {
-          line-height: 1;
-        }
+      #donations,
+      #sales {
+        margin-top: 4px;
+        font-size: 12px;
+        color: var(--secondary-text-color);
+      }
 
-        #price {
-          font-size: 18px;
-          color:var(--secondary-text-color);
-          font-weight:500;
-          text-transform: uppercase;
-        }
+      #price,
+      #sales,
+      #donations {
+        line-height: 1;
+      }
 
-        #actions {
-            align-self:flex-end;
-        }
+      #price {
+        font-size: 18px;
+        color: var(--secondary-text-color);
+        font-weight: 500;
+        text-transform: uppercase;
+      }
 
-        #slider-container a {
-          display:block;
-        }
+      #actions {
+        align-self: flex-end;
+      }
 
-        [hidden] {
-          display:none;
-        }
-      </style>`;
+      #slider-container a {
+        display: block;
+      }
+
+      [hidden] {
+        display: none;
+      }
+    `;
+  }
 
   render() {
     const { data, view } = this;

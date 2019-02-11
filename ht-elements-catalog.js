@@ -16,58 +16,57 @@ import {
 } from "@01ht/ht-client-helper-functions";
 import { updateMetadata } from "@01ht/ht-client-helper-functions/metadata.js";
 
-class HTElementsCatalog extends LitElement {
-  static styles = css`<style>
-        :host {
-          display: block;
-          position:relative;
-          box-sizing:border-box;
-        }
+import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
 
+class HTElementsCatalog extends LitElement {
+  static get styles() {
+    return [
+      stylesBasicWebcomponents,
+      css`
         ht-elements-catalog-search {
-          margin-top:16px;
-          width:100%;
+          margin-top: 16px;
+          width: 100%;
         }
 
         #main ht-elements-catalog-filter {
-          display:flex;
-          position:relative;
-          width:100%;
+          display: flex;
+          position: relative;
+          width: 100%;
           min-width: 240px;
         }
 
         ht-elements-catalog-actions {
-          width:100%;
+          width: 100%;
         }
 
         ht-elements-catalog-selected-filters {
-          margin-top:32px;
-          width:100%;
+          margin-top: 32px;
+          width: 100%;
         }
 
         ht-elements-catalog-list {
-          width:100%;
-          margin-top:8px;
+          width: 100%;
+          margin-top: 8px;
         }
 
         #container {
-          display:flex;
-          width:100%;
+          display: flex;
+          width: 100%;
           flex-direction: column;
-          align-items:center;
+          align-items: center;
         }
 
         #main {
           display: grid;
           grid-template-columns: 0.3fr 1fr;
-          width:100%;
-          margin-top:32px;
-          grid-gap:32px;
+          width: 100%;
+          margin-top: 32px;
+          grid-gap: 32px;
         }
 
         #list {
-          display:flex;
-          flex-direction:column;
+          display: flex;
+          flex-direction: column;
         }
 
         .spinner-container {
@@ -76,30 +75,32 @@ class HTElementsCatalog extends LitElement {
           width: 100%;
           align-items: center;
           align-content: center;
-          margin-top:64px;
+          margin-top: 64px;
         }
 
-        @media screen and (max-width:1120px) {
+        @media screen and (max-width: 1120px) {
           #main {
-            grid-gap:16px;
+            grid-gap: 16px;
           }
         }
 
-        @media screen and (max-width:700px) {
+        @media screen and (max-width: 700px) {
           #main {
             grid-template-columns: 1fr;
-            grid-gap:0;
+            grid-gap: 0;
           }
 
           #main ht-elements-catalog-filter {
-            display:none;
+            display: none;
           }
         }
 
         [hidden] {
-          display:none !important;
+          display: none !important;
         }
-      </style>`;
+      `
+    ];
+  }
 
   render() {
     const {

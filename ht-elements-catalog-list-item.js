@@ -6,39 +6,40 @@ import "@01ht/ht-spinner";
 import "./ht-elements-catalog-list-item-horizontal.js";
 import "./ht-elements-catalog-list-item-vertical.js";
 
+import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
+
 class HTElementsCatalogListItem extends LitElement {
-  static styles = css`<style>
-    :host {
-      display: block;
-      position:relative;
-      box-sizing:border-box;
-    }
+  static get styles() {
+    return [
+      stylesBasicWebcomponents,
+      css`
+        #actions {
+          align-self: flex-end;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          margin-top: auto;
+          height: 40px;
+          width: auto;
+        }
 
-    #actions {
-      align-self: flex-end;
-      display: flex;
-      justify-content: center;
-      align-items:center;
-      width: 100%;
-      margin-top: auto;
-      height:40px;
-      width:auto;
-    }
+        ht-spinner {
+          min-width: 40px;
+        }
 
-    ht-spinner {
-      min-width: 40px;
-    }
+        paper-icon-button {
+          min-width: 40px;
+          border-radius: 50%;
+          color: var(--secondary-text-color);
+        }
 
-    paper-icon-button {
-      min-width: 40px;
-      border-radius: 50%;
-      color: var(--secondary-text-color);
-    }
-
-    [hidden] {
-      display:none;
-    }
-  </style>`;
+        [hidden] {
+          display: none;
+        }
+      `
+    ];
+  }
 
   render() {
     const { data, view, cartChangeInProcess } = this;

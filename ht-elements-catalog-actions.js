@@ -6,53 +6,52 @@ import "@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
 import "@polymer/paper-listbox";
 import "@polymer/paper-item/paper-item.js";
 
-class HTElementsCatalogActions extends LitElement {
-  static styles = css`<style>
-        :host {
-          display: block;
-          position:relative;
-          box-sizing:border-box;
-        }
+import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
 
+class HTElementsCatalogActions extends LitElement {
+  static get styles() {
+    return [
+      stylesBasicWebcomponents,
+      css`
         iron-icon {
-            color:#b3b3b3;
-            cursor:pointer;
-            margin-right:4px;
+          color: #b3b3b3;
+          cursor: pointer;
+          margin-right: 4px;
         }
 
         paper-listbox {
-            width: 100%;
-            --paper-listbox-background-color: #fff;
+          width: 100%;
+          --paper-listbox-background-color: #fff;
         }
 
         paper-item {
-            cursor:pointer;
+          cursor: pointer;
         }
 
         #container {
           display: flex;
-          justify-content:flex-end;
-          align-items:center;
-          width:100%;
-          height:46px;
+          justify-content: flex-end;
+          align-items: center;
+          width: 100%;
+          height: 46px;
         }
 
         #usd {
-            font-size:13px;
-            color:var(--secondary-text-color);
+          font-size: 13px;
+          color: var(--secondary-text-color);
         }
 
         #divider {
-            width:1px;
-            height:100%;
-            background: var(--divider-color);
-            margin:0 16px;
+          width: 1px;
+          height: 100%;
+          background: var(--divider-color);
+          margin: 0 16px;
         }
 
         #actions {
-            cursor: default;
-            display:flex;
-            align-items:center;
+          cursor: default;
+          display: flex;
+          align-items: center;
         }
 
         #select-container {
@@ -62,26 +61,29 @@ class HTElementsCatalogActions extends LitElement {
           margin-left: 16px;
         }
 
-        @media screen and (max-width:1120px) {
+        @media screen and (max-width: 1120px) {
           iron-icon {
-            display:none;
+            display: none;
           }
-          
+
           #select-container {
-            margin-left:0;
+            margin-left: 0;
           }
         }
 
-        @media screen and (max-width:960px) {
-          #usd, #divider {
-            display:none;
+        @media screen and (max-width: 960px) {
+          #usd,
+          #divider {
+            display: none;
           }
         }
 
         [view] {
-            color:var(--secondary-text-color);
+          color: var(--secondary-text-color);
         }
-      </style>`;
+      `
+    ];
+  }
 
   render() {
     const { parameters, view } = this;

@@ -7,17 +7,16 @@ import "@01ht/ht-animated-image";
 import "@01ht/ht-elements-item-youtube-preview";
 import "@01ht/ht-date";
 
-class HTElementsCatalogListItemHorizontal extends LitElement {
-  static styles = css`<style>
-        :host {
-          display: block;
-          position:relative;
-          box-sizing:border-box;
-        }
+import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
 
+class HTElementsCatalogListItemHorizontal extends LitElement {
+  static get styles() {
+    return [
+      stylesBasicWebcomponents,
+      css`
         a {
-          display:block;
-          color:inherit;
+          display: block;
+          color: inherit;
           text-decoration: none;
         }
 
@@ -26,9 +25,9 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
         }
 
         ht-user-avatar {
-          margin:0 4px;
+          margin: 0 4px;
         }
-        
+
         header {
           flex: 3 0;
           min-width: 310px;
@@ -39,14 +38,14 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
         }
 
         section {
-            display:flex;
-            flex-direction:column;
-            flex: 3 0;
-            padding: 0 16px;
+          display: flex;
+          flex-direction: column;
+          flex: 3 0;
+          padding: 0 16px;
         }
 
         footer {
-          padding-left:16px;
+          padding-left: 16px;
           border-left: 1px solid var(--divider-color);
           display: flex;
           flex-direction: column;
@@ -54,9 +53,9 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
         }
 
         #container {
-          display:flex;
-          width:100%;
-          overflow:hidden;
+          display: flex;
+          width: 100%;
+          overflow: hidden;
           background: #fff;
         }
 
@@ -64,14 +63,14 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
           font-size: 24px;
           line-height: 28px;
           color: #424242;
-          letter-spacing: .28px;
+          letter-spacing: 0.28px;
         }
-        
+
         #author {
-          display:flex;
-          position:relative;
-          align-items:center;
-          margin-top:8px;
+          display: flex;
+          position: relative;
+          align-items: center;
+          margin-top: 8px;
           color: var(--secondary-text-color);
         }
 
@@ -81,22 +80,26 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
 
         #price {
           font-size: 18px;
-          color:var(--secondary-text-color);
-          font-weight:500;
+          color: var(--secondary-text-color);
+          font-weight: 500;
           text-transform: uppercase;
           margin-bottom: 16px;
         }
-        
-        #sales, #donations, #updated {
+
+        #sales,
+        #donations,
+        #updated {
           margin-top: 4px;
           font-size: 13px;
           color: var(--secondary-text-color);
         }
 
         [hidden] {
-          display:none;
+          display: none;
         }
-      </style>`;
+      `
+    ];
+  }
 
   render() {
     const { data } = this;

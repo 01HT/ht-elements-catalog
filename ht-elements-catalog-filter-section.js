@@ -4,56 +4,57 @@ import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
 import "@polymer/iron-icon/iron-icon.js";
 import "@polymer/iron-collapse";
 
-class HTElementsCatalogFilterSection extends LitElement {
-  static styles = css`<style>
-        :host {
-          display: block;
-          position:relative;
-          box-sizing:border-box;
-        }
+import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
 
+class HTElementsCatalogFilterSection extends LitElement {
+  static get styles() {
+    return [
+      stylesBasicWebcomponents,
+      css`
         #container {
-          display:flex;
-          flex-direction:column;
-          width:100%;
+          display: flex;
+          flex-direction: column;
+          width: 100%;
           border-bottom: 1px solid var(--divider-color);
         }
 
         #header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 16px;
-            color: #3e3f3d;
-            font-weight: 500;
-            cursor:pointer;
-            padding:0 8px 16px 8px;
-            user-select: none;
+          display: flex;
+          justify-content: space-between;
+          font-size: 16px;
+          color: #3e3f3d;
+          font-weight: 500;
+          cursor: pointer;
+          padding: 0 8px 16px 8px;
+          user-select: none;
         }
 
         iron-collapse {
-          overflow:hidden;
+          overflow: hidden;
         }
 
         #scroll {
           overflow-y: auto;
           overflow-x: hidden;
           max-height: 214px;
-          height:auto;
+          height: auto;
           padding-right: 16px;
-          margin-bottom:16px;
+          margin-bottom: 16px;
         }
-        
+
         ::-webkit-scrollbar-track {
-            background-color: #e6e6e6;
+          background-color: #e6e6e6;
         }
         ::-webkit-scrollbar {
-            width: 8px;
-            background-color: #e6e6e6;
-        } 
-        ::-webkit-scrollbar-thumb {
-            background-color: #b3b3b3;
+          width: 8px;
+          background-color: #e6e6e6;
         }
-      </style>`;
+        ::-webkit-scrollbar-thumb {
+          background-color: #b3b3b3;
+        }
+      `
+    ];
+  }
 
   render() {
     const { name, opened } = this;

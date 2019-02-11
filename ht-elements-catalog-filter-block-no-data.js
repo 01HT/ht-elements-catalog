@@ -1,19 +1,20 @@
 "use strict";
 import { LitElement, html, css } from "lit-element";
 
-class HTElementsCatalogFilterBlockNoData extends LitElement {
-  static styles = css`<style>
-    :host {
-        display: block;
-        position:relative;
-        box-sizing:border-box;
-    }
+import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
 
-    #no-data {
-      color:var(--secondary-text-color);
-      margin-left:16px;
-    }
-  </style>`;
+class HTElementsCatalogFilterBlockNoData extends LitElement {
+  static get styles() {
+    return [
+      stylesBasicWebcomponents,
+      css`
+        #no-data {
+          color: var(--secondary-text-color);
+          margin-left: 16px;
+        }
+      `
+    ];
+  }
 
   render() {
     return html`

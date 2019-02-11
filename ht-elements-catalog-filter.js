@@ -7,31 +7,32 @@ import "./ht-elements-catalog-filter-block-browsers.js";
 import "./ht-elements-catalog-filter-block-tools.js";
 import "./ht-elements-catalog-filter-block-tags.js";
 
+import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
+
 class HTElementsCatalogFilter extends LitElement {
-  static styles = css`<style>
-    :host {
-      display: block;
-      position:relative;
-      box-sizing:border-box;
-    }
+  static get styles() {
+    return [
+      stylesBasicWebcomponents,
+      css`
+        #container {
+          display: flex;
+          align-content: flex-start;
+          flex-wrap: wrap;
+          width: 100%;
+          border-radius: 3px;
+        }
 
-    #container {
-      display:flex;
-      align-content: flex-start;
-      flex-wrap: wrap;
-      width:100%;
-      border-radius:3px;
-    }
+        ht-elements-catalog-filter-section {
+          width: 100%;
+          margin-bottom: 16px;
+        }
 
-    ht-elements-catalog-filter-section {
-      width:100%;
-      margin-bottom:16px;
-    }
-
-    [hidden] {
-      display:none;
-    }
-  </style>`;
+        [hidden] {
+          display: none;
+        }
+      `
+    ];
+  }
 
   render() {
     return html`

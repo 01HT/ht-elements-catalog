@@ -25,6 +25,6 @@
     "@01ht/ht-user-avatar": "01ht/ht-user-avatar",
     "@01ht/ht-nothing-found-placeholder": "01ht/ht-nothing-found-placeholder",
     "@01ht/ht-client-helper-functions": "01ht/ht-client-helper-functions",
-    "pwa-helpers": "^0.8.3"
+    "pwa-helpers": "^0.9.0"
   }
 }

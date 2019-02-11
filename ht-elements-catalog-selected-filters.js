@@ -6,66 +6,68 @@ import "@polymer/iron-icon";
 import "@01ht/ht-chip";
 import { getPathFromParameters } from "./ht-elements-catalog-path-parser.js";
 
-class HTElementsCatalogSelectedFilters extends LitElement {
-  static styles = css`<style>
-        :host {
-            display: block;
-            position:relative;
-            box-sizing:border-box;
-        }
+import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
 
+class HTElementsCatalogSelectedFilters extends LitElement {
+  static get styles() {
+    return [
+      stylesBasicWebcomponents,
+      css`
         a {
-            display:block;
-            color:inherit;
-            text-decoration: none;
+          display: block;
+          color: inherit;
+          text-decoration: none;
         }
 
         #container {
-            display:flex;
-            flex-wrap: wrap;
-            align-items:center;
-            min-height:32px;
-            font-size:13px;
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          min-height: 32px;
+          font-size: 13px;
         }
 
         #container > * {
-            margin-right: 8px;
-            margin-bottom: 8px;
+          margin-right: 8px;
+          margin-bottom: 8px;
         }
 
         #all-items {
-            color: var(--secondary-text-color);
+          color: var(--secondary-text-color);
         }
 
         #number {
-            font-weight:600;
+          font-weight: 600;
         }
 
         #categories {
-            display:flex;
-            align-items:center;
-            flex-wrap:wrap;
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
         }
 
         #categories a {
-            text-decoration: underline;
+          text-decoration: underline;
         }
 
         .categories-separator {
-            margin: 0 4px;
+          margin: 0 4px;
         }
 
         #reset {
-            margin-left:8px;
-            text-decoration: underline;
-            line-height:32px;
-            height:32px;
+          margin-left: 8px;
+          text-decoration: underline;
+          line-height: 32px;
+          height: 32px;
         }
 
-        #categories[hidden], #reset[hidden] {
-          display:none;
+        #categories[hidden],
+        #reset[hidden] {
+          display: none;
         }
-      </style>`;
+      `
+    ];
+  }
 
   render() {
     const { params, items, number } = this;

@@ -3,82 +3,84 @@ import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
 import "@polymer/paper-icon-button";
 
 class HTElementsCatalogSearchSpeechMic extends LitElement {
-  static styles = css`<style>
-        :host {
-          display: inline-flex;
-          justify-content: center;
-          align-items: center;
-          align-content: stretch;
-          position: relative;
-          width: 40px;
-          height: 40px;
+  static get styles() {
+    return css`
+      :host {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        align-content: stretch;
+        position: relative;
+        width: 40px;
+        height: 40px;
+      }
+
+      paper-icon-button {
+        color: var(--secondary-text-color);
+        border-radius: 50%;
+      }
+
+      :host([recognizing]) > paper-icon-button {
+        color: #fff;
+        background-color: #d23f31;
+        fill: #fff;
+        box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      }
+
+      .ring1 {
+        display: none;
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        border-radius: 100%;
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+
+      :host([recognizing]) > .ring1 {
+        display: block;
+        animation: ring1-pulse 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      }
+
+      @keyframes ring1-pulse {
+        0% {
+          transform: scale(0.5);
         }
-    
-        paper-icon-button {
-            color: var(--secondary-text-color);
-            border-radius: 50%;
+        40% {
+          transform: scale(0.8);
         }
-    
-        :host([recognizing])>paper-icon-button {
-            color:#fff;
-            background-color: #d23f31;
-            fill: #fff;
-            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        100% {
+          transform: scale(1);
         }
-    
-        .ring1 {
-            display: none;
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            border-radius: 100%;
-            background-color: rgba(0, 0, 0, 0.1);
+      }
+
+      .ring2 {
+        display: none;
+        position: absolute;
+        width: 300%;
+        height: 300%;
+        border-radius: 100%;
+        box-sizing: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+      }
+
+      :host([recognizing]) > .ring2 {
+        display: block;
+        animation: ring2-pulse 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      }
+
+      @keyframes ring2-pulse {
+        0% {
+          transform: scale(0.3);
         }
-    
-        :host([recognizing])>.ring1 {
-            display: block;
-            animation: ring1-pulse 1.2s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+        40% {
+          transform: scale(0.5);
         }
-    
-        @keyframes ring1-pulse {
-            0% {
-                transform: scale(0.5);
-            }
-            40% {
-                transform: scale(0.8);
-            }
-            100% {
-                transform: scale(1);
-            }
+        100% {
+          transform: scale(1);
         }
-    
-        .ring2 {
-            display: none;
-            position: absolute;
-            width: 300%;
-            height: 300%;
-            border-radius: 100%;
-            box-sizing: border-box;
-            border: 1px solid rgba(0, 0, 0, 0.08);
-        }
-    
-        :host([recognizing])>.ring2 {
-            display: block;
-            animation: ring2-pulse 1.5s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
-        }
-    
-        @keyframes ring2-pulse {
-            0% {
-                transform: scale(0.3);
-            }
-            40% {
-                transform: scale(0.5);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-    </style>`;
+      }
+    `;
+  }
 
   render() {
     return html`

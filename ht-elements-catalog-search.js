@@ -5,38 +5,38 @@ import "@polymer/paper-icon-button";
 import "./ht-elements-catalog-search-speech-mic.js";
 import { installMediaQueryWatcher } from "pwa-helpers/media-query.js";
 
-class HTElementsCatalogSearch extends LitElement {
-  static styles = css`<style>
-        :host {
-          display: block;
-          position:relative;
-          box-sizing:border-box;
-        }
+import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
 
+class HTElementsCatalogSearch extends LitElement {
+  static get styles() {
+    return [
+      stylesBasicWebcomponents,
+      css`
         input {
           outline: none;
-          border:none;
+          border: none;
           width: 100%;
           font-size: 16px;
           color: #1a1a1a;
-          height:54px;
-          margin-left:16px;
+          height: 54px;
+          margin-left: 16px;
         }
 
         paper-icon-button {
-          min-width:40px;
-          margin:0 2px;
-          padding:0 8px;
+          min-width: 40px;
+          margin: 0 2px;
+          padding: 0 8px;
           color: var(--secondary-text-color);
         }
 
         #container {
           display: flex;
-          align-items:center;
-          border-radius:2px;
-          box-shadow:0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
-          transition: box-shadow .15s cubic-bezier(.4,0,.2,1);
-          padding:0 8px;
+          align-items: center;
+          border-radius: 2px;
+          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16),
+            0 0 0 1px rgba(0, 0, 0, 0.08);
+          transition: box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+          padding: 0 8px;
           height: 56px;
         }
 
@@ -50,39 +50,42 @@ class HTElementsCatalogSearch extends LitElement {
           overflow-x: hidden;
           background: #fff;
           top: 57px;
-          left:0;
+          left: 0;
           height: calc(100vh - 200px);
-          box-shadow:0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
+          box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.2),
+            0 0 0 1px rgba(0, 0, 0, 0.08);
         }
 
         ::-webkit-scrollbar-track {
-            background-color: #e6e6e6;
+          background-color: #e6e6e6;
         }
 
         ::-webkit-scrollbar {
-            width: 8px;
-            background-color: #e6e6e6;
-        } 
+          width: 8px;
+          background-color: #e6e6e6;
+        }
 
         ::-webkit-scrollbar-thumb {
-            background-color: #b3b3b3;
+          background-color: #b3b3b3;
         }
 
         ::slotted(ht-elements-catalog-filter) {
-          max-width:100%;
-          width:100%;
+          max-width: 100%;
+          width: 100%;
         }
-        
-        @media screen and (min-width:700px) {
-         #filter-toggle {
-            display:none;
+
+        @media screen and (min-width: 700px) {
+          #filter-toggle {
+            display: none;
           }
         }
 
         [hidden] {
-          display:none;
+          display: none;
         }
-      </style>`;
+      `
+    ];
+  }
 
   render() {
     const { parameters, opened, clearButtonVisible } = this;
@@ -99,7 +102,7 @@ class HTElementsCatalogSearch extends LitElement {
       </iron-iconset-svg>
       <div id="container">
        <paper-icon-button id="search-button" alt="Поиск" toggles icon="ht-elements-catalog-search:search" @click="${
-         this._search();
+         this._search
        }" ?hidden="${clearButtonVisible}"></paper-icon-button>
        <paper-icon-button id="clear-toggle" alt="Очистить поле поиска" toggles icon="ht-elements-catalog-search:arrow-back" @click="${
          this._clear
@@ -214,6 +217,7 @@ class HTElementsCatalogSearch extends LitElement {
   }
 
   _micResult(e) {
+    console.log(e);
     this.input.value = e.detail.completeTranscript.trim();
     this._search();
     this._updateClearButtonState();

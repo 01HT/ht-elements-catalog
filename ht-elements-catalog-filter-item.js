@@ -4,58 +4,57 @@ import "@polymer/iron-iconset-svg";
 import "@polymer/iron-icon/iron-icon.js";
 import { getPathFromParameters } from "./ht-elements-catalog-path-parser.js";
 
-class HTElementsCatalogFilterItem extends LitElement {
-  static styles = css`<style>
-        :host {
-          display: block;
-          position:relative;
-          box-sizing:border-box;
-        }
+import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
 
+class HTElementsCatalogFilterItem extends LitElement {
+  static get styles() {
+    return [
+      stylesBasicWebcomponents,
+      css`
         a {
-          display:flex;
-          font-size:14px;
-          align-items:center;
-          color:inherit;
+          display: flex;
+          font-size: 14px;
+          align-items: center;
+          color: inherit;
           text-decoration: none;
-          font-weight:600;
+          font-weight: 600;
         }
-        
 
         iron-icon {
-            margin-right:2px;
-            color: var(--secondary-text-color);
+          margin-right: 2px;
+          color: var(--secondary-text-color);
         }
 
         #container {
-          display:flex;
+          display: flex;
           align-items: center;
           justify-content: space-between;
-          min-height:35px;
+          min-height: 35px;
         }
 
         #inner {
-          display:flex;
-          align-items:center;
+          display: flex;
+          align-items: center;
         }
 
         img {
-          margin-right:8px;
-          display:block;
-          width:24px;
-          height:24px;
+          margin-right: 8px;
+          display: block;
+          width: 24px;
+          height: 24px;
         }
 
         #number {
-          margin-left:16px;
-          color:var(--secondary-text-color);
+          margin-left: 16px;
+          color: var(--secondary-text-color);
         }
 
         [hidden] {
-            display:none;
+          display: none;
         }
-      </style>`;
-
+      `
+    ];
+  }
   render() {
     const { data, parameters } = this;
     return html`

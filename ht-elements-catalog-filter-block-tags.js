@@ -4,23 +4,24 @@ import { repeat } from "lit-html/directives/repeat.js";
 import "./ht-elements-catalog-filter-item-checkbox.js";
 import "./ht-elements-catalog-filter-block-no-data.js";
 
+import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
+
 class HTElementsCatalogFiterBlockTags extends LitElement {
-  static styles = css`<style>
-    :host {
-        display: block;
-        position:relative;
-        box-sizing:border-box;
-    }
+  static get styles() {
+    return [
+      stylesBasicWebcomponents,
+      css`
+        #container {
+          display: flex;
+          flex-direction: column;
+        }
 
-    #container {
-        display:flex;
-        flex-direction: column;
-    }
-
-    #number {
-        color:var(--secondary-text-color);
-    }
-  </style>`;
+        #number {
+          color: var(--secondary-text-color);
+        }
+      `
+    ];
+  }
 
   render() {
     const { parameters, items } = this;

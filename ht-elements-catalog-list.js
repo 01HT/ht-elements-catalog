@@ -5,58 +5,59 @@ import "./ht-elements-catalog-list-item.js";
 import { installMediaQueryWatcher } from "pwa-helpers/media-query.js";
 import "@01ht/ht-nothing-found-placeholder";
 
+import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
+
 class HTElementsCatalogList extends LitElement {
-  static styles = css`<style>
-        :host {
-          display: block;
-          position:relative;
-          box-sizing:border-box;
+  static get styles() {
+    return [
+      stylesBasicWebcomponents,
+      css`
+        ht-elements-catalog-list-item {
+          padding: 32px;
+          transition: box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        ht-elements-catalog-list-item {
-          padding:32px;
-          transition: box-shadow .15s cubic-bezier(.4,0,.2,1);
-        }
-        
-        ht-elements-catalog-list-item:hover, ht-elements-catalog-list-item:focus-within  {
-          box-shadow:0 3px 3px -2px rgba(0,0,0,.2), 0 3px 4px 0 rgba(0,0,0,.14), 0 1px 8px 0 rgba(0,0,0,.12);
+        ht-elements-catalog-list-item:hover,
+        ht-elements-catalog-list-item:focus-within {
+          box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.2),
+            0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12);
         }
 
         #container {
-          display:grid;
+          display: grid;
           grid-template-columns: 1fr;
-          position:relative;
+          position: relative;
         }
 
         #container[view="grid"] {
-          display:grid;
+          display: grid;
           grid-template-columns: 0.5fr 0.5fr;
         }
 
-
         ht-nothing-found-placeholder {
-          margin:32px auto;
+          margin: 32px auto;
         }
 
-
-        @media screen and (max-width:1120px) {
-          ht-elements-catalog-list-item{
-            padding:16px;
+        @media screen and (max-width: 1120px) {
+          ht-elements-catalog-list-item {
+            padding: 16px;
           }
         }
 
-        @media screen and (max-width:900px) {
+        @media screen and (max-width: 900px) {
           #container[view="grid"] {
-            display:grid;
+            display: grid;
             grid-template-columns: 1fr;
-            grid-gap:16px;
+            grid-gap: 16px;
           }
         }
 
         #not-found[hidden] {
           display: none;
         }
-      </style>`;
+      `
+    ];
+  }
 
   render() {
     const { view, smallScreen, items, notFound, cartChangeInProcess } = this;
