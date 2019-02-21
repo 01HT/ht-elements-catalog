@@ -33,10 +33,6 @@ class HTElementsCatalogListItem extends LitElement {
           border-radius: 50%;
           color: var(--secondary-text-color);
         }
-
-        [hidden] {
-          display: none;
-        }
       `
     ];
   }
@@ -64,18 +60,21 @@ class HTElementsCatalogListItem extends LitElement {
           data.demoURL !== ""
             ? html`<a href="${
                 data.demoURL
-              }" target="_blank" ?hidden="${data.demoURL ===
-                ""}" rel="noopener">
-              <paper-icon-button icon="ht-elements-catalog-list-item:remove-red-eye"></paper-icon-button>
+              }" target="_blank" aria-label="Просмотр элемента" rel="noopener">
+              <paper-icon-button icon="ht-elements-catalog-list-item:remove-red-eye" aria-label="Просмотр элемента"></paper-icon-button>
             </a>`
             : null
         }
       ${
         this._showSpinner(cartChangeInProcess)
           ? html`<ht-spinner icon-button></ht-spinner>`
-          : html`<paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart" alt="Добавить элемент в корзину" @click="${
-              this._addToCart
-            }" ?hidden="${data && data.price === 0}"></paper-icon-button>`
+          : html`${
+              data && data.price !== 0
+                ? html`<paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart" aria-label="Добавить элемент в корзину" alt="Добавить элемент в корзину" @click="${
+                    this._addToCart
+                  }"></paper-icon-button>`
+                : null
+            }`
       }
       </div>
       </ht-elements-catalog-list-item-horizontal>`
@@ -85,18 +84,21 @@ class HTElementsCatalogListItem extends LitElement {
           data.demoURL !== ""
             ? html`<a href="${
                 data.demoURL
-              }" target="_blank" ?hidden="${data.demoURL ===
-                ""}" rel="noopener">
-              <paper-icon-button icon="ht-elements-catalog-list-item:remove-red-eye"></paper-icon-button>
+              }" target="_blank" aria-label="Просмотр элемента" rel="noopener">
+              <paper-icon-button icon="ht-elements-catalog-list-item:remove-red-eye" aria-label="Просмотр элемента"></paper-icon-button>
             </a>`
             : null
         }
       ${
         this._showSpinner(cartChangeInProcess)
           ? html`<ht-spinner icon-button></ht-spinner>`
-          : html`<paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart" alt="Добавить элемент в корзину" @click="${
-              this._addToCart
-            }" ?hidden="${data && data.price === 0}"></paper-icon-button>`
+          : html`${
+              data && data.price !== 0
+                ? html`<paper-icon-button icon="ht-elements-catalog-list-item:add-shopping-cart" aria-label="Добавить элемент в корзину" alt="Добавить элемент в корзину" @click="${
+                    this._addToCart
+                  }"></paper-icon-button>`
+                : null
+            }`
       }
       </div></ht-elements-catalog-list-item-vertical>`
       }
