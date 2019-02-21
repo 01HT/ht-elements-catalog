@@ -65,12 +65,14 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
           line-height: 28px;
           color: #424242;
           letter-spacing: 0.28px;
+          float: left;
         }
 
         #author {
           display: flex;
           position: relative;
           align-items: center;
+          font-size: 14px;
           margin-top: 8px;
           color: var(--secondary-text-color);
         }
@@ -88,15 +90,10 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
         }
 
         #sales,
-        #donations,
         #updated {
           margin-top: 4px;
           font-size: 13px;
           color: var(--secondary-text-color);
-        }
-
-        [hidden] {
-          display: none;
         }
       `
     ];
@@ -151,9 +148,11 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
             }
           </header>
           <section>
+          <div id="name-container">
             <a id="name" href="/item/${data.nameInURL}/${data.itemNumber}">${
       data.name
     }</a>
+          </div>
             <div id="author">от <ht-user-avatar .data="${
               data.authorData
             }" size="32" verifiedSize="${12}"></ht-user-avatar><a href="/${
@@ -175,12 +174,11 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
               ? "color:var(--accent-color);"
               : ""
           }">${this._getPrice(data.price)}</div>
-          <div id="sales" ?hidden="${
-            data.sales === 0 ? true : false
-          }">Продажи: ${data.sales}</div>
-    <div id="donations" ?hidden="${
-      data.donations === 0 || data.donations === undefined ? true : false
-    }">Поддержка: ${data.donations}$ (${data.donationsAmount})</div>
+          ${
+            data.sales !== 0
+              ? html`<div id="sales">Продажи: ${data.sales}</div>`
+              : null
+          }
     <div id="updated">Обновлено: <ht-date .data="${
       data.updated
     }"></ht-date></div>
