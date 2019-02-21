@@ -78,7 +78,7 @@ class HTElementsCatalogList extends LitElement {
        
 ${
       this.portfolio
-        ? html`<ht-nothing-found-placeholder main="Нет продуктов" sub="Пользователь пока не добавил продуктов, либо они находятся в скрытом режиме"></ht-nothing-found-placeholder>`
+        ? html`<ht-nothing-found-placeholder main="Элементы не найдены" sub="У пользователя нет элементов, либо они скрыты"></ht-nothing-found-placeholder>`
         : html`<ht-nothing-found-placeholder main="Ничего не найдено" sub="Попробуйте использовать другие ключевые слова или другие фильтры поиска"></ht-nothing-found-placeholder>`
     }
     </div>
