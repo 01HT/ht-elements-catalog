@@ -161,11 +161,16 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
       data.authorData.isOrg
         ? `${data.authorData.organizationNumber}`
         : `${data.authorData.userNumber}`
-    }">${data.authorData.displayName}</a><span>|</span>
+    }">${data.authorData.displayName}</a>
+    ${
+      Object.keys(data.categories).length === 0
+        ? null
+        : html`<span>|</span>
     <a href="/catalog/${this._getRootCategory(
       data.categories
     ).toLowerCase()}">${this._getRootCategory(data.categories)}
-      </a>
+      </a>`
+    }
                 </div>
           </section>
           <footer>
