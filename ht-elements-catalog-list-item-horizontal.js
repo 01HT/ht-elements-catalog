@@ -123,7 +123,7 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
               data.previewMode === "slider"
                 ? html`<ht-image-slider .data="${data.slider}" url="${`/item/${
                     data.nameInURL
-                  }/${data.itemId}`}" .altText="${
+                  }/${data.itemNumber}`}" .altText="${
                     data.name
                   }"></ht-image-slider>`
                 : ""
@@ -131,7 +131,7 @@ class HTElementsCatalogListItemHorizontal extends LitElement {
             ${
               data.previewMode === "animated"
                 ? html`<a href="/item/${data.nameInURL}/${
-                    data.itemId
+                    data.itemNumber
                   }"><ht-animated-image .data="${
                     data.animated
                   }"></ht-animated-image></a>`
