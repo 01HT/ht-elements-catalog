@@ -1,11 +1,8 @@
 "use strict";
 import { LitElement, html, css } from "lit-element";
 import "./ht-elements-catalog-filter-section.js";
-import "./ht-elements-catalog-filter-block-categories.js";
-import "./ht-elements-catalog-filter-block-platform.js";
-import "./ht-elements-catalog-filter-block-browsers.js";
-import "./ht-elements-catalog-filter-block-tools.js";
-import "./ht-elements-catalog-filter-block-tags.js";
+import "./ht-elements-catalog-filter-block-tree.js";
+import "./ht-elements-catalog-filter-block-flat.js";
 
 import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
 
@@ -26,41 +23,48 @@ class HTElementsCatalogFilter extends LitElement {
           width: 100%;
           margin-bottom: 16px;
         }
-
-        [hidden] {
-          display: none;
-        }
       `
     ];
   }
 
   render() {
+    const { parameters, data } = this;
     return html`
       <div id="container">
         <ht-elements-catalog-filter-section name="Категория">
-          <ht-elements-catalog-filter-block-categories .parameters="${
-            this.parameters
-          }"></ht-elements-catalog-filter-block-categories>
+          <ht-elements-catalog-filter-block-tree .parameters="${parameters}" .items="${
+      data.categories
+    }" type="categories"></ht-elements-catalog-filter-block-tree>
+        </ht-elements-catalog-filter-section>
+        <ht-elements-catalog-filter-section name="Направление">
+          <ht-elements-catalog-filter-block-tree .parameters="${parameters}" .items="${
+      data.direction
+    }" type="direction"></ht-elements-catalog-filter-block-tree>
         </ht-elements-catalog-filter-section>
         <ht-elements-catalog-filter-section name="Платформа">
-          <ht-elements-catalog-filter-block-platform .parameters="${
-            this.parameters
-          }"></ht-elements-catalog-filter-block-platform>
+          <ht-elements-catalog-filter-block-tree .parameters="${parameters}" .items="${
+      data.platform
+    }" type="platform"></ht-elements-catalog-filter-block-tree>
+        </ht-elements-catalog-filter-section>
+        <ht-elements-catalog-filter-section name="Языки">
+          <ht-elements-catalog-filter-block-flat .parameters="${parameters}" .data="${
+      data.languages
+    }" type="languages"></ht-elements-catalog-filter-block-flat>
+        </ht-elements-catalog-filter-section>
+         <ht-elements-catalog-filter-section name="Инструменты">
+          <ht-elements-catalog-filter-block-flat .parameters="${parameters}" .data="${
+      data.tools
+    }" type="tools"></ht-elements-catalog-filter-block-flat>
         </ht-elements-catalog-filter-section>
         <ht-elements-catalog-filter-section name="Совместимые браузеры">
-          <ht-elements-catalog-filter-block-browsers .parameters="${
-            this.parameters
-          }"></ht-elements-catalog-filter-block-browsers>
-        </ht-elements-catalog-filter-section>
-        <ht-elements-catalog-filter-section name="Инструменты">
-          <ht-elements-catalog-filter-block-tools .parameters="${
-            this.parameters
-          }"></ht-elements-catalog-filter-block-tools>
+          <ht-elements-catalog-filter-block-flat .parameters="${parameters}" .data="${
+      data.browsers
+    }" type="browsers"></ht-elements-catalog-filter-block-flat>
         </ht-elements-catalog-filter-section>
         <ht-elements-catalog-filter-section name="Теги">
-          <ht-elements-catalog-filter-block-tags .parameters="${
-            this.parameters
-          }"></ht-elements-catalog-filter-block-tags>
+          <ht-elements-catalog-filter-block-flat .parameters="${parameters}" .data="${
+      data.tags
+    }" type="tags"></ht-elements-catalog-filter-block-flat>
         </ht-elements-catalog-filter-section>
       </div>
 `;
@@ -68,51 +72,14 @@ class HTElementsCatalogFilter extends LitElement {
 
   static get properties() {
     return {
-      parameters: { type: Object }
+      parameters: { type: Object },
+      data: { type: Object }
     };
   }
 
-  constructor() {
-    super();
-    this.parameters = {};
-  }
-
-  get categories() {
-    return this.shadowRoot.querySelector(
-      "ht-elements-catalog-filter-block-categories"
-    );
-  }
-
-  get platform() {
-    return this.shadowRoot.querySelector(
-      "ht-elements-catalog-filter-block-platform"
-    );
-  }
-
-  get browsers() {
-    return this.shadowRoot.querySelector(
-      "ht-elements-catalog-filter-block-browsers"
-    );
-  }
-
-  get tools() {
-    return this.shadowRoot.querySelector(
-      "ht-elements-catalog-filter-block-tools"
-    );
-  }
-
-  get tags() {
-    return this.shadowRoot.querySelector(
-      "ht-elements-catalog-filter-block-tags"
-    );
-  }
-
-  set data(data) {
-    this.categories.data = data.categories;
-    this.platform.data = data.platform;
-    this.browsers.data = data.browsers;
-    this.tools.data = data.tools;
-    this.tags.data = data.tags;
+  shouldUpdate() {
+    if (this.data && this.parameters) return true;
+    return false;
   }
 }
 

@@ -51,10 +51,6 @@ class HTElementsCatalogList extends LitElement {
             grid-gap: 16px;
           }
         }
-
-        #not-found[hidden] {
-          display: none;
-        }
       `
     ];
   }
@@ -73,16 +69,17 @@ class HTElementsCatalogList extends LitElement {
               }"></ht-elements-catalog-list-item>`
           )}
       </div>
-      <div id="not-found" ?hidden="${!notFound ? true : false}">
-      
-       
-${
-      this.portfolio
-        ? html`<ht-nothing-found-placeholder main="Элементы не найдены" sub="У пользователя нет элементов, либо они скрыты"></ht-nothing-found-placeholder>`
-        : html`<ht-nothing-found-placeholder main="Ничего не найдено" sub="Попробуйте использовать другие ключевые слова или другие фильтры поиска"></ht-nothing-found-placeholder>`
-    }
-    </div>
-        
+      ${
+        notFound
+          ? html`<div id="not-found">
+      ${
+        this.portfolio
+          ? html`<ht-nothing-found-placeholder main="Элементы не найдены" sub="У пользователя нет элементов, либо они скрыты"></ht-nothing-found-placeholder>`
+          : html`<ht-nothing-found-placeholder main="Ничего не найдено" sub="Попробуйте использовать другие ключевые слова или другие фильтры поиска"></ht-nothing-found-placeholder>`
+      }
+    </div>`
+          : null
+      }
 `;
   }
 
@@ -112,9 +109,9 @@ ${
     );
   }
 
-  set data(data) {
-    this.items = data;
-    this.items.length === 0 ? (this.notFound = true) : (this.notFound = false);
+  shouldUpdate() {
+    if (this.items !== undefined) return true;
+    return false;
   }
 }
 

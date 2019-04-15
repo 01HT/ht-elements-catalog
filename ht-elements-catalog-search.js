@@ -4,7 +4,6 @@ import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
 import "@polymer/paper-icon-button";
 import "./ht-elements-catalog-search-speech-mic.js";
 import { installMediaQueryWatcher } from "pwa-helpers/media-query.js";
-
 import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
 
 class HTElementsCatalogSearch extends LitElement {
@@ -107,7 +106,7 @@ class HTElementsCatalogSearch extends LitElement {
        <paper-icon-button id="clear-toggle" alt="Очистить поле поиска" toggles icon="ht-elements-catalog-search:arrow-back" @click="${
          this._clear
        }" ?hidden="${!clearButtonVisible}"></paper-icon-button>
-        <input type="text" aria-label="Поиск" autofocus value="${
+        <input type="text" aria-label="Поиск" autofocus .value="${
           parameters.search ? parameters.search : ""
         }" placeholder="Поиск" @change="${e => {
       this._onInputChange(e);

@@ -1,39 +1,30 @@
 "use strict";
-export function getPathFromParameters(parameters) {
+async function addFilterDataInSearch(search, parameters, nameInFilter) {
+  let result = "";
+  let valueInFilter = parameters[nameInFilter];
+  if (valueInFilter && valueInFilter.length > 0) {
+    search === "" ? (result += "?") : (result += "&");
+    result += `${nameInFilter}=${valueInFilter.join(",")}`;
+    return result;
+  }
+  return "";
+}
+
+export async function getPathFromParameters(parameters) {
   try {
     let path = "";
     let pathname = "/catalog";
-    //
     let search = "";
-    // categories
     let categories = parameters.categories;
-    if (categories) {
-      pathname += `/${categories}`;
+    if (categories && categories.length > 0) {
+      pathname += `/${categories.join("/")}`;
     }
-    // &platform
-    let platform = parameters.platform;
-    if (platform) {
-      search === "" ? (search += "?") : (search += "&");
-      search += `platform=${platform}`;
-    }
-    // &browsers
-    let browsers = parameters.browsers;
-    if (browsers && browsers.length > 0) {
-      search === "" ? (search += "?") : (search += "&");
-      search += `browsers=${browsers.join(",")}`;
-    }
-    // &tools
-    let tools = parameters.tools;
-    if (tools && tools.length > 0) {
-      search === "" ? (search += "?") : (search += "&");
-      search += `tools=${tools.join(",")}`;
-    }
-    // &tags
-    let tags = parameters.tags;
-    if (tags && tags.length > 0) {
-      search === "" ? (search += "?") : (search += "&");
-      search += `tags=${tags.join(",")}`;
-    }
+    search += await addFilterDataInSearch(search, parameters, "direction");
+    search += await addFilterDataInSearch(search, parameters, "platform");
+    search += await addFilterDataInSearch(search, parameters, "languages");
+    search += await addFilterDataInSearch(search, parameters, "tools");
+    search += await addFilterDataInSearch(search, parameters, "browsers");
+    search += await addFilterDataInSearch(search, parameters, "tags");
     // &sort
     let sort = parameters.sort;
     if (sort) {
@@ -46,7 +37,6 @@ export function getPathFromParameters(parameters) {
       search === "" ? (search += "?") : (search += "&");
       search += `search=${searchText}`;
     }
-    // Generate path
     path = pathname + search;
     return path;
   } catch (error) {
@@ -56,13 +46,6 @@ export function getPathFromParameters(parameters) {
 
 export function getParametersFromPath(path) {
   try {
-    // let parameters = {
-    //   categories: "wordpress/corporate",
-    //   tags: ["business", "portfolio"],
-    //   platform: "webtutor",
-    //   sort: "sales"
-    //   search: "go";
-    // };
     // parse path
     path = path.replace("/catalog", "");
     let pathname = path;
@@ -72,14 +55,11 @@ export function getParametersFromPath(path) {
       pathname = path.slice(0, questionMarkIndex);
       search = path.slice(questionMarkIndex);
     }
-
     let parameters = {};
     // categories
     if (pathname !== "" && pathname !== "/")
-      parameters.categories = pathname.substring(1);
-    // tags
-    // sort
-    // search
+      parameters.categories = pathname.substring(1).split("/");
+    // search params
     const searchParameters = getParametersFromSearch(search);
     parameters = Object.assign(parameters, searchParameters);
     return parameters;
@@ -100,8 +80,7 @@ function getParametersFromSearch(search) {
       // Remove search part
       search = splittedSearch[0];
     }
-    // tags
-    // sort
+    // attributes & tags & sort
     if (search !== "?") {
       // Remove first "?"
       search = search.substring(1);
@@ -112,7 +91,14 @@ function getParametersFromSearch(search) {
         const nameValue = param.split("=");
         const name = nameValue[0];
         const value = nameValue[1];
-        if (name === "tags" || name === "browsers" || name === "tools") {
+        if (
+          name === "direction" ||
+          name === "platform" ||
+          name === "languages" ||
+          name === "tools" ||
+          name === "browsers" ||
+          name === "tags"
+        ) {
           parsed[name] = value.split(",");
         } else {
           parsed[name] = value;

@@ -50,6 +50,16 @@ class HTElementsCatalogFilterItem extends LitElement {
           color: var(--secondary-text-color);
         }
 
+        .current {
+          font-weight: 600;
+          padding-left: 8px;
+        }
+
+        .child {
+          font-weight: 400;
+          padding-left: 24px;
+        }
+
         [hidden] {
           display: none;
         }
@@ -57,7 +67,7 @@ class HTElementsCatalogFilterItem extends LitElement {
     ];
   }
   render() {
-    const { data, parameters } = this;
+    const { data, href } = this;
     return html`
        <iron-iconset-svg size="24" name="ht-elements-catalog-filter-item">
           <svg>
@@ -67,9 +77,7 @@ class HTElementsCatalogFilterItem extends LitElement {
           </svg>
       </iron-iconset-svg>
         <div id="container">
-            <a href="${this._getPath(parameters)}" style="${this._getItemStyle(
-      data
-    )}">
+            <a href="${href}" class="${data.child ? "child" : "current"}">
                 <iron-icon icon="ht-elements-catalog-filter-item:chevron-left" ?hidden="${data.child ||
                   data.current}"></iron-icon>
                   <div id="inner">${
@@ -87,29 +95,20 @@ class HTElementsCatalogFilterItem extends LitElement {
     return {
       data: { type: Object },
       type: { type: String },
-      parameters: { type: Object }
+      parameters: { type: Object },
+      href: { type: String }
     };
   }
 
-  constructor() {
-    super();
-    this.data = {};
-    this.type = "";
+  updated() {
+    this._updateHref();
   }
 
-  _getPath() {
-    let path = "";
+  async _updateHref() {
     if (this.data.parameter === undefined) return;
     let parameters = JSON.parse(JSON.stringify(this.parameters));
     parameters[this.type] = this.data.parameter;
-    path = getPathFromParameters(parameters);
-    return path;
-  }
-
-  _getItemStyle(data) {
-    if (data.child) return "font-weight:400;padding-left:24px";
-    if (data.current) return "font-weight:600;padding-left:8px";
-    return "";
+    this.href = await getPathFromParameters(parameters);
   }
 }
 customElements.define(

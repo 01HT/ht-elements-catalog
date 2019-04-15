@@ -49,10 +49,10 @@ class HTElementsCatalogFilterItemCheckbox extends LitElement {
   }
 
   render() {
-    const { data, parameters } = this;
+    const { data, href } = this;
     return html`
       <div id="container">
-      <a href="${this._getPath(parameters)}">
+      <a href="${href}">
           <paper-checkbox noink ?checked="${this.getChecked()}">
           <div id="checkbox-inner">${
             data.imageURL
@@ -70,7 +70,8 @@ class HTElementsCatalogFilterItemCheckbox extends LitElement {
     return {
       data: { type: Object },
       type: { type: String },
-      parameters: { type: Object }
+      parameters: { type: Object },
+      href: { type: String }
     };
   }
 
@@ -87,23 +88,26 @@ class HTElementsCatalogFilterItemCheckbox extends LitElement {
     return false;
   }
 
-  _getPath(parameters) {
-    let path = "";
+  updated() {
+    this._updateHref();
+  }
+
+  async _updateHref() {
     if (this.data.name === undefined) return;
-    parameters = JSON.parse(JSON.stringify(parameters));
+    let parameters = JSON.parse(JSON.stringify(this.parameters));
     let name = this.data.name;
-    let isChecked = this.getChecked();
     let param = parameters[this.type];
+    let isChecked = this.getChecked();
     if (isChecked) {
       let index = param.indexOf(name);
       param.splice(index, 1);
     }
     if (!isChecked) {
-      if (!param) parameters[this.type] = [name];
-      if (param) param.push(name);
+      if (!param) param = [name];
+      if (param && param.indexOf(name) === -1) param.push(name);
     }
-    path = getPathFromParameters(parameters);
-    return path;
+    parameters[this.type] = param;
+    this.href = await getPathFromParameters(parameters);
   }
 }
 customElements.define(

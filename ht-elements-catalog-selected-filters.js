@@ -42,37 +42,18 @@ class HTElementsCatalogSelectedFilters extends LitElement {
           font-weight: 600;
         }
 
-        #categories {
-          display: flex;
-          align-items: center;
-          flex-wrap: wrap;
-        }
-
-        #categories a {
-          text-decoration: underline;
-        }
-
-        .categories-separator {
-          margin: 0 4px;
-        }
-
         #reset {
           margin-left: 8px;
           text-decoration: underline;
           line-height: 32px;
           height: 32px;
         }
-
-        #categories[hidden],
-        #reset[hidden] {
-          display: none;
-        }
       `
     ];
   }
 
   render() {
-    const { params, items, number } = this;
+    const { items, quantity } = this;
     return html`
       <iron-iconset-svg size="24" name="ht-elements-catalog-selected-filters">
           <svg>
@@ -81,8 +62,7 @@ class HTElementsCatalogSelectedFilters extends LitElement {
           </svg>
       </iron-iconset-svg>
       <div id="container">
-        <div id="all-items">Всего элементов: <span id="number">${number}</span></div>
-        <div id="categories" ?hidden="${!this._showCategories(params)}"></div>
+        <div id="all-items">Всего элементов: <span id="number">${quantity}</span></div>
         ${repeat(
           items,
           item => html`<a class="item" href="${item.href}"> 
@@ -106,28 +86,27 @@ class HTElementsCatalogSelectedFilters extends LitElement {
               </ht-chip>
             </a>`
         )}
-        <a id="reset" href="/catalog" ?hidden="${!this._showClearAll(
-          params
-        )}">Очистить все</a>
+        ${
+          items.length !== 0
+            ? html`<a id="reset" href="/catalog">Очистить все</a>`
+            : null
+        }
       </div>
 `;
   }
 
   static get properties() {
     return {
-      params: { type: Object },
       items: { type: Array },
-      number: { type: Number },
-      parameters: { type: Object }
+      data: { type: Object },
+      parameters: { type: Object },
+      quantity: { type: Number }
     };
   }
 
   constructor() {
     super();
-    this.params = {};
     this.items = [];
-    this.number = 0;
-    this.filterData = {};
   }
 
   firstUpdated() {
@@ -136,21 +115,11 @@ class HTElementsCatalogSelectedFilters extends LitElement {
     });
   }
 
-  set data(data) {
-    this.number = data.count;
-    this.filterData = data.filter;
-    this.updateItems();
-  }
-
-  set parameters(parameters) {
-    parameters = JSON.parse(parameters);
-    if (Object.keys(parameters).length === 0) {
-      this.params = {};
-      this.items = [];
-      return;
+  shouldUpdate(changedProperties) {
+    if (changedProperties.has("parameters") || changedProperties.has("data")) {
+      this.updateItems();
     }
-    this.params = parameters;
-    this.updateItems();
+    return true;
   }
 
   _capitalizeFirstLetter(string) {
@@ -158,102 +127,67 @@ class HTElementsCatalogSelectedFilters extends LitElement {
   }
 
   async updateItems() {
-    if (Object.keys(this.filterData).length === 0) return;
-    let items = [];
-    let parameters = JSON.parse(JSON.stringify(this.params));
-    // categories
-    if (parameters.categories) {
-      // add Все категории
-      let categoriesHTML = "";
-      let newParameters = JSON.parse(JSON.stringify(parameters));
-      delete newParameters["categories"];
-      let href = await getPathFromParameters(newParameters);
-      categoriesHTML += `<a href="${href}">Все категории</a>`;
-      // add other categories
-      let categories = parameters.categories.split("/");
-      let categoriesLength = categories.length;
-      for (let index in categories) {
-        let name = this._capitalizeFirstLetter(categories[index]);
-        categoriesHTML += `<div class="categories-separator">/</div>`;
-        if (+index === categoriesLength - 1) {
-          categoriesHTML += `<div>${name}</div>`;
-        } else {
-          let newParameters = JSON.parse(JSON.stringify(parameters));
-          newParameters["categories"] = name.toLowerCase();
-          let href = await getPathFromParameters(newParameters);
-          categoriesHTML += `<a href="${href}">${name}</a>`;
-        }
+    if (!this.data || !this.parameters) return;
+    for (let prop in this.parameters) {
+      if (
+        (!this.data.filter || !this.data.filter[prop]) &&
+        (prop !== "sort" && prop !== "search")
+      ) {
+        return;
       }
-      this.shadowRoot.querySelector("#categories").innerHTML = categoriesHTML;
     }
-    // items
+    let items = [];
+    let parameters = JSON.parse(JSON.stringify(this.parameters));
+    let data = JSON.parse(JSON.stringify(this.data));
+
+    // search
+    if (parameters["search"]) {
+      let newParameters = JSON.parse(JSON.stringify(parameters));
+      let name = parameters["search"];
+      delete newParameters["search"];
+      let href = await getPathFromParameters(newParameters);
+      let item = {
+        name: `"${name}"`,
+        href: href
+      };
+      items.push(item);
+    }
+    // categories & attributes
     for (let name in parameters) {
-      if (name !== "search" && name !== "categories") {
-        // tags
-        if (name === "tags" || name === "browsers" || name === "tools") {
-          let tags = parameters[name];
-          for (let tag of tags) {
-            const newParameters = JSON.parse(JSON.stringify(parameters));
-            let index = newParameters[name].indexOf(tag);
+      let values = parameters[name];
+      for (let value of values) {
+        if (name !== "search" && name !== "sort") {
+          const newParameters = JSON.parse(JSON.stringify(parameters));
+          let index = newParameters[name].indexOf(value);
+          if (
+            name === "categories" ||
+            name === "direction" ||
+            name === "platform"
+          ) {
+            newParameters[name].splice(index);
+          }
+          if (
+            name === "languages" ||
+            name === "tools" ||
+            name === "browsers" ||
+            name === "tags"
+          ) {
             newParameters[name].splice(index, 1);
-            let href = await getPathFromParameters(newParameters);
-            let imageURL = null;
-            for (let index in this.filterData[name]) {
-              let item = this.filterData[name][index];
-              if (item.name.toLowerCase() === tag.toLowerCase()) {
-                imageURL = item.imageURL;
-              }
-            }
-            let item = {
-              name: tag,
-              href: href,
-              imageURL: imageURL
-            };
-            items.push(item);
           }
-        }
-        // sort
-        if (name === "sort") {
-          let newParameters = JSON.parse(JSON.stringify(parameters));
-          let name = parameters["sort"];
-          switch (name) {
-            case "sales": {
-              name = "сортировать по: продажам";
-              break;
-            }
-            case "price-asc": {
-              name = "сортировать по: цене | от низкой";
-              break;
-            }
-            case "price-desc": {
-              name = "сортировать по: цене | от высокой";
-              break;
-            }
-          }
-          delete newParameters["sort"];
-          let href = await getPathFromParameters(newParameters);
-          let item = {
-            name: name,
-            href: href,
-            type: "sort"
-          };
-          items.push(item);
-        }
-        // platform
-        if (name === "platform") {
-          let newParameters = JSON.parse(JSON.stringify(parameters));
-          delete newParameters["platform"];
-          let name = parameters["platform"];
           let href = await getPathFromParameters(newParameters);
           let imageURL = null;
-          for (let index in this.filterData["platform"]) {
-            let item = this.filterData["platform"][index];
-            if (item.name.toLowerCase() === name.toLowerCase()) {
+          let itemName = "";
+
+          for (let index in data.filter[name]) {
+            let item = data.filter[name][index];
+            if (item.name.toLowerCase() === value.toLowerCase()) {
+              itemName = item.name;
               imageURL = item.imageURL;
             }
           }
+
           let item = {
-            name: name,
+            name: itemName || value,
             href: href,
             imageURL: imageURL
           };
@@ -261,17 +195,36 @@ class HTElementsCatalogSelectedFilters extends LitElement {
         }
       }
     }
+    // sort
+    if (parameters["sort"]) {
+      let newParameters = JSON.parse(JSON.stringify(parameters));
+      let name = parameters["sort"];
+      switch (name) {
+        case "sales": {
+          name = "Сортировать по: продажам";
+          break;
+        }
+        case "price-asc": {
+          name = "Сортировать по: цене | от низкой";
+          break;
+        }
+        case "price-desc": {
+          name = "Сортировать по: цене | от высокой";
+          break;
+        }
+      }
+      delete newParameters["sort"];
+      let href = await getPathFromParameters(newParameters);
+      let item = {
+        name: name,
+        href: href,
+        type: "sort"
+      };
+      items.push(item);
+    }
+    this.quantity = data.count;
     this.items = items;
-  }
-
-  _showCategories(params) {
-    if (params.categories === undefined) return false;
-    return true;
-  }
-
-  _showClearAll(params) {
-    if (Object.keys(params).length === 0) return false;
-    return true;
+    this.requestUpdate();
   }
 }
 

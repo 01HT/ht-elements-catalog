@@ -6,7 +6,7 @@ import "./ht-elements-catalog-filter-block-no-data.js";
 
 import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
 
-class HTElementsCatalogFiterBlockTools extends LitElement {
+class HTElementsCatalogFiterBlockFlat extends LitElement {
   static get styles() {
     return [
       stylesBasicWebcomponents,
@@ -15,36 +15,34 @@ class HTElementsCatalogFiterBlockTools extends LitElement {
           display: flex;
           flex-direction: column;
         }
-
-        #number {
-          color: var(--secondary-text-color);
-        }
       `
     ];
   }
 
   render() {
-    const { parameters, items } = this;
+    let { parameters, items, type } = this;
     return html`
     <div id="container">
         ${repeat(
           items,
           item => html`
-            <ht-elements-catalog-filter-item-checkbox .data="${item}" .parameters="${parameters}" type="tools"></ht-elements-catalog-filter-item-checkbox>`
+        <ht-elements-catalog-filter-item-checkbox .data="${item}" .parameters="${parameters}" .type="${type}"></ht-elements-catalog-filter-item-checkbox>`
         )}
-         ${
-           items.length === 0
-             ? html`<ht-elements-catalog-filter-block-no-data></ht-elements-catalog-filter-block-no-data>`
-             : ""
-         }
+        ${
+          !items || items.length === 0
+            ? html`<ht-elements-catalog-filter-block-no-data></ht-elements-catalog-filter-block-no-data>`
+            : ""
+        }
     </div>
 `;
   }
 
   static get properties() {
     return {
+      data: { type: Array },
       items: { type: Array },
-      parameters: { type: Object }
+      parameters: { type: Object },
+      type: { type: String }
     };
   }
 
@@ -54,21 +52,15 @@ class HTElementsCatalogFiterBlockTools extends LitElement {
     this.parameters = {};
   }
 
-  get data() {
-    let selected = [];
-    let selectedCheckboxes = this.shadowRoot.querySelectorAll(
-      "ht-elements-catalog-filter-item-checkbox"
-    );
-    selectedCheckboxes.forEach(checkbox => {
-      if (checkbox.isChecked()) {
-        selected.push(checkbox.data.name);
-      }
-    });
-    return selected.join(",");
+  shouldUpdate(changedProperties) {
+    if (changedProperties.has("data")) {
+      this._sortCheckedFirst(this.data, this.parameters, this.type);
+      return true;
+    }
+    return true;
   }
 
   _sortCheckedFirst(items, parameters, block) {
-    if (Object.keys(parameters).length === 0) return items;
     let sorted = items;
     let filterData = parameters[block];
     if (filterData) {
@@ -88,16 +80,11 @@ class HTElementsCatalogFiterBlockTools extends LitElement {
         }
       }
     }
-    return sorted;
-  }
-
-  set data(data) {
-    data = this._sortCheckedFirst(data, this.parameters, "tools");
-    this.items = data;
+    this.items = sorted;
   }
 }
 
 customElements.define(
-  "ht-elements-catalog-filter-block-tools",
-  HTElementsCatalogFiterBlockTools
+  "ht-elements-catalog-filter-block-flat",
+  HTElementsCatalogFiterBlockFlat
 );
