@@ -196,7 +196,7 @@ class HTElementsCatalog extends LitElement {
       // test callTestHTTPFunction
       // live callFirebaseHTTPFunction
       let data = await callFirebaseHTTPFunction({
-        name: "httpsItemsGetCatalogPageDataTestIndex",
+        name: "httpsItemsGetCatalogPageDataIndex",
         options: {
           method: "POST",
           headers: new Headers({
