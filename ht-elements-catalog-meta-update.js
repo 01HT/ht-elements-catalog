@@ -174,7 +174,6 @@ export async function _updateMeta(parameters, responseData) {
       title = title.charAt(0).toUpperCase() + title.slice(1);
       description = description.charAt(0).toUpperCase() + description.slice(1);
       if (title.length < 40) title += " от Elements";
-      title += ".";
       description += `. Все это создано нашим глобальным сообществом независимых разработчиков.`;
     }
     updateMetadata({
