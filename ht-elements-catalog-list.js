@@ -56,7 +56,7 @@ class HTElementsCatalogList extends LitElement {
   }
 
   render() {
-    const { view, smallScreen, items, notFound, cartChangeInProcess } = this;
+    const { view, smallScreen, items, cartChangeInProcess } = this;
     return html`
       <div id="container" view=${
         view === "list" && !smallScreen ? "list" : "grid"
@@ -70,7 +70,7 @@ class HTElementsCatalogList extends LitElement {
           )}
       </div>
       ${
-        notFound
+        items.length === 0
           ? html`<div id="not-found">
       ${
         this.portfolio
@@ -86,7 +86,6 @@ class HTElementsCatalogList extends LitElement {
   static get properties() {
     return {
       items: { type: Array },
-      notFound: { type: Boolean },
       view: { type: String },
       smallScreen: { type: Boolean },
       cartChangeInProcess: { type: Boolean },
@@ -97,7 +96,6 @@ class HTElementsCatalogList extends LitElement {
   constructor() {
     super();
     this.items = [];
-    this.notFound = false;
     this.smallScreen = false;
     this.portfolio = false;
   }
