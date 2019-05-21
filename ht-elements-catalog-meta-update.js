@@ -176,10 +176,22 @@ export async function _updateMeta(parameters, responseData) {
       if (title.length < 40) title += " от Elements";
       description += `. Все это создано нашим глобальным сообществом независимых разработчиков.`;
     }
-    updateMetadata({
+    let meta = {
       title: title,
       description: description
-    });
+    };
+    // Add canonical for categories
+    let parametersKeysNumber = Object.keys(parameters).length;
+    if (parametersKeysNumber === 0) {
+      meta.canonical = "https://elements.01.ht";
+    }
+    if (parametersKeysNumber === 1 && parameters["categories"]) {
+      meta.canonical = `https://elements.01.ht/catalog/${parameters[
+        "categories"
+      ].join("/")}`;
+    }
+
+    updateMetadata(meta);
   } catch (error) {
     console.log("_updateMeta: " + error.message);
   }
