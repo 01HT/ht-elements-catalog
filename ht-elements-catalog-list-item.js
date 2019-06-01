@@ -60,7 +60,7 @@ class HTElementsCatalogListItem extends LitElement {
           data.demoURL !== ""
             ? html`<a href="${
                 data.demoURL
-              }" target="_blank" aria-label="Просмотр элемента" rel="noopener">
+              }" target="_blank" aria-label="Просмотр элемента" rel="noopener nofollow">
               <paper-icon-button icon="ht-elements-catalog-list-item:remove-red-eye" aria-label="Просмотр элемента"></paper-icon-button>
             </a>`
             : null
@@ -84,7 +84,7 @@ class HTElementsCatalogListItem extends LitElement {
           data.demoURL !== ""
             ? html`<a href="${
                 data.demoURL
-              }" target="_blank" aria-label="Просмотр элемента" rel="noopener">
+              }" target="_blank" aria-label="Просмотр элемента" rel="noopener nofollow">
               <paper-icon-button icon="ht-elements-catalog-list-item:remove-red-eye" aria-label="Просмотр элемента"></paper-icon-button>
             </a>`
             : null

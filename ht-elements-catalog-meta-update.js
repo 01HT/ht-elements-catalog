@@ -67,19 +67,19 @@ export async function _updateMeta(parameters, responseData) {
     let title = "";
     let description = "";
     let needAddPreviewText = false;
+    let parametersExist = Object.keys(parameters).length === 0;
     // detault catalog page
-    if (Object.keys(parameters).length === 0 || responseData.count === 0) {
-      title =
-        "Готовые курсы и модули для СДО(LMS) & Бесплатное онлайн обучение на Elements";
+    if (!parametersExist) {
+      title = "Курсы | Тренинги | Плагины для СДО (LMS) от Elements";
       description =
-        "Каталог элементов обучения (электронных курсов, модулей для СДО итп) от независимых разработчиков, для развития вас и пользователей ваших систем.";
+        "Маркетплейс обучения. Электронные курсы (cmi5, Tin Can (xAPI), SCORM), тренинги, плагины для СДО (LMS), тренажеры, игры. Бесплатное обучение.";
     }
     // nothing found
-    if (responseData.count === 0) {
+    if (parametersExist && responseData.count === 0) {
       title = "Результаты не найдены";
       description = "По данному запросу ничего не найдено.";
     }
-    if (responseData.count > 0) {
+    if (parametersExist && responseData.count > 0) {
       // add search
       if (parameters.search) {
         title += `${parameters.search}`;
@@ -182,15 +182,12 @@ export async function _updateMeta(parameters, responseData) {
     };
     // Add canonical for categories
     let parametersKeysNumber = Object.keys(parameters).length;
-    if (parametersKeysNumber === 0) {
-      meta.canonical = "https://elements.01.ht";
-    }
+    if (parametersKeysNumber === 0) meta.canonical = "https://elements.01.ht";
     if (parametersKeysNumber === 1 && parameters["categories"]) {
       meta.canonical = `https://elements.01.ht/catalog/${parameters[
         "categories"
       ].join("/")}`;
     }
-
     updateMetadata(meta);
   } catch (error) {
     console.log("_updateMeta: " + error.message);
