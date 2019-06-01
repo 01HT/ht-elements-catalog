@@ -67,7 +67,7 @@ export async function _updateMeta(parameters, responseData) {
     let title = "";
     let description = "";
     let needAddPreviewText = false;
-    let parametersExist = Object.keys(parameters).length === 0;
+    let parametersExist = Object.keys(parameters).length > 0;
     // detault catalog page
     if (!parametersExist) {
       title = "Курсы | Тренинги | Плагины для СДО (LMS) от Elements";
