@@ -188,6 +188,7 @@ export async function _updateMeta(parameters, responseData) {
         "categories"
       ].join("/")}`;
     }
+    if (responseData.count === 0) meta.noindex = "noindex,nofollow";
     updateMetadata(meta);
   } catch (error) {
     console.log("_updateMeta: " + error.message);
