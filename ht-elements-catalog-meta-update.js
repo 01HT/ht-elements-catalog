@@ -182,9 +182,9 @@ export async function _updateMeta(parameters, responseData) {
     };
     // Add canonical for categories
     let parametersKeysNumber = Object.keys(parameters).length;
-    if (parametersKeysNumber === 0) meta.canonical = "https://elements.01.ht";
+    if (parametersKeysNumber === 0) meta.canonical = window.origin;
     if (parametersKeysNumber === 1 && parameters["categories"]) {
-      meta.canonical = `https://elements.01.ht/catalog/${parameters[
+      meta.canonical = `${window.origin}/catalog/${parameters[
         "categories"
       ].join("/")}`;
     }
